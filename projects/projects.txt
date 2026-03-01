@@ -1,14 +1,9 @@
-** Example project 1 TITLE **
-Description: (text)
-Release Date: (Date, as 00/00/0000)
-Links: (example.com)
+** 我的第一个超级底层项目 **
+Description: 这里你可以疯狂写一大段很长很长很长很长的文字。由于我们在代码中设定了 max-height 并加上了隐形遮罩系统，这段文字一旦超标，底部就会自动变成高逼格的渐变模糊状态。当你的鼠标移上去向下滚动时，文字向上拉起，模糊遮罩会优雅地自动消失，展现出隐藏的信息。
+Release Date: 22/02/2026
+Links: https://github.com/Calyndrae/xxx/tree/main/src
 
-** Example project 2 TITLE **
-Description: (text)
-Release Date: (Date, as 00/00/0000)
-Links: (example.com)
-
-** Example project 3 TITLE **
-Description: (text)
-Release Date: (Date, as 00/00/0000)
-Links: (example.com)
+** Minecraft EPVP 沙盒重构 **
+Description: 利用最新的 1.21 组件进行优化。去除了所有条件限制，只采用纯净的数据流分发逻辑。
+Release Date: 10/01/2026
+Links: mc.example.com
