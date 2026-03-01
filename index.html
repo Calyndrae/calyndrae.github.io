@@ -47,13 +47,36 @@
             align-items: center;
             overflow: hidden;
             flex-grow: 1;
+            position: relative; /* Added to anchor the absolute icon */
         }
 
         .news-right-con-list-left-icon {
-            margin-right: 12px;
+            position: absolute;
+            left: 0;
+            opacity: 0; /* Hidden by default */
+            transition: opacity 0.25s ease;
             flex-shrink: 0;
             display: flex;
             align-items: center;
+        }
+
+        /* New wrapper for the text to handle the smooth slide effect */
+        .news-right-con-list-text-wrapper {
+            display: flex;
+            align-items: center;
+            flex-grow: 1;
+            overflow: hidden;
+            padding-left: 0;
+            transition: padding-left 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* On hover, fade in the eye and slide the text to the right */
+        .news-right-con-list:hover .news-right-con-list-left-icon {
+            opacity: 1;
+        }
+        
+        .news-right-con-list:hover .news-right-con-list-text-wrapper {
+            padding-left: 30px; /* Pushes the text to the right to reveal the eye */
         }
 
         /* Original Type: 14px, #d36b32 */
@@ -444,33 +467,24 @@
             }
         }
 
-        function renderRecords() {
-            const container = document.getElementById('records-container');
-            let filtered = currentCategory === 'LATEST' ? allRecords : allRecords.filter(r => r.cat === currentCategory);
-            filtered.sort((a, b) => b.ts - a.ts);
-            const toShow = filtered.slice(0, 5);
-
-            if(toShow.length === 0) {
-                container.innerHTML = `<div class="py-10 text-revOffWhite text-[15px] font-serif italic text-center drop-shadow-md">No records found.</div>`;
-                return;
-            }
-            
-            container.innerHTML = toShow.map((r) => {
+        container.innerHTML = toShow.map((r) => {
                 return `
                 <div class="news-right-con-list group" onclick="window.location.href='${r.link}'">
                     <div class="news-right-con-list-left">
                         <div class="news-right-con-list-left-icon">
-                            <svg class="w-[18px] h-[18px] text-[#8b8782] group-hover:text-[#d36b32] transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-.174.552-.377 1.09-.604 1.605m-14.862 0A10.05 10.05 0 0012 19c4.478 0 8.268-2.943 9.542-7"></path></svg>
+                            <svg class="w-[18px] h-[18px] text-[#d36b32]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-.174.552-.377 1.09-.604 1.605m-14.862 0A10.05 10.05 0 0012 19c4.478 0 8.268-2.943 9.542-7"></path></svg>
                         </div>
-                        <div class="news-right-con-list-left-type">${r.cat}</div>
-                        <div class="news-right-con-list-left-title" title="${r.title}">${r.title}</div>
+                        
+                        <div class="news-right-con-list-text-wrapper">
+                            <div class="news-right-con-list-left-type">${r.cat}</div>
+                            <div class="news-right-con-list-left-title" title="${r.title}">${r.title}</div>
+                        </div>
+                        
                     </div>
                     <div class="news-right-con-list-left-time flex-end">${r.date}</div>
                 </div>
                 `;
             }).join('');
-        }
-
         function bindTabs() {
             const tabs = document.querySelectorAll('#filter-tabs div');
             tabs.forEach(tab => {
@@ -492,3 +506,4 @@
     </script>
 </body>
 </html>
+
