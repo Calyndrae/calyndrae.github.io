@@ -19,83 +19,46 @@
                         sans: ['Inter', 'sans-serif'] 
                     },
                     colors: {
-                        revBg: '#0e0d0b',       /* Deep warm charcoal */
+                        revBg: '#0e0d0b',
                         revBgLighter: '#1a1815',
-                        revText: '#dfdcd5',     /* Parchment / cream */
+                        revText: '#dfdcd5',
                         revMuted: '#8b8782',
-                        revOrange: '#d36b32',   /* Signature burnt orange */
-                        revLine: '#ffffff20'    /* Faint intersecting lines */
+                        revOrange: '#d36b32',
+                        revLine: '#ffffff20'
                     }
                 }
             }
         }
     </script>
     <style>
-        body { 
-            background-color: #0e0d0b; 
-            color: #dfdcd5; 
-            overflow-x: hidden; 
-            -webkit-font-smoothing: antialiased;
-        }
-        
-        /* Hidden Scrollbar */
+        body { background-color: #0e0d0b; color: #dfdcd5; overflow-x: hidden; -webkit-font-smoothing: antialiased; }
         ::-webkit-scrollbar { width: 0px; background: transparent; }
 
-        /* 1. Cinematic Film Grain Overlay */
-        .bg-noise {
-            position: fixed; inset: 0; z-index: 50;
-            opacity: 0.035; pointer-events: none;
-            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
-        }
+        .bg-noise { position: fixed; inset: 0; z-index: 50; opacity: 0.035; pointer-events: none; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E"); }
+        .bg-lines { position: fixed; inset: 0; z-index: -1; pointer-events: none; background-image: linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px); background-size: 25vw 25vh; background-position: center center; }
+        .diagonal-line { position: fixed; top: -50%; left: 50%; width: 1px; height: 200%; background: linear-gradient(to bottom, transparent, rgba(255,255,255,0.08), transparent); transform: rotate(45deg); z-index: -1; }
+        .diagonal-line-2 { position: fixed; top: -50%; right: 20%; width: 1px; height: 200%; background: linear-gradient(to bottom, transparent, rgba(211, 107, 50, 0.15), transparent); transform: rotate(-30deg); z-index: -1; }
 
-        /* 2. Astrolabe / Background Intersecting Lines (Like the screenshots) */
-        .bg-lines {
-            position: fixed; inset: 0; z-index: -1; pointer-events: none;
-            background-image: 
-                linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
-            background-size: 25vw 25vh;
-            background-position: center center;
-        }
-        /* Diagonal subtle line */
-        .diagonal-line {
-            position: fixed; top: -50%; left: 50%; width: 1px; height: 200%;
-            background: linear-gradient(to bottom, transparent, rgba(255,255,255,0.08), transparent);
-            transform: rotate(45deg); z-index: -1;
-        }
-        .diagonal-line-2 {
-            position: fixed; top: -50%; right: 20%; width: 1px; height: 200%;
-            background: linear-gradient(to bottom, transparent, rgba(211, 107, 50, 0.15), transparent);
-            transform: rotate(-30deg); z-index: -1;
-        }
-
-        /* 3. Subtle Orange/Warm Glows */
-        .glow-blob {
-            position: fixed; border-radius: 50%; filter: blur(150px); z-index: -2; opacity: 0.4;
-        }
+        .glow-blob { position: fixed; border-radius: 50%; filter: blur(150px); z-index: -2; opacity: 0.4; }
         .glow-orange { top: 20%; right: -10%; width: 600px; height: 600px; background: rgba(211, 107, 50, 0.2); }
         .glow-white { bottom: -10%; left: -10%; width: 500px; height: 500px; background: rgba(223, 220, 213, 0.1); }
 
-        /* Custom Image Masks & Brackets */
         .image-bracket-container { position: relative; display: inline-block; }
-        .image-bracket-container::before {
-            content: ''; position: absolute; top: -10px; left: -10px; width: 40px; height: 40px;
-            border-top: 1px solid var(--revText); border-left: 1px solid var(--revText); opacity: 0.5; z-index: 10;
-        }
-        .image-bracket-container::after {
-            content: ''; position: absolute; bottom: -10px; right: -10px; width: 40px; height: 40px;
-            border-bottom: 1px solid var(--revText); border-right: 1px solid var(--revText); opacity: 0.5; z-index: 10;
-        }
+        .image-bracket-container::before { content: ''; position: absolute; top: -10px; left: -10px; width: 40px; height: 40px; border-top: 1px solid var(--revText); border-left: 1px solid var(--revText); opacity: 0.5; z-index: 10; }
+        .image-bracket-container::after { content: ''; position: absolute; bottom: -10px; right: -10px; width: 40px; height: 40px; border-bottom: 1px solid var(--revText); border-right: 1px solid var(--revText); opacity: 0.5; z-index: 10; }
         
         .corner-cut-image { border-top-right-radius: 60px; }
         .circle-mask { border-radius: 50%; border: 1px solid rgba(223, 220, 213, 0.2); padding: 8px; }
         
-        /* Floating Animation for Gallery */
         @keyframes float { 0% { transform: translateY(0px); } 50% { transform: translateY(-10px); } 100% { transform: translateY(0px); } }
         .animate-float { animation: float 6s ease-in-out infinite; }
         .animate-float-delayed { animation: float 7s ease-in-out 2s infinite; }
 
         .gs-reveal { opacity: 0; visibility: hidden; }
+
+        /* 动态列表过渡动画 */
+        .record-item { animation: fadeUp 0.4s ease-out forwards; }
+        @keyframes fadeUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
     </style>
 </head>
 <body class="relative min-h-screen flex flex-col select-none">
@@ -112,18 +75,16 @@
             <a href="index.html" class="text-3xl font-serif tracking-widest text-revText flex items-center">
                 JD<span class="text-revOrange ml-1 text-4xl">.</span>
             </a>
-            
             <div class="hidden lg:flex space-x-10 text-xs font-sans tracking-[0.2em] text-revMuted">
                 <a href="#" class="text-revText border-b border-revOrange pb-1">HOME</a>
-                <a href="#" class="hover:text-revText transition-colors">ILLUSTRATION</a>
-                <a href="#" class="hover:text-revText transition-colors">DEVELOPMENT</a>
-                <a href="#" class="hover:text-revText transition-colors">EXPERTISE</a>
+                <a href="about.html" class="hover:text-revText transition-colors">ABOUT</a>
+                <a href="projects.html" class="hover:text-revText transition-colors">PROJECTS</a>
+                <a href="posts.html" class="hover:text-white transition-colors">POSTS</a>
             </div>
         </div>
-
         <div class="flex items-center space-x-6">
             <div class="w-2 h-2 rotate-45 bg-revOrange"></div>
-            <a href="#" class="text-xs font-sans tracking-widest text-revText hover:text-revOrange transition-colors uppercase border border-revLine px-4 py-2 hover:bg-revText/5">
+            <a href="contact.html" class="text-xs font-sans tracking-widest text-revText hover:text-revOrange transition-colors uppercase border border-revLine px-4 py-2 hover:bg-revText/5">
                 Initialize Connect
             </a>
         </div>
@@ -133,13 +94,11 @@
 
         <section class="max-w-[1600px] mx-auto px-10 min-h-[70vh] flex items-center gs-reveal">
             <div class="grid grid-cols-1 lg:grid-cols-12 gap-16 items-center w-full">
-                
                 <div class="lg:col-span-7 relative group cursor-pointer">
                     <div class="image-bracket-container w-full">
                         <div class="w-full h-[500px] bg-revBgLighter border border-revLine corner-cut-image overflow-hidden relative shadow-2xl shadow-black">
                             <div class="absolute inset-0 bg-revOrange/10 mix-blend-overlay z-10 group-hover:bg-transparent transition-all duration-700"></div>
                             <img src="example.com" alt="Featured Illustration" class="w-full h-full object-cover opacity-80 group-hover:opacity-100 group-hover:scale-105 transition-all duration-700">
-                            
                             <div class="absolute bottom-6 right-6 text-revOrange opacity-70">
                                 <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
                             </div>
@@ -149,16 +108,13 @@
 
                 <div class="lg:col-span-5 flex flex-col justify-center relative">
                     <div class="absolute -top-20 -left-10 text-9xl font-serif text-white opacity-[0.02] pointer-events-none select-none">01</div>
-                    
                     <div class="flex items-center space-x-4 mb-6">
                         <div class="w-8 h-px bg-revOrange"></div>
                         <span class="text-revOrange font-sans text-xs tracking-[0.3em] uppercase">Multi-Disciplinary Creator</span>
                     </div>
-                    
                     <h1 class="text-6xl md:text-7xl font-serif text-revText mb-8 leading-[1.1]">
                         Visuals &<br>Underlying<br><span class="italic text-revMuted">Logic.</span>
                     </h1>
-                    
                     <div class="space-y-6 text-revMuted font-sans text-sm leading-relaxed max-w-md pl-4 border-l border-revLine">
                         <p>
                             I am a creator bridging the gap between artistic expression and technical execution. With 5 years of experience focused on game illustrations, anime, and UI design, my visual work tells compelling stories.
@@ -167,25 +123,13 @@
                             Simultaneously, I am a full-stack scripter and game developer. From developing complex React frontends to engineering intricate Minecraft datapacks and commanding Tier 4 PVP combat, I architect systems that perform flawlessly under pressure.
                         </p>
                     </div>
-
-                    <div class="flex items-center space-x-6 mt-16">
-                        <button class="w-8 h-8 rounded-full border border-revLine flex items-center justify-center hover:border-revOrange text-revMuted hover:text-revOrange transition-colors"><svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg></button>
-                        <div class="flex items-center space-x-4 font-serif text-lg text-revMuted">
-                            <span class="text-revOrange">I</span>
-                            <span>II</span>
-                            <span>III</span>
-                            <span>IV</span>
-                            <span>V</span>
-                        </div>
-                        <button class="w-8 h-8 rounded-full border border-revLine flex items-center justify-center hover:border-revOrange text-revMuted hover:text-revOrange transition-colors"><svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg></button>
-                    </div>
                 </div>
             </div>
         </section>
 
         <div class="w-full h-px bg-gradient-to-r from-transparent via-revLine to-transparent my-20 gs-reveal"></div>
 
-        <section class="max-w-[1600px] mx-auto px-10 gs-reveal">
+        <section class="max-w-[1600px] mx-auto px-10 gs-reveal" id="updates-section">
             <div class="grid grid-cols-1 lg:grid-cols-12 gap-16">
                 
                 <div class="lg:col-span-5 relative group cursor-pointer h-[400px]">
@@ -207,62 +151,31 @@
 
                 <div class="lg:col-span-7 flex flex-col justify-center">
                     
-                    <div class="flex items-end mb-12 border-b border-revLine pb-4">
+                    <div class="flex items-end mb-12 border-b border-revLine pb-4 relative">
                         <h2 class="font-serif text-6xl text-revText mr-8">Updates</h2>
-                        <div class="flex space-x-6 text-xs font-sans tracking-[0.2em] text-revMuted pb-2">
-                            <span class="text-revOrange border-b border-revOrange pb-1">LATEST</span>
-                            <span class="hover:text-revText cursor-pointer transition-colors">DEVELOPMENT</span>
-                            <span class="hover:text-revText cursor-pointer transition-colors">ARTWORK</span>
+                        <div class="flex space-x-6 text-xs font-sans tracking-[0.2em] text-revMuted pb-2" id="filter-tabs">
+                            <span class="cursor-pointer transition-colors pb-1 text-revOrange border-b border-revOrange" data-cat="LATEST">LATEST</span>
+                            <span class="cursor-pointer hover:text-revText transition-colors pb-1" data-cat="DEVELOPMENT">DEVELOPMENT</span>
+                            <span class="cursor-pointer hover:text-revText transition-colors pb-1" data-cat="ARTWORK">ARTWORK</span>
                         </div>
                     </div>
 
-                    <div class="space-y-0">
-                        
-                        <div class="group flex flex-col sm:flex-row sm:items-center justify-between py-6 border-b border-revLine/50 hover:bg-white/[0.02] transition-colors cursor-pointer px-4 -mx-4">
-                            <div class="flex items-center space-x-6 mb-2 sm:mb-0">
-                                <span class="font-sans text-[10px] text-revOrange tracking-widest border border-revOrange/30 px-2 py-1">LATEST</span>
-                                <h4 class="font-serif text-xl text-revText group-hover:text-white transition-colors">Tier 4 Achieved — Preparing for Tier 2/3 Ranking (mctiers)</h4>
-                            </div>
-                            <div class="flex items-center space-x-8 text-xs font-sans text-revMuted">
-                                <span>2026-03-01</span>
-                                <span class="group-hover:text-revOrange transition-colors flex items-center">READ MORE <svg class="w-3 h-3 ml-2 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg></span>
-                            </div>
+                    <div id="records-container" class="space-y-0 min-h-[200px]">
+                        <div class="py-10 text-center text-revOrange font-mono text-xs tracking-widest animate-pulse">
+                            [ FETCHING SECURE LOGS... ]
                         </div>
-
-                        <div class="group flex flex-col sm:flex-row sm:items-center justify-between py-6 border-b border-revLine/50 hover:bg-white/[0.02] transition-colors cursor-pointer px-4 -mx-4">
-                            <div class="flex items-center space-x-6 mb-2 sm:mb-0">
-                                <span class="font-sans text-[10px] text-revOrange tracking-widest border border-revOrange/30 px-2 py-1">LATEST</span>
-                                <h4 class="font-serif text-xl text-revText group-hover:text-white transition-colors">Released 1.21 Component Syntax Datapack Framework</h4>
-                            </div>
-                            <div class="flex items-center space-x-8 text-xs font-sans text-revMuted">
-                                <span>2026-02-20</span>
-                                <span class="group-hover:text-revOrange transition-colors flex items-center">READ MORE <svg class="w-3 h-3 ml-2 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg></span>
-                            </div>
-                        </div>
-
-                        <div class="group flex flex-col sm:flex-row sm:items-center justify-between py-6 border-b border-revLine/50 hover:bg-white/[0.02] transition-colors cursor-pointer px-4 -mx-4">
-                            <div class="flex items-center space-x-6 mb-2 sm:mb-0">
-                                <span class="font-sans text-[10px] text-revOrange tracking-widest border border-revOrange/30 px-2 py-1">LATEST</span>
-                                <h4 class="font-serif text-xl text-revText group-hover:text-white transition-colors">Published "Cyber-Synth" Concept UI & Game Sketches</h4>
-                            </div>
-                            <div class="flex items-center space-x-8 text-xs font-sans text-revMuted">
-                                <span>2026-01-15</span>
-                                <span class="group-hover:text-revOrange transition-colors flex items-center">READ MORE <svg class="w-3 h-3 ml-2 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg></span>
-                            </div>
-                        </div>
-                        
-                        <div class="pt-8 text-center">
-                            <button class="border border-revLine px-8 py-3 text-xs font-sans tracking-[0.2em] text-revText hover:bg-revText hover:text-revBg transition-colors rounded-full">
-                                MORE RECORDS
-                            </button>
-                        </div>
+                    </div>
+                    
+                    <div class="pt-8 text-center">
+                        <button id="btn-more-records" class="hidden border border-revLine px-8 py-3 text-xs font-sans tracking-[0.2em] text-revText hover:bg-revText hover:text-revBg transition-colors rounded-full uppercase">
+                            MORE RECORDS
+                        </button>
                     </div>
                 </div>
             </div>
         </section>
 
         <section class="max-w-[1600px] mx-auto px-10 pt-32 gs-reveal relative min-h-[80vh]">
-            
             <div class="absolute top-40 left-1/2 -translate-x-1/2 text-center pointer-events-none opacity-40 text-[9px] font-sans tracking-[0.3em] uppercase text-revMuted">
                 <p>Merging the artistic vision</p>
                 <p>with uncompromising backend logic.</p>
@@ -309,7 +222,6 @@
                     <span class="text-revOrange italic text-4xl mr-1">+</span>Game Dev
                 </h3>
             </div>
-
         </section>
 
     </main>
@@ -329,7 +241,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
     <script>
-        // 1. Anti-select and Anti-right-click protection
+        // 1. 安全锁定
         document.addEventListener('contextmenu', event => event.preventDefault());
         document.addEventListener('dragstart', event => event.preventDefault());
         document.addEventListener('keydown', (e) => {
@@ -338,26 +250,151 @@
             if ((e.ctrlKey || e.metaKey) && e.key === 'c') { e.preventDefault(); }
         });
 
-        // 2. Snappy, elegant entrance animations matching the aesthetic
+        // 2. 动画引擎
         gsap.registerPlugin(ScrollTrigger);
-
         document.addEventListener("DOMContentLoaded", () => {
             gsap.set(".gs-reveal", { y: 30, opacity: 0, visibility: "visible" });
-
             ScrollTrigger.batch(".gs-reveal", {
-                onEnter: batch => {
-                    gsap.to(batch, {
-                        y: 0, 
-                        opacity: 1, 
-                        duration: 1.2, 
-                        stagger: 0.15, 
-                        ease: "expo.out", 
-                        overwrite: true
-                    });
-                },
+                onEnter: batch => gsap.to(batch, { y: 0, opacity: 1, duration: 1.2, stagger: 0.15, ease: "expo.out", overwrite: true }),
                 start: "top 90%"
             });
+            initDynamicRecords();
         });
+
+        // ==========================================
+        // 3. GitHub 动态数据解析引擎 (Smart Expand Engine)
+        // ==========================================
+        const DB_URL = "https://raw.githubusercontent.com/Calyndrae/calyndrae.github.io/main/records/records.txt";
+        
+        let allRecords = [];
+        let currentCategory = 'LATEST';
+        let currentLimit = 3;  // 默认显示条数
+        const INITIAL_LIMIT = 3;
+        const LOAD_MORE_COUNT = 5; // 每次展开增加条数
+
+        // 备用数据 (如果 txt 文件还没建立)
+        const FALLBACK_DATA = `
+** Tier 4 Achieved — Preparing for Tier 2/3 **
+Category: DEVELOPMENT
+Date: 2026-03-01
+Link: posts.html
+
+** Published "Cyber-Synth" Concept Sketches **
+Category: ARTWORK
+Date: 2026-02-28
+Link: projects.html
+
+** Released 1.21 Component Datapack **
+Category: DEVELOPMENT
+Date: 2026-02-20
+Link: projects.html
+        `;
+
+        async function initDynamicRecords() {
+            try {
+                const res = await fetch(`${DB_URL}?t=${new Date().getTime()}`);
+                if (!res.ok) throw new Error();
+                const text = await res.text();
+                parseRecords(text.length < 10 ? FALLBACK_DATA : text);
+            } catch(e) {
+                console.warn("DB not found, using fallback");
+                parseRecords(FALLBACK_DATA);
+            }
+        }
+
+        function parseRecords(rawText) {
+            const parts = rawText.split('**').map(s => s.trim()).filter(s => s.length > 0);
+            for(let i = 0; i < parts.length; i += 2) {
+                const title = parts[i];
+                const body = parts[i+1] || "";
+
+                const category = (body.match(/Category:\s*(.*?)(?=\n|$)/i) || ["",""])[1].trim().toUpperCase() || "LATEST";
+                const dateStr = (body.match(/Date:\s*(.*?)(?=\n|$)/i) || ["",""])[1].trim();
+                const link = (body.match(/Link:\s*(.*)/i) || ["",""])[1].trim() || "#";
+                
+                let timestamp = 0;
+                let d = new Date(dateStr);
+                if(isNaN(d)) {
+                    const p = dateStr.split('/'); // Fallback for DD/MM/YYYY
+                    if(p.length===3) d = new Date(`${p[2]}-${p[1]}-${p[0]}`);
+                }
+                if(!isNaN(d)) timestamp = d.getTime();
+
+                allRecords.push({ title, category, date: dateStr, link, timestamp });
+            }
+            bindTabs();
+            renderRecords();
+        }
+
+        function renderRecords() {
+            const container = document.getElementById('records-container');
+            const btn = document.getElementById('btn-more-records');
+
+            // 1. 过滤：如果是 LATEST，显示全部；否则精确匹配 Category
+            let filtered = currentCategory === 'LATEST' ? 
+                allRecords : 
+                allRecords.filter(r => r.category === currentCategory);
+
+            // 2. 排序：按时间从新到旧
+            filtered.sort((a, b) => b.timestamp - a.timestamp);
+
+            // 3. 截取：只显示 currentLimit 以内的数量
+            const toShow = filtered.slice(0, currentLimit);
+
+            if(filtered.length === 0) {
+                container.innerHTML = `<div class="py-10 text-center text-revMuted text-sm italic">No records found for this category.</div>`;
+                btn.style.display = 'none';
+                return;
+            }
+
+            container.innerHTML = toShow.map((r, idx) => `
+                <a href="${r.link}" class="record-item group flex flex-col sm:flex-row sm:items-center justify-between py-6 border-b border-revLine/50 hover:bg-white/[0.02] transition-colors cursor-pointer px-4 -mx-4" style="animation-delay: ${idx * 0.1}s">
+                    <div class="flex items-center space-x-6 mb-2 sm:mb-0">
+                        <span class="font-sans text-[10px] text-revOrange tracking-widest border border-revOrange/30 px-2 py-1">${r.category === 'LATEST' ? 'LATEST' : r.category}</span>
+                        <h4 class="font-serif text-xl text-revText group-hover:text-white transition-colors">${r.title}</h4>
+                    </div>
+                    <div class="flex items-center space-x-8 text-xs font-sans text-revMuted shrink-0 mt-2 sm:mt-0">
+                        <span>${r.date}</span>
+                        <span class="group-hover:text-revOrange transition-colors flex items-center">READ MORE <svg class="w-3 h-3 ml-2 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg></span>
+                    </div>
+                </a>
+            `).join('');
+
+            // 4. 按钮智能判定
+            if (filtered.length <= INITIAL_LIMIT) {
+                btn.style.display = 'none'; // 如果总数比初始设定还少，直接隐藏按钮
+            } else {
+                btn.style.display = 'inline-block';
+                if (currentLimit >= filtered.length) {
+                    btn.textContent = "COLLAPSE RECORDS"; // 到底了，变成折叠按钮
+                    btn.onclick = () => { 
+                        currentLimit = INITIAL_LIMIT; 
+                        renderRecords(); 
+                        document.getElementById('updates-section').scrollIntoView({behavior: "smooth"}); 
+                    };
+                } else {
+                    const remaining = filtered.length - currentLimit;
+                    btn.textContent = `MORE RECORDS (${Math.min(remaining, LOAD_MORE_COUNT)} LEFT)`; // 提示还有几条
+                    btn.onclick = () => { currentLimit += LOAD_MORE_COUNT; renderRecords(); };
+                }
+            }
+        }
+
+        function bindTabs() {
+            const tabs = document.querySelectorAll('#filter-tabs span');
+            tabs.forEach(tab => {
+                tab.addEventListener('click', (e) => {
+                    // 更新 UI 样式
+                    tabs.forEach(t => t.className = "cursor-pointer hover:text-revText transition-colors pb-1");
+                    e.target.className = "cursor-pointer transition-colors pb-1 text-revOrange border-b border-revOrange";
+                    
+                    // 切换状态并重置条数
+                    currentCategory = e.target.getAttribute('data-cat');
+                    currentLimit = INITIAL_LIMIT;
+                    renderRecords();
+                });
+            });
+        }
     </script>
 </body>
 </html>
