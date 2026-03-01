@@ -3,61 +3,259 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>关于 | 我的主页</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <title>JD | 关于我</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
-        tailwind.config = { theme: { extend: { fontFamily: { sans: ['Inter', 'sans-serif'] }, colors: { dark: '#000000', light: '#f5f5f7', grayCustom: '#86868b' } } } }
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Inter', 'sans-serif'] },
+                    colors: {
+                        background: '#0a0b10',
+                        surface: 'rgba(255, 255, 255, 0.02)', 
+                        borderLight: 'rgba(255, 255, 255, 0.06)',
+                        textMuted: '#8b8e98',
+                        accentBlue: '#3b82f6',
+                        accentPurple: '#a855f7',
+                        accentPink: '#ec4899'
+                    }
+                }
+            }
+        }
     </script>
     <style>
-        body { background-color: #000000; color: #f5f5f7; overflow-x: hidden; }
-        .glass-dock { background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.1); }
+        body { background-color: #0a0b10; color: #ffffff; overflow-x: hidden; -webkit-font-smoothing: antialiased; }
+        ::-webkit-scrollbar { width: 0px; background: transparent; }
+
+        .glow-blob { position: fixed; border-radius: 50%; filter: blur(140px); z-index: -1; opacity: 0.5; pointer-events: none; }
+        .glow-purple { top: 10%; right: -10%; width: 600px; height: 600px; background: rgba(168, 85, 247, 0.25); }
+        .glow-blue { bottom: 10%; left: -10%; width: 700px; height: 700px; background: rgba(59, 130, 246, 0.2); }
+
+        .glass-card {
+            background: linear-gradient(145deg, rgba(255,255,255,0.03) 0%, rgba(255,255,255,0.01) 100%);
+            border: 1px solid var(--borderLight);
+            box-shadow: inset 0 1px 0 rgba(255,255,255,0.05), 0 20px 40px -10px rgba(0,0,0,0.5);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .glass-card:hover { transform: translateY(-4px); background: linear-gradient(145deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.02) 100%); border-color: rgba(255,255,255,0.15); box-shadow: inset 0 1px 0 rgba(255,255,255,0.1), 0 30px 50px -15px rgba(0,0,0,0.7); }
+
+        .text-gradient { background: linear-gradient(135deg, #ffffff 0%, #a855f7 50%, #3b82f6 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+
+        /* 社交矩阵卡片专属发光 Hover */
+        .social-card-github:hover { border-color: #ffffff; box-shadow: 0 10px 30px -10px rgba(255,255,255,0.3); }
+        .social-card-discord:hover { border-color: #5865F2; box-shadow: 0 10px 30px -10px rgba(88,101,242,0.4); }
+        .social-card-mail:hover { border-color: var(--accentPurple); box-shadow: 0 10px 30px -10px rgba(168,85,247,0.4); }
+        .social-card-x:hover { border-color: var(--accentBlue); box-shadow: 0 10px 30px -10px rgba(59,130,246,0.4); }
+
+        /* 创意时间轴样式 */
+        .timeline-container { position: relative; margin-left: 1rem; padding-left: 2.5rem; border-left: 2px dashed rgba(255,255,255,0.1); }
+        .timeline-dot { position: absolute; left: -0.4rem; width: 0.75rem; height: 0.75rem; border-radius: 50%; background: var(--background); border: 2px solid var(--accentPurple); box-shadow: 0 0 15px var(--accentPurple); }
+        .timeline-dot.active { background: var(--accentPurple); animation: pulse-purple 2s infinite; }
+        .timeline-dot.blue { border-color: var(--accentBlue); box-shadow: 0 0 15px var(--accentBlue); }
+        .timeline-dot.pink { border-color: var(--accentPink); box-shadow: 0 0 15px var(--accentPink); }
+
+        @keyframes pulse-purple { 0% { box-shadow: 0 0 0 0 rgba(168,85,247,0.7); } 70% { box-shadow: 0 0 0 15px rgba(168,85,247,0); } 100% { box-shadow: 0 0 0 0 rgba(168,85,247,0); } }
+
+        /* 标签药丸 */
+        .tech-pill { display: inline-flex; align-items: center; padding: 0.25rem 0.75rem; border-radius: 9999px; font-size: 0.75rem; font-family: monospace; border: 1px solid var(--borderLight); background: rgba(255,255,255,0.03); color: var(--textMuted); transition: all 0.3s; }
+        .tech-pill:hover { background: rgba(255,255,255,0.1); color: white; border-color: rgba(255,255,255,0.3); }
     </style>
 </head>
-<body class="antialiased flex flex-col min-h-screen">
+<body class="relative min-h-screen flex flex-col">
 
-    <main class="page-content flex-grow flex flex-col justify-center px-6 md:px-24 py-20 pb-32">
-        <div class="max-w-4xl mx-auto">
-            <h1 class="text-5xl md:text-7xl font-bold tracking-tight mb-8 gs-reveal">不断探索的边界。</h1>
-            <p class="text-xl leading-relaxed text-grayCustom mb-6 gs-reveal">
-                作为一名全栈开发者与学生，我热衷于拆解复杂的系统。从深入学习 C++ 和系统级架构，到参与极具挑战性的网络安全攻防演练，我享受在代码的底层逻辑中寻找最优解的过程。
-            </p>
-            <p class="text-xl leading-relaxed text-grayCustom gs-reveal">
-                我也相信代码可以充满创造力——无论是用 Python 管理服务器进程，还是利用 1.21 组件语法在沙盒世界中构建精密的逻辑流。技术不仅是工具，更是表达思想的媒介。
-            </p>
+    <div class="glow-blob glow-purple"></div>
+    <div class="glow-blob glow-blue"></div>
+
+    <nav class="fixed top-0 w-full z-50 px-8 py-5 flex justify-between items-center max-w-[1440px] mx-auto left-0 right-0 backdrop-blur-md bg-background/50 border-b border-borderLight">
+        <a href="index.html" class="flex items-center space-x-3 group">
+            <div class="w-8 h-8 rounded-full bg-gradient-to-tr from-accentBlue to-accentPurple flex items-center justify-center shadow-[0_0_15px_rgba(168,85,247,0.5)]">
+                <div class="w-3 h-3 rounded-full bg-background"></div>
+            </div>
+            <span class="text-xl font-bold tracking-widest text-white">JD<span class="text-accentPurple">.</span></span>
+        </a>
+
+        <div class="hidden md:flex space-x-10 text-sm font-semibold text-textMuted tracking-wide">
+            <a href="index.html" class="hover:text-white transition-colors">Home</a>
+            <a href="about.html" class="text-white relative after:content-[''] after:absolute after:-bottom-2 after:left-0 after:w-full after:h-0.5 after:bg-white">About</a>
+            <a href="projects.html" class="hover:text-white transition-colors">Projects</a>
+            <a href="posts.html" class="hover:text-white transition-colors">Posts</a>
         </div>
-    </main>
 
-    <nav class="fixed bottom-8 left-1/2 transform -translate-x-1/2 z-50 glass-dock rounded-full px-6 py-4 flex items-center space-x-8 shadow-2xl transition-all">
-        <a href="index.html" class="dock-link group relative text-grayCustom hover:text-white transition-all duration-300 hover:scale-110 hover:-translate-y-1">
-            <span class="text-sm font-medium">Home</span>
-            <span class="absolute -bottom-2 left-1/2 transform -translate-x-1/2 w-1 h-1 bg-white rounded-full opacity-0 group-hover:opacity-100 transition-opacity"></span>
-        </a>
-        <a href="about.html" class="dock-link group relative text-white scale-110 transition-all duration-300">
-            <span class="text-sm font-medium">About</span>
-            <span class="absolute -bottom-2 left-1/2 transform -translate-x-1/2 w-1 h-1 bg-white rounded-full"></span>
-        </a>
-        <a href="projects.html" class="dock-link group relative text-grayCustom hover:text-white transition-all duration-300 hover:scale-110 hover:-translate-y-1">
-            <span class="text-sm font-medium">Projects</span>
-            <span class="absolute -bottom-2 left-1/2 transform -translate-x-1/2 w-1 h-1 bg-white rounded-full opacity-0 group-hover:opacity-100 transition-opacity"></span>
-        </a>
-        <a href="posts.html" class="dock-link group relative text-grayCustom hover:text-white transition-all duration-300 hover:scale-110 hover:-translate-y-1">
-            <span class="text-sm font-medium">Posts</span>
-            <span class="absolute -bottom-2 left-1/2 transform -translate-x-1/2 w-1 h-1 bg-white rounded-full opacity-0 group-hover:opacity-100 transition-opacity"></span>
-        </a>
-        <a href="contact.html" class="dock-link group relative text-grayCustom hover:text-white transition-all duration-300 hover:scale-110 hover:-translate-y-1">
-            <span class="text-sm font-medium">Contact</span>
-            <span class="absolute -bottom-2 left-1/2 transform -translate-x-1/2 w-1 h-1 bg-white rounded-full opacity-0 group-hover:opacity-100 transition-opacity"></span>
-        </a>
+        <div class="flex items-center space-x-6">
+            <a href="#" class="text-textMuted hover:text-[#5865F2] transition-colors">
+                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M20.317 4.3698... (Discord SVG)"/></svg>
+            </a>
+            <a href="https://github.com" target="_blank" class="text-textMuted hover:text-white transition-colors">
+                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.374 0... (GitHub SVG)"/></svg>
+            </a>
+            <a href="contact.html" class="px-5 py-2 rounded-full bg-white text-background text-sm font-bold hover:scale-105 transition-transform">Sign in</a>
+        </div>
     </nav>
 
+    <main class="flex-grow max-w-[1000px] mx-auto w-full px-8 pt-40 pb-32">
+        
+        <header class="mb-20 gs-reveal">
+            <div class="px-3 py-1 rounded-full border border-white/10 bg-white/5 text-textMuted text-[10px] font-bold uppercase tracking-widest w-max mb-6">Profile // Developer</div>
+            <h1 class="text-5xl md:text-7xl font-extrabold tracking-tight mb-6">
+                Behind the <span class="text-gradient">Code.</span>
+            </h1>
+            <p class="text-xl text-textMuted max-w-2xl leading-relaxed">
+                作为一名全栈开发者与系统研究者，我热衷于拆解复杂的系统。从深入 C++ 的内存快照，到设计红蓝对抗中的隐蔽驻留链路，再到 Minecraft 数据包的底层状态机重构——我享受在底层逻辑中寻找最优解的过程。
+            </p>
+        </header>
+
+        <section class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-32">
+            <div class="glass-card rounded-[2rem] p-8 md:col-span-2 gs-reveal flex flex-col justify-center">
+                <h3 class="text-2xl font-bold mb-4 text-white">Philosophy</h3>
+                <p class="text-textMuted leading-relaxed mb-6">
+                    我相信，最顶级的工程应当像艺术品一样优雅。代码不应当是条件语句的无脑堆砌，而是数据流的完美分发。无论是管理 Windows Server 下的 PM2 守护进程，还是利用 1.21 组件语法开发无延迟的沙盒游戏模式，"高内聚、低耦合" 始终是我架构设计的核心。
+                </p>
+                <div class="flex items-center space-x-4 text-sm">
+                    <div class="flex items-center text-accentPurple font-mono"><span class="w-2 h-2 rounded-full bg-accentPurple mr-2 animate-pulse"></span> Status: Building</div>
+                    <div class="w-px h-4 bg-borderLight"></div>
+                    <div class="text-textMuted font-mono">Location: Earth</div>
+                </div>
+            </div>
+
+            <div class="glass-card rounded-[2rem] p-8 gs-reveal flex flex-col items-center justify-center text-center bg-gradient-to-b from-white/[0.02] to-transparent">
+                <div class="w-16 h-16 rounded-full bg-black border border-borderLight flex items-center justify-center shadow-[0_0_30px_rgba(255,255,255,0.1)] mb-6">
+                    <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"></path></svg>
+                </div>
+                <h4 class="font-bold text-white mb-4">Tech Stack</h4>
+                <div class="flex flex-wrap justify-center gap-2">
+                    <span class="tech-pill">C++ / API</span>
+                    <span class="tech-pill">Python</span>
+                    <span class="tech-pill">PM2 / DevOps</span>
+                    <span class="tech-pill">MC 1.21 Datapack</span>
+                    <span class="tech-pill">Cyber Sec</span>
+                    <span class="tech-pill">PowerShell</span>
+                </div>
+            </div>
+        </section>
+
+        <section class="mb-32">
+            <h2 class="text-3xl font-extrabold mb-12 gs-reveal text-white">Journey & <span class="text-accentPurple">Evolution</span></h2>
+            
+            <div class="timeline-container">
+                <div class="relative mb-16 gs-reveal">
+                    <div class="timeline-dot active" style="top: 1.5rem;"></div>
+                    <div class="glass-card rounded-2xl p-8 group">
+                        <span class="text-xs font-mono text-accentPurple mb-2 block">2026 - Present</span>
+                        <h3 class="text-xl font-bold text-white mb-2 group-hover:text-accentPurple transition-colors">企业级渗透防御演练</h3>
+                        <p class="text-textMuted text-sm leading-relaxed">
+                            参与高规格网络攻击模拟演练（目标 5k USD 奖金池）。专注于蓝队视角的隐蔽驻留，通过 VBScript 与注册表深度操作，构建高级持续威胁 (APT) 模拟脚本，分析系统漏洞并执行非管理权限下的提权链路。
+                        </p>
+                    </div>
+                </div>
+
+                <div class="relative mb-16 gs-reveal delay-100">
+                    <div class="timeline-dot blue" style="top: 1.5rem;"></div>
+                    <div class="glass-card rounded-2xl p-8 group">
+                        <span class="text-xs font-mono text-accentBlue mb-2 block">2026 - Core Dev</span>
+                        <h3 class="text-xl font-bold text-white mb-2 group-hover:text-accentBlue transition-colors">系统级 C++ 架构与 API</h3>
+                        <p class="text-textMuted text-sm leading-relaxed">
+                            深入研究 Windows 底层 API。使用 CreateToolhelp32Snapshot 等系统调用编写高效的进程监控与快照捕获引擎。为项目 Cyrene 提供了底层驱动级的数据读取能力。
+                        </p>
+                    </div>
+                </div>
+
+                <div class="relative mb-16 gs-reveal delay-200">
+                    <div class="timeline-dot pink" style="top: 1.5rem;"></div>
+                    <div class="glass-card rounded-2xl p-8 group">
+                        <span class="text-xs font-mono text-accentPink mb-2 block">2025 - Infrastructure</span>
+                        <h3 class="text-xl font-bold text-white mb-2 group-hover:text-accentPink transition-colors">DevOps & 自动化守护进程</h3>
+                        <p class="text-textMuted text-sm leading-relaxed">
+                            在 Windows 10/Server 环境中引入 PM2 进程管理器。为 DeepSeekBot (Python) 搭建了 24/7 高可用自动重启与日志轮转架构，彻底解决了内存泄漏导致的服务中断问题。
+                        </p>
+                    </div>
+                </div>
+
+                <div class="relative gs-reveal delay-300">
+                    <div class="timeline-dot" style="top: 1.5rem;"></div>
+                    <div class="glass-card rounded-2xl p-8 group">
+                        <span class="text-xs font-mono text-textMuted mb-2 block">Origins</span>
+                        <h3 class="text-xl font-bold text-white mb-2 transition-colors">Minecraft 沙盒逻辑重构</h3>
+                        <p class="text-textMuted text-sm leading-relaxed">
+                            利用 1.21 组件语法对庞大的指令系统进行重构。去除了臃肿的条件命令块，改用无条件重复配合 `zombie_dead` 与 `game_timer` 计分板，实现了 EPVP 与 PVPP 玩法的解耦与独立垃圾回收。
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="gs-reveal">
+            <h2 class="text-3xl font-extrabold mb-8 text-white">Connect & <span class="text-gradient">Collaborate</span></h2>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                
+                <a href="https://github.com/Calyndrae" target="_blank" class="glass-card social-card-github rounded-2xl p-8 flex flex-col items-center justify-center text-center group cursor-pointer h-40">
+                    <svg class="w-10 h-10 text-textMuted group-hover:text-white transition-colors mb-4 group-hover:-translate-y-2 duration-300" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.6.113.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0112 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z"/></svg>
+                    <span class="text-sm font-bold text-white">GitHub</span>
+                    <span class="text-[10px] text-textMuted uppercase tracking-widest mt-1">Codebase</span>
+                </a>
+
+                <a href="mailto:hello@example.com" class="glass-card social-card-mail rounded-2xl p-8 flex flex-col items-center justify-center text-center group cursor-pointer h-40">
+                    <svg class="w-10 h-10 text-textMuted group-hover:text-accentPurple transition-colors mb-4 group-hover:-translate-y-2 duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
+                    <span class="text-sm font-bold text-white">Email</span>
+                    <span class="text-[10px] text-textMuted uppercase tracking-widest mt-1">Inquiries</span>
+                </a>
+
+                <a href="#" class="glass-card social-card-discord rounded-2xl p-8 flex flex-col items-center justify-center text-center group cursor-pointer h-40">
+                    <svg class="w-10 h-10 text-textMuted group-hover:text-[#5865F2] transition-colors mb-4 group-hover:-translate-y-2 duration-300" fill="currentColor" viewBox="0 0 24 24"><path d="M20.317 4.3698a19.7913 19.7913 0 00-4.8851-1.5152.0741.0741 0 00-.0785.0371c-.211.3753-.4447.8648-.6083 1.2495-1.8447-.2762-3.68-.2762-5.4868 0-.1636-.3933-.4058-.8742-.6177-1.2495a.077.077 0 00-.0785-.037 19.7363 19.7363 0 00-4.8852 1.515.0699.0699 0 00-.0321.0277C.5334 9.0458-.319 13.5799.0992 18.0578a.0824.0824 0 00.0312.0561c2.0528 1.5076 4.0413 2.4228 5.9929 3.0294a.0777.0777 0 00.0842-.0276c.4616-.6304.8731-1.2952 1.226-1.9942a.076.076 0 00-.0416-.1057c-.6528-.2476-1.2743-.5495-1.8722-.8923a.077.077 0 01-.0076-.1277c.1258-.0943.2517-.1923.3718-.2914a.0743.0743 0 01.0776-.0105c3.9278 1.7933 8.18 1.7933 12.0614 0a.0739.0739 0 01.0785.0095c.1202.099.246.1981.3728.2924a.077.077 0 01-.0066.1276 12.2986 12.2986 0 01-1.873.8914.0766.0766 0 00-.0407.1067c.3604.698.7719 1.3628 1.225 1.9932a.076.076 0 00.0842.0286c1.961-.6067 3.9495-1.5219 6.0023-3.0294a.077.077 0 00.0313-.0552c.5004-5.177-.8382-9.6739-3.5485-13.6604a.061.061 0 00-.0312-.0286zM8.02 15.3312c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9555-2.4189 2.157-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.9555 2.4189-2.1569 2.4189zm7.9748 0c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9554-2.4189 2.1569-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.946 2.4189-2.1568 2.4189z"/></svg>
+                    <span class="text-sm font-bold text-white">Discord</span>
+                    <span class="text-[10px] text-textMuted uppercase tracking-widest mt-1">Community</span>
+                </a>
+
+                <a href="#" class="glass-card social-card-x rounded-2xl p-8 flex flex-col items-center justify-center text-center group cursor-pointer h-40">
+                    <svg class="w-9 h-9 text-textMuted group-hover:text-white transition-colors mb-4 group-hover:-translate-y-2 duration-300" fill="currentColor" viewBox="0 0 24 24"><path d="M18.901 1.153h3.68l-8.04 9.19L24 22.846h-7.406l-5.8-7.584-6.638 7.584H.474l8.6-9.83L0 1.154h7.594l5.243 6.932ZM17.61 20.644h2.039L6.486 3.24H4.298Z"/></svg>
+                    <span class="text-sm font-bold text-white">X (Twitter)</span>
+                    <span class="text-[10px] text-textMuted uppercase tracking-widest mt-1">Updates</span>
+                </a>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="border-t border-borderLight bg-black/50 backdrop-blur-lg py-8 text-center text-xs text-textMuted mt-auto">
+        <p>© 2026 JD. Engineered with precision. <a href="https://github.com" class="hover:text-white ml-2 underline decoration-white/20">GitHub</a></p>
+    </footer>
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
     <script>
-        document.addEventListener("DOMContentLoaded", () => { gsap.fromTo(".gs-reveal", { y: 30, opacity: 0 }, { y: 0, opacity: 1, duration: 1, stagger: 0.15, ease: "power3.out" }); });
-        document.querySelectorAll('.dock-link').forEach(link => {
-            link.addEventListener('click', function(e) {
-                if(this.href === window.location.href) return; e.preventDefault();
-                gsap.to(".page-content", { y: -20, opacity: 0, duration: 0.4, ease: "power2.inOut", onComplete: () => { window.location.href = this.href; } });
+        gsap.registerPlugin(ScrollTrigger);
+
+        document.addEventListener("DOMContentLoaded", () => {
+            // 基础滚动揭示动画
+            const revealElements = document.querySelectorAll(".gs-reveal");
+            revealElements.forEach((elem) => {
+                gsap.fromTo(elem, 
+                    { y: 50, opacity: 0, scale: 0.98 }, 
+                    { 
+                        y: 0, opacity: 1, scale: 1, 
+                        duration: 1, 
+                        ease: "power3.out",
+                        scrollTrigger: {
+                            trigger: elem,
+                            start: "top 90%", // 当元素顶部到达视口 90% 时触发
+                            toggleActions: "play none none reverse"
+                        }
+                    }
+                );
+            });
+
+            // 页面退出防闪烁动画
+            document.querySelectorAll('a[href$=".html"]').forEach(link => {
+                link.addEventListener('click', function(e) {
+                    if(this.href === window.location.href) return;
+                    e.preventDefault();
+                    gsap.to("main", { 
+                        y: -30, opacity: 0, duration: 0.4, ease: "power3.inOut", 
+                        onComplete: () => { window.location.href = this.href; } 
+                    });
+                });
             });
         });
     </script>
