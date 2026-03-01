@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JD | Posts Archive</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,400;1,600;1,700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { 
+                        serif: ['"Cormorant Garamond"', 'serif'],
+                        sans: ['Inter', 'sans-serif'] 
+                    },
+                    colors: {
+                        revBg: '#0e0d0b',
+                        revBgLighter: '#1a1815',
+                        revOffWhite: '#fdfbf2',
+                        revMuted: '#8b8782',
+                        revOrange: '#d36b32',
+                        revLine: '#ffffff20'
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body, html { 
+            color: #dfdcd5; 
+            overflow: hidden; 
+            height: 100vh; 
+            width: 100vw;
+            -webkit-font-smoothing: antialiased; 
+            user-select: none;
+            background-color: #0e0d0b; 
+        }
+
+        /* --- EXACT ORIGINAL LIST STYLING FROM INDEX.HTML --- */
+        .news-right-con-list {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 0; 
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            cursor: pointer;
+        }
+
+        .news-right-con-list-left {
+            display: flex;
+            align-items: center;
+            overflow: hidden;
+            flex-grow: 1;
+            position: relative;
+        }
+
+        /* Hidden Eye Icon */
+        .news-right-con-list-left-icon {
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            display: flex;
+            align-items: center;
+        }
+
+        /* Text Wrapper for Slide Effect */
+        .news-right-con-list-text-wrapper {
+            display: flex;
+            align-items: baseline;
+            flex-grow: 1;
+            overflow: hidden;
+            padding-left: 0;
+            transition: padding-left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* Hover Animations */
+        .news-right-con-list:hover .news-right-con-list-left-icon { opacity: 1; }
+        .news-right-con-list:hover .news-right-con-list-text-wrapper { padding-left: 30px; }
+        .news-right-con-list:hover .news-right-con-list-left-title { color: #d36b32; }
+
+        /* Typography */
+        .news-right-con-list-left-type {
+            font-family: "Cormorant Garamond", serif;
+            font-size: 18px; 
+            color: #d36b32; 
+            letter-spacing: 0.1em;
+            width: 110px; 
+            flex-shrink: 0;
+        }
+
+        .news-right-con-list-left-title {
+            font-family: "Cormorant Garamond", serif;
+            font-size: 20px; 
+            color: rgb(187, 168, 147); 
+            transition: color 0.3s ease;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis; /* Native truncation */
+        }
+
+        .news-right-con-list-left-time {
+            font-family: 'Inter', sans-serif;
+            font-size: 14px; 
+            color: rgba(255, 255, 255, 0.4); 
+            margin-left: 1rem;
+            flex-shrink: 0;
+        }
+
+        /* --- UTILITIES --- */
+        .hide-scroll::-webkit-scrollbar { display: none; }
+        .hide-scroll { -ms-overflow-style: none; scrollbar-width: none; }
+
+        .geo-ring { border: 1px solid var(--revLine); border-radius: 50%; position: absolute; pointer-events: none; }
+        @keyframes spin-slow { 100% { transform: rotate(360deg); } }
+        @keyframes spin-slow-reverse { 100% { transform: rotate(-360deg); } }
+        .animate-spin-slow { animation: spin-slow 30s linear infinite; }
+        .animate-spin-reverse { animation: spin-slow-reverse 40s linear infinite; }
+        
+        .text-shadow-custom { text-shadow: 0 4px 15px rgba(0,0,0,0.9); }
+    </style>
+</head>
+<body>
+
+    <div class="fixed inset-0 z-[-10] overflow-hidden pointer-events-none">
+        <div id="dynamic-bg" class="absolute inset-0 w-full h-full">
+            <img src="https://raw.githubusercontent.com/Calyndrae/calyndrae.github.io/main/resources/background.png" 
+                 onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1550745165-9bc0b252726f?q=80&w=1920&auto=format&fit=crop';" 
+                 alt="Background" 
+                 class="w-full h-full object-cover opacity-100">
+        </div>
+    </div>
+
+    <nav class="fixed top-0 w-full z-50 px-12 py-8 flex justify-between items-center bg-gradient-to-b from-black/50 to-transparent pointer-events-none">
+        <div class="flex items-center space-x-16 pointer-events-auto">
+            <a href="https://calyndrae.github.io/index.html" class="text-4xl font-serif tracking-[0.15em] text-revOffWhite flex items-center text-shadow-custom hover:text-revOrange transition-colors">
+                JD<span class="text-revOrange ml-1">.</span>
+            </a>
+            <div class="hidden lg:flex space-x-12 text-[15px] font-serif tracking-[0.2em] text-revMuted uppercase">
+                <a href="https://calyndrae.github.io/index.html" class="hover:text-revOffWhite transition-colors text-shadow-custom">MAIN PAGE</a>
+                <a href="https://calyndrae.github.io/projects.html" class="hover:text-revOffWhite transition-colors text-shadow-custom">PROJECTS</a>
+                <a href="https://calyndrae.github.io/moreposts.html" class="text-revOffWhite border-b border-revOrange pb-1 text-shadow-custom">POSTS</a>
+                <a href="https://calyndrae.github.io/gallery.html" class="hover:text-revOffWhite transition-colors text-shadow-custom">GALLERY</a>
+            </div>
+        </div>
+        
+        <div class="flex items-center space-x-6 pointer-events-auto">
+            <a href="https://calyndrae.github.io/contact.html" class="text-revOrange hover:text-revOffWhite transition-colors flex items-center space-x-2 text-[14px] font-sans tracking-[0.2em] uppercase text-shadow-custom">
+                <span>GET IN TOUCH</span>
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"></path></svg>
+            </a>
+        </div>
+    </nav>
+
+    <footer class="fixed bottom-0 w-full px-12 py-6 flex justify-between items-center text-[12px] font-serif tracking-[0.2em] text-revMuted uppercase z-50 pointer-events-none bg-gradient-to-t from-black/50 to-transparent">
+        <div class="flex items-center space-x-6">
+            <span class="text-revOrange font-bold tracking-[0.3em] text-shadow-custom">JD PORTFOLIO</span>
+            <div class="flex items-center space-x-2">
+                <div class="w-1.5 h-1.5 rotate-45 border border-revOrange"></div>
+                <span class="text-shadow-custom">EST. 2021</span>
+            </div>
+        </div>
+        <div class="flex items-center space-x-12">
+            <div class="flex items-center space-x-3">
+                <div class="w-1.5 h-1.5 rotate-45 border border-revOrange bg-revOrange shadow-[0_0_10px_#d36b32]"></div>
+                <span class="text-shadow-custom text-revOffWhite">NODE 01</span>
+            </div>
+            <span class="tracking-[0.3em] text-shadow-custom">THE SYNTHESIS IS COMING</span>
+        </div>
+    </footer>
+
+    <main class="relative w-full h-full z-10 flex justify-center items-center px-12 pt-[100px] pb-[80px]">
+        
+        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[900px] h-[900px] geo-ring border-revLine/10 animate-spin-slow z-[-1]"></div>
+        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] geo-ring border-revOrange/5 animate-spin-reverse z-[-1]"></div>
+
+        <div class="w-full max-w-[1100px] h-full flex flex-col bg-black/20 backdrop-blur-[2px] border border-revLine/20 rounded-2xl p-10 shadow-[0_20px_50px_rgba(0,0,0,0.5)] relative overflow-hidden">
+            
+            <div class="absolute top-0 right-0 w-32 h-32 bg-gradient-to-bl from-revOrange/10 to-transparent z-0 pointer-events-none"></div>
+
+            <div class="flex items-end justify-between mb-8 w-full relative z-10 shrink-0 border-b border-revLine/50 pb-4">
+                <div class="absolute -top-10 -left-8 z-[-1] opacity-40 pointer-events-none">
+                    <svg class="w-40 h-40 animate-spin-slow text-revLine/40" viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="0.5">
+                        <circle cx="50" cy="50" r="45" stroke-dasharray="2 6" />
+                        <ellipse cx="50" cy="50" rx="40" ry="10" transform="rotate(30 50 50)" />
+                    </svg>
+                </div>
+
+                <h2 class="font-serif text-revOffWhite text-shadow-custom flex items-baseline leading-none m-0">
+                    <span class="text-[6.5rem] leading-[0.75] font-normal drop-shadow-md">A</span>
+                    <span class="text-[2.5rem] leading-none tracking-widest ml-1">RCHIVE</span>
+                </h2>
+                
+                <div class="flex items-center space-x-6 text-[14px] font-serif tracking-[0.1em] text-revMuted border rounded-full z-10 px-8 py-2" id="filter-tabs" style="border-color: rgb(65, 59, 47); background: rgba(0, 0, 0, 0.6);">
+                    <span class="cursor-pointer text-revOrange border-b-2 border-revOrange pb-1 text-[18px] font-serif transition-colors" data-cat="LATEST">LATEST</span>
+                    <span class="cursor-pointer hover:text-revOffWhite border-b-2 border-transparent pb-1 text-[18px] font-serif transition-colors" data-cat="SCRIPTS">SCRIPTS</span>
+                    <span class="cursor-pointer hover:text-revOffWhite border-b-2 border-transparent pb-1 text-[18px] font-serif transition-colors" data-cat="ARTS">ARTS</span>
+                    <span class="cursor-pointer hover:text-revOffWhite border-b-2 border-transparent pb-1 text-[18px] font-serif transition-colors" data-cat="OTHERS">OTHERS</span>
+                </div>
+            </div>
+
+            <div id="records-container" class="space-y-0 w-full text-shadow-custom flex-grow overflow-y-auto hide-scroll z-10 pr-2">
+                <div class="py-20 text-revOrange font-serif italic text-lg tracking-widest text-center animate-pulse">[ INITIATING ARCHIVE DECRYPTION... ]</div>
+            </div>
+
+        </div>
+    </main>
+
+    <script>
+        document.addEventListener('contextmenu', event => event.preventDefault());
+        document.addEventListener('dragstart', event => event.preventDefault());
+
+        document.addEventListener('mousemove', (e) => {
+            const bg = document.getElementById('dynamic-bg');
+            if (!bg) return;
+            const xOffset = (e.clientX / window.innerWidth - 0.5);
+            const yOffset = (e.clientY / window.innerHeight - 0.5);
+            // Slight movement for immersion
+            bg.style.transform = `translate3d(${xOffset * 15}px, ${yOffset * 15}px, 0)`;
+        });
+
+        // ===============================================
+        // DATA FETCH ENGINE (Displays 8 Items)
+        // ===============================================
+        const BASE_URL = "https://raw.githubusercontent.com/Calyndrae/calyndrae.github.io/refs/heads/main/posts/";
+        const FETCH_TARGETS = [
+            { file: "scripts.txt", cat: "SCRIPTS" },
+            { file: "arts.txt", cat: "ARTS" },
+            { file: "others.txt", cat: "OTHERS" }
+        ];
+        
+        let allRecords = [];
+        let currentCategory = 'LATEST';
+
+        function parseTextData(text, category) {
+            const blocks = text.split(/title:\s*/i).filter(b => b.trim().length > 0);
+            
+            blocks.forEach(block => {
+                const lines = block.split('\n');
+                let title = lines[0].trim();
+                let dateStr = "";
+                let linkStr = "#";
+                let picStr = ""; 
+                
+                lines.forEach(line => {
+                    let l = line.trim().toLowerCase();
+                    if(l.startsWith('date:')) dateStr = line.substring(5).trim();
+                    if(l.startsWith('links:')) linkStr = line.substring(6).trim();
+                    if(l.startsWith('picture:')) picStr = line.substring(8).trim();
+                });
+                
+                let ts = new Date(dateStr).getTime() || 0;
+                allRecords.push({ title, cat: category, date: dateStr, link: linkStr, pic: picStr, ts });
+            });
+        }
+
+        async function initDynamicRecords() {
+            try {
+                // 3 Second Timeout Failsafe
+                const timeoutPromise = new Promise(resolve => setTimeout(resolve, 3000));
+                
+                const fetchPromises = FETCH_TARGETS.map(target => 
+                    fetch(`${BASE_URL}${target.file}?t=${new Date().getTime()}`)
+                    .then(res => {
+                        if (res.ok) return res.text();
+                        return null; 
+                    })
+                    .then(text => {
+                        if(text) parseTextData(text, target.cat);
+                    })
+                    .catch(err => console.warn(`Failed to load ${target.cat}`))
+                );
+
+                await Promise.race([Promise.all(fetchPromises), timeoutPromise]);
+
+                if(allRecords.length === 0) {
+                    allRecords = [
+                        { title: "No historical records found.", cat: "SYSTEM", date: "N/A", link: "#", pic: "", ts: 1 }
+                    ];
+                }
+                
+                renderRecords();
+            } catch (err) {
+                document.getElementById('records-container').innerHTML = `<div class="py-20 text-revOrange font-serif italic text-lg text-center drop-shadow-md">Database connection failed.</div>`;
+            }
+        }
+
+        function renderRecords() {
+            try {
+                const container = document.getElementById('records-container');
+                let filtered = currentCategory === 'LATEST' ? allRecords : allRecords.filter(r => r.cat === currentCategory);
+                filtered.sort((a, b) => b.ts - a.ts);
+                
+                // *** CHANGED TO 8 ITEMS FOR ARCHIVE PAGE ***
+                const toShow = filtered.slice(0, 8);
+
+                if(toShow.length === 0) {
+                    container.innerHTML = `<div class="py-20 text-revOffWhite text-[18px] font-serif italic text-center drop-shadow-md">No records found in this sector.</div>`;
+                    return;
+                }
+                
+                container.innerHTML = toShow.map((r) => {
+                    return `
+                    <div class="news-right-con-list group" onclick="window.location.href='${r.link}'">
+                        <div class="news-right-con-list-left">
+                            
+                            <div class="news-right-con-list-left-icon">
+                                <svg class="w-[18px] h-[18px] text-[#d36b32]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-.174.552-.377 1.09-.604 1.605m-14.862 0A10.05 10.05 0 0012 19c4.478 0 8.268-2.943 9.542-7"></path>
+                                </svg>
+                            </div>
+
+                            <div class="news-right-con-list-text-wrapper">
+                                <div class="news-right-con-list-left-type">${r.cat}</div>
+                                <div class="news-right-con-list-left-title" title="${r.title}">${r.title}</div>
+                            </div>
+
+                        </div>
+                        <div class="news-right-con-list-left-time">${r.date}</div>
+                    </div>
+                    `;
+                }).join('');
+            } catch(e) {
+                console.error("Render error", e);
+            }
+        }
+
+        function bindTabs() {
+            const tabs = document.querySelectorAll('#filter-tabs span');
+            tabs.forEach(tab => {
+                tab.addEventListener('click', (e) => {
+                    tabs.forEach(t => {
+                        t.className = "cursor-pointer hover:text-revOffWhite transition-colors border-b-2 border-transparent pb-1 text-[18px] font-serif";
+                    });
+                    
+                    e.target.className = "cursor-pointer text-revOrange transition-colors text-shadow-glow border-b-2 border-revOrange pb-1 text-[18px] font-serif";
+                    
+                    currentCategory = e.target.getAttribute('data-cat');
+                    renderRecords();
+                });
+            });
+        }
+
+        bindTabs();
+        initDynamicRecords();
+    </script>
+</body>
+</html>
