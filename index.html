@@ -40,10 +40,7 @@
         }
 
         .bg-noise { position: fixed; inset: 0; z-index: 50; opacity: 0.035; pointer-events: none; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E"); }
-        .bg-lines { position: fixed; inset: 0; z-index: -1; pointer-events: none; background-image: linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px); background-size: 25vw 25vh; background-position: center center; }
-        .diagonal-line { position: fixed; top: -50%; left: 50%; width: 1px; height: 200%; background: linear-gradient(to bottom, transparent, rgba(255,255,255,0.08), transparent); transform: rotate(45deg); z-index: -1; }
-        .diagonal-line-2 { position: fixed; top: -50%; right: 20%; width: 1px; height: 200%; background: linear-gradient(to bottom, transparent, rgba(211, 107, 50, 0.15), transparent); transform: rotate(-30deg); z-index: -1; }
-
+        
         .glow-blob { position: fixed; border-radius: 50%; filter: blur(150px); z-index: -2; opacity: 0.4; }
         .glow-orange { top: 20%; right: -10%; width: 600px; height: 600px; background: rgba(211, 107, 50, 0.2); }
         .glow-white { bottom: -10%; left: -10%; width: 500px; height: 500px; background: rgba(223, 220, 213, 0.1); }
@@ -59,31 +56,27 @@
         .animate-float { animation: float 6s ease-in-out infinite; }
         .animate-float-delayed { animation: float 7s ease-in-out 2s infinite; }
 
-        /* 隐藏内部滚动条但保留功能 */
         .hide-scroll::-webkit-scrollbar { display: none; }
         .hide-scroll { -ms-overflow-style: none; scrollbar-width: none; }
-        
-        .record-item { animation: fadeUp 0.4s ease-out forwards; }
-        @keyframes fadeUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* 核心：切页 Section 初始状态全隐 */
         .screen-section { opacity: 0; visibility: hidden; position: absolute; inset: 0; width: 100%; height: 100%; display: flex; flex-direction: column; }
         
         #dynamic-grid {
             transition: transform 0.2s cubic-bezier(0.25, 1, 0.5, 1);
             will-change: transform;
         }
+
+        .text-gradient { background: linear-gradient(135deg, #ffffff 0%, #a855f7 50%, #3b82f6 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
     </style>
 </head>
 <body>
 
     <div class="fixed inset-0 z-[-1] overflow-hidden pointer-events-none bg-revBg">
-        <div id="dynamic-bg-wrapper" class="absolute inset-[-5%] bg-cover bg-center bg-no-repeat opacity-100" 
-             style="background-image: url('resources/background.png');">
+        <div id="dynamic-grid" class="absolute inset-[-5%] bg-cover bg-center bg-no-repeat opacity-100" 
+             style="background-image: url('https://raw.githubusercontent.com/Calyndrae/calyndrae.github.io/main/resources/background.png');">
         </div>
         
-        <div class="absolute inset-0 bg-black/40"></div>
-        
+        <div class="absolute inset-0 bg-black/70"></div>
         <div class="bg-noise absolute inset-0 opacity-[0.04]"></div>
     </div>
 
@@ -93,7 +86,7 @@
                 JD<span class="text-revOrange ml-1 text-4xl">.</span>
             </a>
             <div class="hidden lg:flex space-x-10 text-xs font-sans tracking-[0.2em] text-revMuted">
-                <a href="#" class="text-revText border-b border-revOrange pb-1">HOME</a>
+                <a href="index.html" class="text-revText border-b border-revOrange pb-1">HOME</a>
                 <a href="about.html" class="hover:text-revText transition-colors">ABOUT</a>
                 <a href="projects.html" class="hover:text-revText transition-colors">PROJECTS</a>
                 <a href="posts.html" class="hover:text-white transition-colors">POSTS</a>
@@ -102,7 +95,7 @@
         <div class="flex items-center space-x-6">
             <div class="w-2 h-2 rotate-45 bg-revOrange"></div>
             <a href="contact.html" class="text-xs font-sans tracking-widest text-revText hover:text-revOrange transition-colors uppercase border border-revLine px-4 py-2 hover:bg-revText/5">
-                Initialize Connect
+                Contact
             </a>
         </div>
     </nav>
@@ -115,9 +108,9 @@
                     <div class="image-bracket-container w-full">
                         <div class="w-full h-[450px] bg-revBgLighter border border-revLine corner-cut-image overflow-hidden relative shadow-2xl shadow-black">
                             <div class="absolute inset-0 bg-revOrange/10 mix-blend-overlay z-10 group-hover:bg-transparent transition-all duration-700"></div>
-                            <img src="example.com" alt="Featured Illustration" class="w-full h-full object-cover opacity-80 group-hover:opacity-100 group-hover:scale-105 transition-all duration-700">
+                            <img src="https://images.unsplash.com/photo-1550745165-9bc0b252726f?q=80&w=1200&auto=format&fit=crop" alt="Featured Illustration" class="w-full h-full object-cover opacity-80 group-hover:opacity-100 group-hover:scale-105 transition-all duration-700">
                             <div class="absolute bottom-6 right-6 text-revOrange opacity-70">
-                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M2.458 12C3.732 7.943 7.523 5 12 c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
+                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
                             </div>
                         </div>
                     </div>
@@ -144,7 +137,7 @@
             <div class="grid grid-cols-1 lg:grid-cols-12 gap-16 w-full items-center">
                 <div class="lg:col-span-5 relative group cursor-pointer h-[400px]">
                     <div class="absolute inset-0 bg-revBgLighter border border-revLine overflow-hidden shadow-2xl image-bracket-container">
-                        <img src="example.com" alt="Latest Event" class="w-full h-full object-cover opacity-60 group-hover:opacity-90 transition-opacity duration-700 filter grayscale group-hover:grayscale-0">
+                        <img src="https://images.unsplash.com/photo-1542831371-29b0f74f9713?q=80&w=800&auto=format&fit=crop" alt="Latest Event" class="w-full h-full object-cover opacity-60 group-hover:opacity-90 transition-opacity duration-700 filter grayscale group-hover:grayscale-0">
                         <div class="absolute inset-0 bg-gradient-to-t from-revBg via-transparent to-transparent"></div>
                         <div class="absolute bottom-8 left-8 right-8 pointer-events-none">
                             <p class="font-sans text-[10px] text-revText tracking-widest uppercase mb-2">Current Pipeline</p>
@@ -184,12 +177,12 @@
                 </div>
 
                 <div class="absolute top-10 left-10 lg:left-32 group cursor-pointer animate-float">
-                    <div class="relative z-10"><div class="w-64 h-80 circle-mask overflow-hidden bg-revBgLighter shadow-2xl relative"><div class="absolute inset-0 bg-revOrange/10 mix-blend-overlay z-10 group-hover:bg-transparent transition-all duration-500"></div><img src="example.com" alt="Illustration" class="w-full h-full object-cover opacity-80 group-hover:scale-110 transition-transform duration-700"></div></div>
+                    <div class="relative z-10"><div class="w-64 h-80 circle-mask overflow-hidden bg-revBgLighter shadow-2xl relative"><div class="absolute inset-0 bg-revOrange/10 mix-blend-overlay z-10 group-hover:bg-transparent transition-all duration-500"></div><img src="https://images.unsplash.com/photo-1558591710-4b4a1ae0f04d?q=80&w=800&auto=format&fit=crop" alt="Illustration" class="w-full h-full object-cover opacity-80 group-hover:scale-110 transition-transform duration-700"></div></div>
                     <h3 class="absolute -bottom-6 -right-10 font-serif text-5xl text-revText drop-shadow-xl z-20 group-hover:text-white transition-colors"><span class="text-revOrange italic text-4xl mr-1">+</span>Illustrations</h3>
                 </div>
 
                 <div class="absolute top-0 right-10 lg:right-32 group cursor-pointer animate-float-delayed">
-                    <div class="relative z-10 image-bracket-container"><div class="w-72 h-48 bg-revBgLighter border border-revLine overflow-hidden shadow-2xl relative"><div class="absolute inset-0 bg-blue-900/10 mix-blend-overlay z-10 group-hover:bg-transparent transition-all duration-500"></div><img src="example.com" alt="Scripting" class="w-full h-full object-cover opacity-70 group-hover:scale-110 transition-transform duration-700 filter grayscale group-hover:grayscale-0"></div></div>
+                    <div class="relative z-10 image-bracket-container"><div class="w-72 h-48 bg-revBgLighter border border-revLine overflow-hidden shadow-2xl relative"><div class="absolute inset-0 bg-blue-900/10 mix-blend-overlay z-10 group-hover:bg-transparent transition-all duration-500"></div><img src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?q=80&w=800&auto=format&fit=crop" alt="Scripting" class="w-full h-full object-cover opacity-70 group-hover:scale-110 transition-transform duration-700 filter grayscale group-hover:grayscale-0"></div></div>
                     <h3 class="absolute -bottom-8 -left-12 font-serif text-5xl text-revText drop-shadow-xl z-20 group-hover:text-white transition-colors"><span class="text-revOrange italic text-4xl mr-1">+</span>Architecture</h3>
                 </div>
 
@@ -197,7 +190,7 @@
                     <div class="relative z-10">
                         <div class="w-80 h-80 bg-revBgLighter border border-revLine overflow-hidden shadow-2xl rounded-sm relative">
                             <div class="absolute inset-0 bg-revBg/40 z-10 flex items-center justify-center"><div class="w-48 h-48 rounded-full border border-revLine/30 bg-black/60 shadow-[0_0_30px_rgba(0,0,0,0.8)] flex items-center justify-center group-hover:rotate-180 transition-transform duration-1000"><div class="w-16 h-16 rounded-full bg-revBg border border-revLine/50 flex items-center justify-center"><div class="w-2 h-2 rounded-full bg-revOrange"></div></div></div></div>
-                            <img src="example.com" alt="Game Dev" class="w-full h-full object-cover opacity-50 group-hover:scale-110 transition-transform duration-700">
+                            <img src="https://images.unsplash.com/photo-1605810230434-7631ac76ec81?q=80&w=800&auto=format&fit=crop" alt="Game Dev" class="w-full h-full object-cover opacity-50 group-hover:scale-110 transition-transform duration-700">
                         </div>
                     </div>
                     <h3 class="absolute -bottom-6 left-1/2 -translate-x-1/2 w-max font-serif text-6xl text-revText drop-shadow-xl z-20 group-hover:text-white transition-colors"><span class="text-revOrange italic text-4xl mr-1">+</span>Game Dev</h3>
@@ -220,28 +213,22 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script>
-        // 1. 安全锁定与图片背景视差
-        document.addEventListener('contextmenu', e => e.preventDefault());
-        document.addEventListener('dragstart', e => e.preventDefault());
-        
-        document.addEventListener('mousemove', e => {
-            const wrapper = document.getElementById('dynamic-bg-wrapper');
-            // 【防崩溃保护】：如果找不到这个元素，立刻停止运行，防止报错
-            if (!wrapper) return; 
-            
-            // 计算位移 (轻微移动)
-            const x = (e.clientX / window.innerWidth - 0.5) * 40;
-            const y = (e.clientY / window.innerHeight - 0.5) * 40;
-            wrapper.style.transform = `translate3d(${x}px, ${y}px, 0)`;
+        // ==========================================
+        // 1. 安全锁定 & 视差背景引擎
+        // ==========================================
+        document.addEventListener('contextmenu', event => event.preventDefault());
+        document.addEventListener('dragstart', event => event.preventDefault());
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'F12' || (e.ctrlKey && e.shiftKey && e.key === 'I') || (e.metaKey && e.altKey && e.key === 'I')) { e.preventDefault(); }
+            if ((e.ctrlKey || e.metaKey) && e.key === 'u') { e.preventDefault(); }
+            if ((e.ctrlKey || e.metaKey) && e.key === 'c') { e.preventDefault(); }
         });
 
-        // 鼠标位移视差，作用于带有图片背景的 dynamic-grid
         document.addEventListener('mousemove', (e) => {
             const grid = document.getElementById('dynamic-grid');
             if (!grid) return;
             const xOffset = (e.clientX / window.innerWidth - 0.5);
             const yOffset = (e.clientY / window.innerHeight - 0.5);
-            // 微微移动，增添空间感
             grid.style.transform = `translate3d(${xOffset * 30}px, ${yOffset * 30}px, 0)`;
         });
 
@@ -278,7 +265,7 @@
             const yExit = direction === 1 ? -100 : 100;
             const yEnter = direction === 1 ? 100 : -100;
 
-            // 这里将时间从 0.85 缩减到了 0.45，速度极快，干净利落
+            // 速度极快，干净利落 (0.45s)
             gsap.to(current, {
                 y: yExit, autoAlpha: 0, duration: 0.45, ease: "power4.inOut"
             });
@@ -452,5 +439,3 @@
     </script>
 </body>
 </html>
-
-
