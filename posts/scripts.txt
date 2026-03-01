@@ -1,6 +1,6 @@
-title: example title
+title: This is an example!
 description: example description
-date: example date
-related persons: example related persons
-links: example.com
-picture: none
+date: 2026/3/1
+related persons: nah
+links: nah
+picture: https://raw.githubusercontent.com/Calyndrae/calyndrae.github.io/main/posts/postspictures/example1.png
