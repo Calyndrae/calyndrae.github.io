@@ -29,8 +29,39 @@
                 }
             }
         }
+        // ==========================================
+// 动态背景视差引擎
+// ==========================================
+document.addEventListener('mousemove', (e) => {
+    const grid = document.getElementById('dynamic-grid');
+    if (!grid) return;
+
+    // 计算鼠标偏移比例 (-0.5 到 0.5)
+    const xOffset = (e.clientX / window.innerWidth - 0.5);
+    const yOffset = (e.clientY / window.innerHeight - 0.5);
+
+    // 极其轻微的位移 (让用户感觉到深度，但不会头晕)
+    const moveX = xOffset * 30; 
+    const moveY = yOffset * 30;
+
+    // 应用变换
+    grid.style.transform = `translate3d(${moveX}px, ${moveY}px, 0)`;
+});
     </script>
     <style>
+        @keyframes pulse-slow {
+    0%, 100% { opacity: 0.3; transform: translateX(0) rotate(45deg); }
+    50% { opacity: 0.7; transform: translateX(20px) rotate(45deg); }
+}
+.animate-pulse-slow {
+    animation: pulse-slow 8s ease-in-out infinite;
+}
+
+/* 视差网格的基础样式 */
+#dynamic-grid {
+    transition: transform 0.2s cubic-bezier(0.25, 1, 0.5, 1);
+    will-change: transform;
+}
         /* 锁定页面，禁止默认滚动和选中 */
         body, html { 
             background-color: #0e0d0b; color: #dfdcd5; 
@@ -71,6 +102,24 @@
     </style>
 </head>
 <body>
+    <div class="fixed inset-0 z-[-1] overflow-hidden pointer-events-none">
+    <div class="bg-noise absolute inset-0 opacity-[0.03]"></div>
+    
+    <div id="dynamic-grid" class="absolute inset-[-10%] opacity-20" 
+         style="background-image: 
+            linear-gradient(rgba(255,255,255,0.05) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(255,255,255,0.05) 1px, transparent 1px);
+            background-size: 20vh 20vh; background-position: center center;">
+    </div>
+
+    <div class="absolute inset-0 overflow-hidden">
+        <div class="diagonal-line absolute top-[-50%] left-[40%] w-[1px] h-[200%] bg-gradient-to-b from-transparent via-revOrange/20 to-transparent rotate-[45deg] animate-pulse-slow"></div>
+        <div class="diagonal-line-2 absolute top-[-50%] right-[30%] w-[1px] h-[200%] bg-gradient-to-b from-transparent via-white/10 to-transparent rotate-[-30deg]"></div>
+    </div>
+
+    <div class="glow-blob glow-orange opacity-30"></div>
+    <div class="glow-blob glow-white opacity-10"></div>
+</div>
 
     <div class="bg-noise"></div>
     <div class="bg-lines"></div>
@@ -438,3 +487,4 @@
     </script>
 </body>
 </html>
+
