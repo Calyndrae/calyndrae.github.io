@@ -1,13 +1,36 @@
-title: This is an example!
-description: example description
-date: 2026/3/1
-related persons: nah
-links: nah
-picture: https://raw.githubusercontent.com/Calyndrae/calyndrae.github.io/main/posts/postspictures/example1.png
+title: I created westlake modern interface.
+description: no description avalable
+date: 2026.2.15
+related persons: Calyndrae
+links: 
+picture: 
 
 title: This is an example!1
 description: example description1
 date: 2026/3/1
-related persons: nah6
-links: nah6
+related persons: 
+links: 
 picture:
+
+title: This is an example!2
+description: example description2
+date: 2026/3/1
+related persons: 
+links: 
+picture:
+
+title: This is an example!3
+description: example description1
+date: 2026/3/1
+related persons: 
+links: 
+picture:
+
+title: This is an example!3
+description: example description1
+date: 2026/3/1
+related persons: 
+links: 
+picture:
+
+
