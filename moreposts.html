@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>JD | Posts</title>
+    <title>JD | Posts Archive</title>
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -41,14 +41,23 @@
             background-color: transparent; 
         }
 
-        /* --- EXACT ORIGINAL LIST STYLING FROM INDEX.HTML WITH SLIDE EFFECT --- */
+        /* --- UPGRADED CREATIVE LIST STYLING --- */
         .news-right-con-list {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 1.2rem 0; /* Exact spacing */
+            padding: 1.2rem 1rem; /* Added slight side padding for the hover background */
+            margin: 0 -1rem; /* Negative margin to keep it perfectly aligned with the header */
             border-bottom: 1px solid rgba(255, 255, 255, 0.1);
             cursor: pointer;
+            transition: background 0.4s ease;
+            border-radius: 8px; /* Soft edges for the hover gradient */
+        }
+
+        /* The elegant fade-in background on hover */
+        .news-right-con-list:hover {
+            background: linear-gradient(90deg, rgba(211,107,50,0.08) 0%, rgba(211,107,50,0.01) 50%, transparent 100%);
+            border-bottom: 1px solid rgba(211, 107, 50, 0.3);
         }
 
         .news-right-con-list-left {
@@ -59,34 +68,33 @@
             position: relative;
         }
 
-        /* Hidden Eye Icon */
         .news-right-con-list-left-icon {
             position: absolute;
             left: 0;
             top: 50%;
             transform: translateY(-50%);
             opacity: 0;
-            transition: opacity 0.3s ease;
-            display: flex;
-            align-items: center;
+            transition: opacity 0.4s ease, transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        /* Text Wrapper for Slide Effect */
         .news-right-con-list-text-wrapper {
             display: flex;
             align-items: baseline;
             flex-grow: 1;
             overflow: hidden;
             padding-left: 0;
-            transition: padding-left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: padding-left 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        /* Hover Animations */
-        .news-right-con-list:hover .news-right-con-list-left-icon { opacity: 1; }
-        .news-right-con-list:hover .news-right-con-list-text-wrapper { padding-left: 30px; }
-        .news-right-con-list:hover .news-right-con-list-left-title { color: #d36b32; }
+        /* Enhanced Hover Animations */
+        .news-right-con-list:hover .news-right-con-list-left-icon { 
+            opacity: 1; 
+            transform: translateY(-50%) scale(1.1); /* Slight pop effect */
+        }
+        .news-right-con-list:hover .news-right-con-list-text-wrapper { 
+            padding-left: 32px; 
+        }
 
-        /* Typography */
         .news-right-con-list-left-type {
             font-family: "Cormorant Garamond", serif;
             font-size: 18px; 
@@ -94,16 +102,24 @@
             letter-spacing: 0.1em;
             width: 110px; 
             flex-shrink: 0;
+            transition: letter-spacing 0.3s ease;
         }
 
         .news-right-con-list-left-title {
             font-family: "Cormorant Garamond", serif;
             font-size: 20px; 
             color: rgb(187, 168, 147); 
-            transition: color 0.3s ease;
+            transition: all 0.4s ease; /* Transition for glow and spacing */
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis; 
+        }
+
+        /* The Title Glow-Up Effect */
+        .news-right-con-list:hover .news-right-con-list-left-title { 
+            color: #d36b32; 
+            text-shadow: 0 0 15px rgba(211, 107, 50, 0.5); /* Magical Glow */
+            letter-spacing: 0.5px; /* Unlocking expansion effect */
         }
 
         .news-right-con-list-left-time {
@@ -112,6 +128,11 @@
             color: rgba(255, 255, 255, 0.4); 
             margin-left: 1rem;
             flex-shrink: 0;
+            transition: color 0.3s ease;
+        }
+        
+        .news-right-con-list:hover .news-right-con-list-left-time {
+            color: rgba(255, 255, 255, 0.7); /* Date brightens slightly */
         }
 
         /* --- UTILITIES --- */
@@ -125,6 +146,13 @@
         .animate-spin-reverse { animation: spin-slow-reverse 40s linear infinite; }
         
         .text-shadow-custom { text-shadow: 0 4px 15px rgba(0,0,0,0.9); }
+        
+        .text-partial-blur { 
+            filter: blur(0.8px); 
+            opacity: 0.95; 
+            display: inline-block; 
+            pointer-events: none; 
+        }
     </style>
 </head>
 <body>
@@ -180,7 +208,7 @@
         
         <div class="w-full max-w-[1000px] h-full flex flex-col relative">
             
-            <div class="flex items-end justify-between mb-6 w-full relative shrink-0">
+            <div class="flex items-end justify-between mb-8 w-full relative shrink-0">
                 <div class="absolute -top-16 -left-12 z-[-1] opacity-40 pointer-events-none">
                     <svg class="w-48 h-48 animate-spin-slow text-revLine/40" viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="0.5">
                         <circle cx="50" cy="50" r="45" stroke-dasharray="2 6" />
@@ -189,10 +217,22 @@
                     </svg>
                 </div>
 
-                <h2 class="font-serif text-revOffWhite text-shadow-custom flex items-baseline leading-none m-0">
-                    <span class="text-[6.5rem] leading-[0.75] font-normal drop-shadow-md">P</span>
-                    <span class="text-[2.5rem] leading-none">OSTS</span>
-                </h2>
+                <div class="news-right-head-img relative flex flex-col justify-end group cursor-default">
+                    <div class="font-mono text-[10px] tracking-[0.4em] text-revOrange/70 mb-1 flex items-center absolute -top-4 left-2">
+                        <span class="w-6 h-px bg-revOrange/70 mr-3"></span>
+                        SYS.ARCHIVE // DECRYPTED
+                    </div>
+                    
+                    <h2 class="absolute top-1 left-2 font-serif text-revOrange blur-[10px] opacity-30 flex items-baseline leading-none m-0 pointer-events-none animate-pulse">
+                        <span class="text-[6.5rem] leading-[0.75] font-normal">P</span>
+                        <span class="text-[2.5rem] leading-none">OSTS</span>
+                    </h2>
+
+                    <h2 class="font-serif text-revOffWhite text-shadow-custom flex items-baseline leading-none m-0 relative z-10">
+                        <span class="text-[6.5rem] leading-[0.75] font-normal drop-shadow-md transition-all duration-500 group-hover:text-revOrange group-hover:blur-[2px]">P</span>
+                        <span class="text-[2.5rem] leading-none transition-all duration-500">O<span class="text-partial-blur group-hover:text-revOrange group-hover:text-shadow-glow transition-all duration-500">ST</span>S</span>
+                    </h2>
+                </div>
                 
                 <div class="flex items-center space-x-6 text-[14px] font-serif tracking-[0.1em] text-revMuted border rounded-full z-10 px-8 py-2" id="filter-tabs" style="border-color: rgb(65, 59, 47); background: rgba(0, 0, 0, 0.4);">
                     <span class="cursor-pointer text-revOrange transition-colors border-b-2 border-revOrange pb-1" data-cat="LATEST">LATEST</span>
@@ -202,7 +242,7 @@
                 </div>
             </div>
 
-            <div id="records-container" class="space-y-0 w-full text-shadow-custom flex-grow overflow-y-auto hide-scroll pb-10">
+            <div id="records-container" class="space-y-0 w-full text-shadow-custom flex-grow overflow-y-auto hide-scroll pb-10 pr-2">
                 <div class="py-20 text-revOrange font-serif italic text-lg tracking-widest text-center animate-pulse">[ INITIATING FETCH PROTOCOL... ]</div>
             </div>
 
@@ -250,7 +290,6 @@
 
         async function initDynamicRecords() {
             try {
-                // 3 Second Timeout Failsafe
                 const timeoutPromise = new Promise(resolve => setTimeout(resolve, 3000));
                 
                 const fetchPromises = FETCH_TARGETS.map(target => 
@@ -285,7 +324,7 @@
                 let filtered = currentCategory === 'LATEST' ? allRecords : allRecords.filter(r => r.cat === currentCategory);
                 filtered.sort((a, b) => b.ts - a.ts);
                 
-                // *** EXACTLY 8 ITEMS SHOWN AT ONCE ***
+                // Exactly 8 items shown
                 const toShow = filtered.slice(0, 8);
 
                 if(toShow.length === 0) {
