@@ -31,7 +31,7 @@
         }
     </script>
     <style>
-        /* 锁定页面，禁止默认滚动和选中 */
+        /* Lock page, disable default scrolling and selection */
         body, html { 
             background-color: #0e0d0b; color: #dfdcd5; 
             overflow: hidden; height: 100vh; width: 100vw;
@@ -39,14 +39,31 @@
             user-select: none;
         }
 
-        .bg-noise { position: fixed; inset: 0; z-index: 50; opacity: 0.035; pointer-events: none; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E"); }
-        .bg-lines { position: fixed; inset: 0; z-index: -1; pointer-events: none; background-image: linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px); background-size: 25vw 25vh; background-position: center center; }
-        .diagonal-line { position: fixed; top: -50%; left: 50%; width: 1px; height: 200%; background: linear-gradient(to bottom, transparent, rgba(255,255,255,0.08), transparent); transform: rotate(45deg); z-index: -1; }
-        .diagonal-line-2 { position: fixed; top: -50%; right: 20%; width: 1px; height: 200%; background: linear-gradient(to bottom, transparent, rgba(211, 107, 50, 0.15), transparent); transform: rotate(-30deg); z-index: -1; }
+        /* Dynamic Image Background Parallax Wrapper */
+        #dynamic-bg-wrapper {
+            position: absolute;
+            inset: -5%; /* Slightly larger than screen to allow for parallax movement */
+            transition: transform 0.2s cubic-bezier(0.25, 1, 0.5, 1);
+            will-change: transform;
+            z-index: -10;
+        }
 
-        .glow-blob { position: fixed; border-radius: 50%; filter: blur(150px); z-index: -2; opacity: 0.4; }
-        .glow-orange { top: 20%; right: -10%; width: 600px; height: 600px; background: rgba(211, 107, 50, 0.2); }
-        .glow-white { bottom: -10%; left: -10%; width: 500px; height: 500px; background: rgba(223, 220, 213, 0.1); }
+        /* Film Grain Overlay */
+        .bg-noise { 
+            position: fixed; inset: 0; z-index: -5; opacity: 0.035; pointer-events: none; 
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E"); 
+        }
+
+        /* Glass Cards */
+        .glass-card {
+            background: linear-gradient(145deg, rgba(255,255,255,0.03) 0%, rgba(255,255,255,0.01) 100%);
+            border: 1px solid var(--revLine);
+            box-shadow: inset 0 1px 0 rgba(255,255,255,0.05), 0 20px 40px -10px rgba(0,0,0,0.5);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+        .glass-card:hover { transform: translateY(-6px) scale(1.01); border-color: rgba(255,255,255,0.15); box-shadow: 0 30px 50px -15px rgba(0,0,0,0.7); }
 
         .image-bracket-container { position: relative; display: inline-block; }
         .image-bracket-container::before { content: ''; position: absolute; top: -10px; left: -10px; width: 40px; height: 40px; border-top: 1px solid var(--revText); border-left: 1px solid var(--revText); opacity: 0.5; z-index: 10; }
@@ -59,33 +76,39 @@
         .animate-float { animation: float 6s ease-in-out infinite; }
         .animate-float-delayed { animation: float 7s ease-in-out 2s infinite; }
 
-        /* 隐藏内部滚动条但保留功能 */
         .hide-scroll::-webkit-scrollbar { display: none; }
         .hide-scroll { -ms-overflow-style: none; scrollbar-width: none; }
         
         .record-item { animation: fadeUp 0.4s ease-out forwards; }
         @keyframes fadeUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
 
-        /* 核心：切页 Section 初始状态全隐 */
+        /* Section Setup */
         .screen-section { opacity: 0; visibility: hidden; position: absolute; inset: 0; width: 100%; height: 100%; display: flex; flex-direction: column; }
+
+        .text-gradient { background: linear-gradient(135deg, #ffffff 0%, #a855f7 50%, #3b82f6 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
     </style>
 </head>
-<body>
+<body class="relative">
 
-    <div class="bg-noise"></div>
-    <div class="bg-lines"></div>
-    <div class="diagonal-line"></div>
-    <div class="diagonal-line-2"></div>
-    <div class="glow-blob glow-orange"></div>
-    <div class="glow-blob glow-white"></div>
+    <div class="fixed inset-0 z-[-1] overflow-hidden pointer-events-none bg-revBg">
+        <div id="dynamic-bg-wrapper">
+            <img src="https://raw.githubusercontent.com/Calyndrae/calyndrae.github.io/main/resources/background.png" 
+                 alt="Background" 
+                 class="w-full h-full object-cover opacity-60">
+        </div>
+        
+        <div class="absolute inset-0 bg-gradient-to-b from-revBg/40 via-transparent to-revBg/80"></div>
+        
+        <div class="bg-noise"></div>
+    </div>
 
-    <nav class="fixed top-0 w-full z-50 px-10 py-6 flex justify-between items-center backdrop-blur-sm bg-revBg/70 border-b border-revLine">
+    <nav class="fixed top-0 w-full z-50 px-10 py-6 flex justify-between items-center backdrop-blur-md bg-revBg/70 border-b border-revLine">
         <div class="flex items-center space-x-12">
             <a href="index.html" class="text-3xl font-serif tracking-widest text-revText flex items-center">
                 JD<span class="text-revOrange ml-1 text-4xl">.</span>
             </a>
             <div class="hidden lg:flex space-x-10 text-xs font-sans tracking-[0.2em] text-revMuted">
-                <a href="#" class="text-revText border-b border-revOrange pb-1">HOME</a>
+                <a href="index.html" class="text-revText border-b border-revOrange pb-1">HOME</a>
                 <a href="about.html" class="hover:text-revText transition-colors">ABOUT</a>
                 <a href="projects.html" class="hover:text-revText transition-colors">PROJECTS</a>
                 <a href="posts.html" class="hover:text-white transition-colors">POSTS</a>
@@ -94,347 +117,248 @@
         <div class="flex items-center space-x-6">
             <div class="w-2 h-2 rotate-45 bg-revOrange"></div>
             <a href="contact.html" class="text-xs font-sans tracking-widest text-revText hover:text-revOrange transition-colors uppercase border border-revLine px-4 py-2 hover:bg-revText/5">
-                Initialize Connect
+                Contact
             </a>
         </div>
     </nav>
 
-    <main id="fullpage-wrapper" class="relative w-full h-full pt-28 pb-10">
+    <main id="fullpage-wrapper" class="relative w-full h-full pt-28">
 
-        <section class="screen-section justify-center max-w-[1600px] mx-auto px-10">
+        <section class="screen-section justify-center max-w-[1440px] mx-auto px-10">
             <div class="grid grid-cols-1 lg:grid-cols-12 gap-16 items-center w-full">
                 <div class="lg:col-span-7 relative group cursor-pointer">
                     <div class="image-bracket-container w-full">
                         <div class="w-full h-[450px] bg-revBgLighter border border-revLine corner-cut-image overflow-hidden relative shadow-2xl shadow-black">
                             <div class="absolute inset-0 bg-revOrange/10 mix-blend-overlay z-10 group-hover:bg-transparent transition-all duration-700"></div>
-                            <img src="example.com" alt="Featured Illustration" class="w-full h-full object-cover opacity-80 group-hover:opacity-100 group-hover:scale-105 transition-all duration-700">
-                            <div class="absolute bottom-6 right-6 text-revOrange opacity-70">
-                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
-                            </div>
+                            <img src="example.com" alt="Showcase" class="w-full h-full object-cover opacity-80 group-hover:opacity-100 group-hover:scale-105 transition-all duration-700">
                         </div>
                     </div>
                 </div>
-
-                <div class="lg:col-span-5 flex flex-col justify-center relative">
-                    <div class="absolute -top-20 -left-10 text-9xl font-serif text-white opacity-[0.02] pointer-events-none">01</div>
+                <div class="lg:col-span-5 flex flex-col justify-center">
                     <div class="flex items-center space-x-4 mb-6">
                         <div class="w-8 h-px bg-revOrange"></div>
                         <span class="text-revOrange font-sans text-xs tracking-[0.3em] uppercase">Multi-Disciplinary Creator</span>
                     </div>
-                    <h1 class="text-5xl md:text-7xl font-serif text-revText mb-8 leading-[1.1]">
-                        Visuals &<br>Underlying<br><span class="italic text-revMuted">Logic.</span>
-                    </h1>
-                    <div class="space-y-6 text-revMuted font-sans text-sm leading-relaxed max-w-md pl-4 border-l border-revLine">
-                        <p>I am a creator bridging the gap between artistic expression and technical execution. With 5 years of experience focused on game illustrations, anime, and UI design.</p>
-                        <p>Simultaneously, I am a full-stack scripter and game developer, engineering complex datapacks and commanding Tier 4 PVP combat.</p>
-                    </div>
+                    <h1 class="text-6xl font-serif text-revText mb-8 leading-[1.1]">Visuals &<br>Underlying<br><span class="italic text-revMuted">Logic.</span></h1>
+                    <p class="text-revMuted font-sans text-sm leading-relaxed max-w-md border-l border-revLine pl-4">
+                        5 年插画经验，深耕游戏插画与 UI。同时作为硬核脚本家，精通 React 与 Minecraft 底层数据包开发。
+                    </p>
                 </div>
             </div>
         </section>
 
-        <section class="screen-section justify-center max-w-[1600px] mx-auto px-10">
+        <section class="screen-section justify-center max-w-[1440px] mx-auto px-10">
             <div class="grid grid-cols-1 lg:grid-cols-12 gap-16 w-full items-center">
-                <div class="lg:col-span-5 relative group cursor-pointer h-[400px]">
+                <div class="lg:col-span-5 relative group h-[400px]">
                     <div class="absolute inset-0 bg-revBgLighter border border-revLine overflow-hidden shadow-2xl image-bracket-container">
-                        <img src="example.com" alt="Latest Event" class="w-full h-full object-cover opacity-60 group-hover:opacity-90 transition-opacity duration-700 filter grayscale group-hover:grayscale-0">
-                        <div class="absolute inset-0 bg-gradient-to-t from-revBg via-transparent to-transparent"></div>
-                        <div class="absolute bottom-8 left-8 right-8 pointer-events-none">
-                            <p class="font-sans text-[10px] text-revText tracking-widest uppercase mb-2">Current Pipeline</p>
-                            <h3 class="font-serif text-3xl text-white mb-2">Technical & Combat<br><span class="italic text-revOrange">Progression</span></h3>
-                            <div class="flex space-x-2 mt-4"><div class="w-2 h-2 rotate-45 bg-revOrange"></div><div class="w-2 h-2 rotate-45 bg-revOrange opacity-50"></div></div>
+                        <img src="example.com" alt="Pipeline" class="w-full h-full object-cover opacity-50">
+                        <div class="absolute inset-0 bg-gradient-to-t from-revBg to-transparent"></div>
+                        <div class="absolute bottom-8 left-8">
+                            <h3 class="font-serif text-3xl text-white">Technical<br><span class="italic text-revOrange">Progression</span></h3>
                         </div>
                     </div>
                 </div>
-
-                <div class="lg:col-span-7 flex flex-col justify-center max-h-[80vh]">
-                    <div class="flex items-end mb-8 border-b border-revLine pb-4 relative">
+                <div class="lg:col-span-7 flex flex-col">
+                    <div class="flex items-end mb-8 border-b border-revLine pb-4">
                         <h2 class="font-serif text-5xl text-revText mr-8">Updates</h2>
                         <div class="flex space-x-6 text-xs font-sans tracking-[0.2em] text-revMuted pb-2" id="filter-tabs">
-                            <span class="cursor-pointer transition-colors pb-1 text-revOrange border-b border-revOrange" data-cat="LATEST">LATEST</span>
-                            <span class="cursor-pointer hover:text-revText transition-colors pb-1" data-cat="DEVELOPMENT">DEVELOPMENT</span>
-                            <span class="cursor-pointer hover:text-revText transition-colors pb-1" data-cat="ARTWORK">ARTWORK</span>
+                            <span class="cursor-pointer transition-colors text-revOrange border-b border-revOrange" data-cat="LATEST">LATEST</span>
+                            <span class="cursor-pointer hover:text-revText transition-colors" data-cat="DEVELOPMENT">DEVELOPMENT</span>
+                            <span class="cursor-pointer hover:text-revText transition-colors" data-cat="ARTWORK">ARTWORK</span>
                         </div>
                     </div>
-
                     <div id="records-container" class="can-scroll space-y-0 max-h-[45vh] overflow-y-auto hide-scroll pr-4">
                         <div class="py-10 text-center text-revOrange font-mono text-xs tracking-widest animate-pulse">[ FETCHING SECURE LOGS... ]</div>
                     </div>
-                    
-                    <div class="pt-6 text-center shrink-0">
-                        <button id="btn-more-records" class="hidden border border-revLine px-8 py-3 text-xs font-sans tracking-[0.2em] text-revText hover:bg-revText hover:text-revBg transition-colors rounded-full uppercase">
-                            MORE RECORDS
-                        </button>
+                    <div class="pt-6 text-center">
+                        <button id="btn-more-records" class="hidden border border-revLine px-8 py-3 text-xs font-sans tracking-[0.2em] text-revText hover:bg-revText hover:text-revBg transition-all rounded-full uppercase">MORE RECORDS</button>
                     </div>
                 </div>
             </div>
         </section>
 
-        <section class="screen-section max-w-[1600px] mx-auto px-10 flex flex-col justify-between pt-10 pb-0">
-            <div class="flex-grow relative w-full h-full mt-10">
-                <div class="absolute top-20 left-1/2 -translate-x-1/2 text-center pointer-events-none opacity-40 text-[9px] font-sans tracking-[0.3em] uppercase text-revMuted">
-                    <p>Merging the artistic vision</p><p>with uncompromising backend logic.</p>
-                </div>
+        <section class="screen-section justify-center max-w-[1200px] mx-auto px-10">
+            <header class="mb-16 text-center">
+                <div class="px-3 py-1 rounded-full border border-accentBlue/30 bg-accentBlue/10 text-accentBlue text-[10px] font-bold uppercase tracking-widest w-max mb-6 mx-auto">Access Point</div>
+                <h1 class="text-5xl md:text-7xl font-extrabold tracking-tight mb-6">Initiate <span class="text-gradient">Connection.</span></h1>
+            </header>
 
-                <div class="absolute top-10 left-10 lg:left-32 group cursor-pointer animate-float">
-                    <div class="relative z-10"><div class="w-64 h-80 circle-mask overflow-hidden bg-revBgLighter shadow-2xl relative"><div class="absolute inset-0 bg-revOrange/10 mix-blend-overlay z-10 group-hover:bg-transparent transition-all duration-500"></div><img src="example.com" alt="Illustration" class="w-full h-full object-cover opacity-80 group-hover:scale-110 transition-transform duration-700"></div></div>
-                    <h3 class="absolute -bottom-6 -right-10 font-serif text-5xl text-revText drop-shadow-xl z-20 group-hover:text-white transition-colors"><span class="text-revOrange italic text-4xl mr-1">+</span>Illustrations</h3>
-                </div>
-
-                <div class="absolute top-0 right-10 lg:right-32 group cursor-pointer animate-float-delayed">
-                    <div class="relative z-10 image-bracket-container"><div class="w-72 h-48 bg-revBgLighter border border-revLine overflow-hidden shadow-2xl relative"><div class="absolute inset-0 bg-blue-900/10 mix-blend-overlay z-10 group-hover:bg-transparent transition-all duration-500"></div><img src="example.com" alt="Scripting" class="w-full h-full object-cover opacity-70 group-hover:scale-110 transition-transform duration-700 filter grayscale group-hover:grayscale-0"></div></div>
-                    <h3 class="absolute -bottom-8 -left-12 font-serif text-5xl text-revText drop-shadow-xl z-20 group-hover:text-white transition-colors"><span class="text-revOrange italic text-4xl mr-1">+</span>Architecture</h3>
-                </div>
-
-                <div class="absolute bottom-20 left-1/2 -translate-x-1/2 group cursor-pointer animate-float">
-                    <div class="relative z-10">
-                        <div class="w-80 h-80 bg-revBgLighter border border-revLine overflow-hidden shadow-2xl rounded-sm relative">
-                            <div class="absolute inset-0 bg-revBg/40 z-10 flex items-center justify-center"><div class="w-48 h-48 rounded-full border border-revLine/30 bg-black/60 shadow-[0_0_30px_rgba(0,0,0,0.8)] flex items-center justify-center group-hover:rotate-180 transition-transform duration-1000"><div class="w-16 h-16 rounded-full bg-revBg border border-revLine/50 flex items-center justify-center"><div class="w-2 h-2 rounded-full bg-revOrange"></div></div></div></div>
-                            <img src="example.com" alt="Game Dev" class="w-full h-full object-cover opacity-50 group-hover:scale-110 transition-transform duration-700">
-                        </div>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 w-full">
+                <a href="mailto:hello@example.com" class="glass-card rounded-[2.5rem] p-10 flex flex-col items-center justify-center text-center group cursor-pointer h-[260px]">
+                    <div class="w-16 h-16 rounded-full bg-white/5 border border-revLine flex items-center justify-center group-hover:bg-accentPurple/20 transition-colors mb-6">
+                        <svg class="w-7 h-7 text-revMuted group-hover:text-accentPurple transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
                     </div>
-                    <h3 class="absolute -bottom-6 left-1/2 -translate-x-1/2 w-max font-serif text-6xl text-revText drop-shadow-xl z-20 group-hover:text-white transition-colors"><span class="text-revOrange italic text-4xl mr-1">+</span>Game Dev</h3>
+                    <p class="text-[10px] font-mono text-revMuted uppercase tracking-widest mb-3">Direct Mail</p>
+                    <h4 class="text-lg font-bold text-white group-hover:text-accentPurple transition-colors">hello@example.com</h4>
+                </a>
+
+                <div class="glass-card rounded-[2.5rem] p-10 flex flex-col items-center justify-center text-center group cursor-default h-[260px]">
+                    <div class="w-16 h-16 rounded-full bg-white/5 border border-revLine flex items-center justify-center group-hover:bg-[#5865F2]/20 transition-colors mb-6">
+                        <svg class="w-7 h-7 text-revMuted group-hover:text-[#5865F2] transition-colors" fill="currentColor" viewBox="0 0 24 24"><path d="M20.317 4.3698a19.7913 19.7913 0 00-4.8851-1.5152.0741.0741 0 00-.0785.0371c-.211.3753-.4447.8648-.6083 1.2495-1.8447-.2762-3.68-.2762-5.4868 0-.1636-.3933-.4058-.8742-.6177-1.2495a.077.077 0 00-.0785-.037 19.7363 19.7363 0 00-4.8852 1.515.0699.0699 0 00-.0321.0277C.5334 9.0458-.319 13.5799.0992 18.0578a.0824.0824 0 00.0312.0561c2.0528 1.5076 4.0413 2.4228 5.9929 3.0294a.0777.0777 0 00.0842-.0276c.4616-.6304.8731-1.2952 1.226-1.9942a.076.076 0 00-.0416-.1057c-.6528-.2476-1.2743-.5495-1.8722-.8923a.077.077 0 01-.0076-.1277c.1258-.0943.2517-.1923.3718-.2914a.0743.0743 0 01.0776-.0105c3.9278 1.7933 8.18 1.7933 12.0614 0a.0739.0739 0 01.0785.0095c.1202.099.246.1981.3728.2924a.077.077 0 01-.0066.1276 12.2986 12.2986 0 01-1.873.8914.0766.0766 0 00-.0407.1067c.3604.698.7719 1.3628 1.225 1.9932a.076.076 0 00.0842.0286c1.961-.6067 3.9495-1.5219 6.0023-3.0294a.077.077 0 00.0313-.0552c.5004-5.177-.8382-9.6739-3.5485-13.6604a.061.061 0 00-.0312-.0286zM8.02 15.3312c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9555-2.4189 2.157-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.9555 2.4189-2.1569 2.4189zm7.9748 0c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9554-2.4189 2.1569-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.946 2.4189-2.1568 2.4189z"/></svg>
+                    </div>
+                    <p class="text-[10px] font-mono text-revMuted uppercase tracking-widest mb-3">Encrypted Chat</p>
+                    <h4 class="text-lg font-bold text-white group-hover:text-[#5865F2] transition-colors">JD#0000</h4>
+                </div>
+
+                <div id="wechat-trigger" class="glass-card rounded-[2.5rem] p-10 flex flex-col items-center justify-center text-center group cursor-pointer h-[260px]">
+                    <div class="w-16 h-16 rounded-full bg-white/5 border border-revLine flex items-center justify-center group-hover:bg-[#07C160]/20 transition-colors mb-6">
+                        <svg class="w-7 h-7 text-revMuted group-hover:text-[#07C160] transition-colors" fill="currentColor" viewBox="0 0 24 24"><path d="M8.28 2.1c-3.8 0-6.88 2.58-6.88 5.76 0 1.8 1.01 3.4 2.59 4.45-.19.6-.58 1.83-.6 1.9-.03.1.06.13.14.08.1-.06 2-.99 2.4-1.2 1.94 1.14 5.39.85 6.64.44 2.21-2.4 2.16-6.07-.3-8.15-1.07-.9-2.48-1.42-3.99-1.42zm7.32 7.02c-.17 0-.32.02-.48.04-2.31.25-4.14 2.12-4.14 4.44 0 2.47 2.37 4.48 5.3 4.48.97 0 1.88-.23 2.68-.64l1.64.82c.06.03.11.01.1-.05-.01-.05-.28-.86-.4-1.3.15-.1.3-.2.43-.32 1.05-.88 1.72-2.12 1.72-3.48 0-2.48-2.37-4.49-5.3-4.49zM6.16 5.56c.4 0 .72.33.72.73s-.32.73-.72.73c-.4 0-.72-.33-.72-.73s.32-.73.72-.73zm4.24 0c.4 0 .72.33.72.73s-.32.73-.72.73c-.4 0-.72-.33-.72-.73s.32-.73.72-.73zm3.76 5.32c.3 0 .54.24.54.54s-.24.54-.54.54-.54-.24-.54-.54.24-.54.54-.54zm2.96 0c.3 0 .54.24.54.54s-.24.54-.54.54-.54-.24-.54-.54.24-.54.54-.54z"/></svg>
+                    </div>
+                    <p class="text-[10px] font-mono text-revMuted uppercase tracking-widest mb-3">Scan to Connect</p>
+                    <h4 class="text-lg font-bold text-white group-hover:text-[#07C160] transition-colors">WeChat</h4>
                 </div>
             </div>
-
-            <footer class="w-full py-6 border-t border-revLine flex justify-between items-center text-[9px] font-sans tracking-[0.2em] text-revMuted uppercase shrink-0">
-                <div class="flex items-center space-x-2"><span class="text-revOrange">JD PORTFOLIO</span><span class="w-4 h-px bg-revLine"></span><span>Est. 2021</span></div>
-                <div class="flex items-center space-x-8"><div class="flex items-center space-x-2"><div class="w-1.5 h-1.5 rotate-45 bg-revOrange"></div><span>01</span></div><span>THE LOGIC IS COMING</span></div>
-            </footer>
         </section>
 
     </main>
 
-    <div class="fixed right-6 top-1/2 -translate-y-1/2 flex flex-col space-y-3 z-50">
-        <button class="nav-dot w-2 h-2 rounded-full border border-revOrange bg-revOrange transition-all"></button>
-        <button class="nav-dot w-2 h-2 rounded-full border border-revLine bg-transparent hover:border-revText transition-all"></button>
-        <button class="nav-dot w-2 h-2 rounded-full border border-revLine bg-transparent hover:border-revText transition-all"></button>
+    <div id="wechat-modal" class="fixed inset-0 z-[60] hidden flex-col items-center justify-center bg-revBg/90 backdrop-blur-3xl opacity-0">
+        <button id="close-wechat" class="absolute top-8 right-8 w-12 h-12 bg-white/10 rounded-full flex items-center justify-center hover:bg-white/20 transition-all">
+            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+        </button>
+        <div class="glass-card rounded-[2rem] p-10 flex flex-col items-center max-w-sm w-full mx-4">
+            <div class="w-48 h-48 bg-white rounded-xl mb-8 p-3 flex items-center justify-center shadow-[0_0_40px_rgba(7,193,96,0.3)]">
+                <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=WeChatID_JD" alt="QR" class="w-full h-full object-contain">
+            </div>
+            <h3 class="text-2xl font-bold text-white mb-2">JD_WECHAT</h3>
+            <p class="text-revMuted text-sm uppercase tracking-widest">Scan via WeChat</p>
+        </div>
+    </div>
+
+    <div class="fixed right-8 top-1/2 -translate-y-1/2 flex flex-col space-y-4 z-50">
+        <button class="nav-dot w-1.5 h-1.5 rounded-full bg-revOrange ring-4 ring-revOrange/20"></button>
+        <button class="nav-dot w-1.5 h-1.5 rounded-full bg-revLine hover:bg-revText transition-colors"></button>
+        <button class="nav-dot w-1.5 h-1.5 rounded-full bg-revLine hover:bg-revText transition-colors"></button>
     </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script>
-        // ==========================================
-        // 1. 安全锁定
-        // ==========================================
-        document.addEventListener('contextmenu', event => event.preventDefault());
-        document.addEventListener('dragstart', event => event.preventDefault());
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'F12' || (e.ctrlKey && e.shiftKey && e.key === 'I') || (e.metaKey && e.altKey && e.key === 'I')) { e.preventDefault(); }
-            if ((e.ctrlKey || e.metaKey) && e.key === 'u') { e.preventDefault(); }
-            if ((e.ctrlKey || e.metaKey) && e.key === 'c') { e.preventDefault(); }
+        // 1. 安全锁定与图片背景视差
+        document.addEventListener('contextmenu', e => e.preventDefault());
+        document.addEventListener('dragstart', e => e.preventDefault());
+        
+        document.addEventListener('mousemove', e => {
+            const wrapper = document.getElementById('dynamic-bg-wrapper');
+            // Calculate movement (subtle shift to avoid motion sickness)
+            const x = (e.clientX / window.innerWidth - 0.5) * 40;
+            const y = (e.clientY / window.innerHeight - 0.5) * 40;
+            wrapper.style.transform = `translate3d(${x}px, ${y}px, 0)`;
         });
 
-        // ==========================================
-        // 2. 全屏滑动引擎 (Full-Page Snap Engine)
-        // ==========================================
+        // 2. 全屏切页引擎 (Faster: 0.6s)
         const sections = document.querySelectorAll('.screen-section');
         const navDots = document.querySelectorAll('.nav-dot');
-        let currentSection = 0;
-        let isAnimating = false;
+        let currentS = 0;
+        let isA = false;
+        // Animation Duration variable for easy tweaking
+        const ANIM_DURATION = 0.6; 
 
-        // 初始化：只显示第一页
         gsap.set(sections, { autoAlpha: 0, y: 100 });
         gsap.set(sections[0], { autoAlpha: 1, y: 0 });
 
-        function updateDots(index) {
-            navDots.forEach((dot, i) => {
-                if (i === index) {
-                    dot.classList.replace('border-revLine', 'border-revOrange');
-                    dot.classList.replace('bg-transparent', 'bg-revOrange');
-                } else {
-                    dot.classList.replace('border-revOrange', 'border-revLine');
-                    dot.classList.replace('bg-revOrange', 'bg-transparent');
-                }
+        function gotoS(index, dir) {
+            if (index < 0 || index >= sections.length || isA) return;
+            isA = true;
+            gsap.to(sections[currentS], { y: dir === 1 ? -100 : 100, autoAlpha: 0, duration: ANIM_DURATION, ease: "power3.inOut" });
+            gsap.fromTo(sections[index], { y: dir === 1 ? 100 : -100, autoAlpha: 0 }, {
+                y: 0, autoAlpha: 1, duration: ANIM_DURATION, ease: "power3.inOut",
+                onComplete: () => { currentS = index; isA = false; updateDots(); }
             });
         }
 
-        function gotoSection(index, direction) {
-            if (index < 0 || index >= sections.length || isAnimating) return;
-            isAnimating = true;
-
-            const current = sections[currentSection];
-            const next = sections[index];
-
-            // 核心交互：往下滑时，当前页向上飞出(-100)，下一页从下方飞入(100)
-            const yExit = direction === 1 ? -100 : 100;
-            const yEnter = direction === 1 ? 100 : -100;
-
-            // 飞出动画
-            gsap.to(current, {
-                y: yExit, autoAlpha: 0, duration: 0.85, ease: "power4.inOut"
+        function updateDots() {
+            navDots.forEach((d, i) => {
+                d.className = i === currentS ? "nav-dot w-1.5 h-1.5 rounded-full bg-revOrange ring-4 ring-revOrange/20" : "nav-dot w-1.5 h-1.5 rounded-full bg-revLine hover:bg-revText transition-colors";
             });
-
-            // 飞入动画
-            gsap.fromTo(next, 
-                { y: yEnter, autoAlpha: 0 },
-                {
-                    y: 0, autoAlpha: 1, duration: 0.85, ease: "power4.inOut",
-                    onComplete: () => {
-                        currentSection = index;
-                        updateDots(currentSection);
-                        isAnimating = false;
-                    }
-                }
-            );
         }
 
-        // 监听滚轮事件
-        window.addEventListener('wheel', (e) => {
-            if (isAnimating) return;
-
-            // 内部滚动保护：如果在列表内滚动且未见底/未到顶，则不触发整页切换
-            const scrollable = e.target.closest('.can-scroll');
-            if (scrollable) {
-                const isScrollable = scrollable.scrollHeight > scrollable.clientHeight;
-                if (isScrollable) {
-                    const isAtTop = scrollable.scrollTop === 0;
-                    const isAtBottom = scrollable.scrollTop + scrollable.clientHeight >= scrollable.scrollHeight - 1;
-                    
-                    if (e.deltaY > 0 && !isAtBottom) return; // 列表内部向下滚动
-                    if (e.deltaY < 0 && !isAtTop) return;    // 列表内部向上滚动
-                }
-            }
-
-            // 触发整页切换
-            if (e.deltaY > 50) gotoSection(currentSection + 1, 1);
-            else if (e.deltaY < -50) gotoSection(currentSection - 1, -1);
-        }, { passive: false });
-
-        // 触控板与手机滑动支持
-        let touchStartY = 0;
-        window.addEventListener('touchstart', e => touchStartY = e.touches[0].clientY);
-        window.addEventListener('touchend', e => {
-            if (isAnimating) return;
-            const touchEndY = e.changedTouches[0].clientY;
-            const deltaY = touchStartY - touchEndY;
-
+        window.addEventListener('wheel', e => {
+            if (isA) return;
             const scrollable = e.target.closest('.can-scroll');
             if (scrollable && scrollable.scrollHeight > scrollable.clientHeight) {
-                const isAtTop = scrollable.scrollTop === 0;
-                const isAtBottom = scrollable.scrollTop + scrollable.clientHeight >= scrollable.scrollHeight - 1;
-                if (deltaY > 0 && !isAtBottom) return; 
-                if (deltaY < 0 && !isAtTop) return;    
+                const atBottom = scrollable.scrollTop + scrollable.clientHeight >= scrollable.scrollHeight - 1;
+                const atTop = scrollable.scrollTop === 0;
+                if (e.deltaY > 0 && !atBottom) return;
+                if (e.deltaY < 0 && !atTop) return;
             }
+            if (e.deltaY > 50) gotoS(currentS + 1, 1);
+            else if (e.deltaY < -50) gotoS(currentS - 1, -1);
+        }, { passive: false });
 
-            if (deltaY > 50) gotoSection(currentSection + 1, 1);
-            else if (deltaY < -50) gotoSection(currentSection - 1, -1);
+        navDots.forEach((d, i) => d.addEventListener('click', () => gotoS(i, i > currentS ? 1 : -1)));
+
+        // 3. WeChat Modal Logic
+        const wTrigger = document.getElementById('wechat-trigger');
+        const wModal = document.getElementById('wechat-modal');
+        const wClose = document.getElementById('close-wechat');
+
+        wTrigger.addEventListener('click', () => {
+            wModal.classList.replace('hidden', 'flex');
+            gsap.to(wModal, { opacity: 1, duration: 0.3 });
+            gsap.fromTo(wModal.querySelector('.glass-card'), { scale: 0.9, y: 20 }, { scale: 1, y: 0, duration: 0.4, ease: "expo.out" });
         });
 
-        // 允许点击右侧小圆点直接跳页
-        navDots.forEach((dot, index) => {
-            dot.addEventListener('click', () => {
-                if (index > currentSection) gotoSection(index, 1);
-                else if (index < currentSection) gotoSection(index, -1);
-            });
+        wClose.addEventListener('click', () => {
+            gsap.to(wModal, { opacity: 0, duration: 0.2, onComplete: () => wModal.classList.replace('flex', 'hidden') });
         });
 
-        // ==========================================
-        // 3. 动态数据引擎 (继承自上一版)
-        // ==========================================
+        // 4. 动态数据解析 (records.txt)
         const DB_URL = "https://raw.githubusercontent.com/Calyndrae/calyndrae.github.io/main/records/records.txt";
-        let allRecords = [];
-        let currentCategory = 'LATEST';
-        let currentLimit = 3;
-        const INITIAL_LIMIT = 3;
-        const LOAD_MORE_COUNT = 5;
+        let allR = [];
+        let curCat = 'LATEST';
+        let curLim = 3;
 
-        const FALLBACK_DATA = `
-** Tier 4 Achieved — Preparing for Tier 2/3 **\nCategory: DEVELOPMENT\nDate: 2026-03-01\nLink: posts.html
-** Published Concept Sketches **\nCategory: ARTWORK\nDate: 2026-02-28\nLink: projects.html
-** Released 1.21 Datapack **\nCategory: DEVELOPMENT\nDate: 2026-02-20\nLink: projects.html
-        `;
-
-        async function initDynamicRecords() {
+        async function initR() {
             try {
                 const res = await fetch(`${DB_URL}?t=${new Date().getTime()}`);
-                if (!res.ok) throw new Error();
                 const text = await res.text();
-                parseRecords(text.length < 10 ? FALLBACK_DATA : text);
-            } catch(e) { parseRecords(FALLBACK_DATA); }
+                parseR(text);
+            } catch(e) { /* Fallback handled gracefully if array empty */ }
         }
 
-        function parseRecords(rawText) {
-            const parts = rawText.split('**').map(s => s.trim()).filter(s => s.length > 0);
+        function parseR(raw) {
+            const parts = raw.split('**').map(s => s.trim()).filter(s => s.length > 0);
             for(let i = 0; i < parts.length; i += 2) {
                 const title = parts[i];
                 const body = parts[i+1] || "";
-                const category = (body.match(/Category:\s*(.*?)(?=\n|$)/i) || ["",""])[1].trim().toUpperCase() || "LATEST";
-                const dateStr = (body.match(/Date:\s*(.*?)(?=\n|$)/i) || ["",""])[1].trim();
-                const link = (body.match(/Link:\s*(.*)/i) || ["",""])[1].trim() || "#";
-                
-                let timestamp = 0;
-                let d = new Date(dateStr);
-                if(isNaN(d)) {
-                    const p = dateStr.split('/');
-                    if(p.length===3) d = new Date(`${p[2]}-${p[1]}-${p[0]}`);
-                }
-                if(!isNaN(d)) timestamp = d.getTime();
-                allRecords.push({ title, category, date: dateStr, link, timestamp });
+                const cat = (body.match(/Category:\s*(.*?)(?=\n|$)/i) || ["",""])[1].trim().toUpperCase();
+                const date = (body.match(/Date:\s*(.*?)(?=\n|$)/i) || ["",""])[1].trim();
+                const link = (body.match(/Link:\s*(.*)/i) || ["",""])[1].trim();
+                const ts = new Date(date).getTime() || 0;
+                allR.push({ title, cat, date, link, ts });
             }
-            bindTabs();
-            renderRecords();
+            bindT(); renderR();
         }
 
-        function renderRecords() {
-            const container = document.getElementById('records-container');
+        function renderR() {
+            const cont = document.getElementById('records-container');
             const btn = document.getElementById('btn-more-records');
-            let filtered = currentCategory === 'LATEST' ? allRecords : allRecords.filter(r => r.category === currentCategory);
-            filtered.sort((a, b) => b.timestamp - a.timestamp);
-            const toShow = filtered.slice(0, currentLimit);
-
-            if(filtered.length === 0) {
-                container.innerHTML = `<div class="py-10 text-center text-revMuted text-sm italic">No records found.</div>`;
-                btn.style.display = 'none'; return;
-            }
-
-            container.innerHTML = toShow.map((r, idx) => `
-                <a href="${r.link}" class="record-item group flex flex-col sm:flex-row sm:items-center justify-between py-6 border-b border-revLine/50 hover:bg-white/[0.02] transition-colors cursor-pointer px-4" style="animation-delay: ${idx * 0.1}s">
+            let fil = curCat === 'LATEST' ? allR : allR.filter(r => r.cat === curCat);
+            fil.sort((a,b) => b.ts - a.ts);
+            const show = fil.slice(0, curLim);
+            cont.innerHTML = show.map(r => `
+                <a href="${r.link}" class="record-item group flex items-center justify-between py-6 border-b border-revLine/50 hover:bg-white/[0.02] px-4 -mx-4 transition-colors">
                     <div class="flex items-center space-x-6">
-                        <span class="font-sans text-[10px] text-revOrange tracking-widest border border-revOrange/30 px-2 py-1">${r.category === 'LATEST' ? 'LATEST' : r.category}</span>
-                        <h4 class="font-serif text-xl text-revText group-hover:text-white transition-colors">${r.title}</h4>
+                        <span class="text-[10px] text-revOrange tracking-widest border border-revOrange/30 px-2 py-1">${r.cat}</span>
+                        <h4 class="font-serif text-xl text-revText group-hover:text-white">${r.title}</h4>
                     </div>
-                    <div class="flex items-center space-x-8 text-xs font-sans text-revMuted shrink-0">
-                        <span>${r.date}</span>
-                        <span class="group-hover:text-revOrange transition-colors flex items-center">READ MORE <svg class="w-3 h-3 ml-2 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg></span>
-                    </div>
+                    <span class="text-xs font-sans text-revMuted shrink-0">${r.date}</span>
                 </a>
             `).join('');
-
-            if (filtered.length <= INITIAL_LIMIT) {
-                btn.style.display = 'none';
-            } else {
-                btn.style.display = 'inline-block';
-                if (currentLimit >= filtered.length) {
-                    btn.textContent = "COLLAPSE RECORDS";
-                    btn.onclick = () => { 
-                        currentLimit = INITIAL_LIMIT; 
-                        renderRecords(); 
-                        container.scrollTop = 0; // 重置滚动条
-                    };
-                } else {
-                    const remaining = filtered.length - currentLimit;
-                    btn.textContent = `MORE RECORDS (${Math.min(remaining, LOAD_MORE_COUNT)} LEFT)`;
-                    btn.onclick = () => { 
-                        currentLimit += LOAD_MORE_COUNT; 
-                        renderRecords(); 
-                    };
-                }
-            }
+            btn.style.display = fil.length > 3 ? 'inline-block' : 'none';
+            btn.textContent = curLim >= fil.length ? "COLLAPSE" : "MORE RECORDS";
+            btn.onclick = () => { if(curLim >= fil.length) { curLim = 3; cont.scrollTop = 0; } else { curLim += 5; } renderR(); };
         }
 
-        function bindTabs() {
-            const tabs = document.querySelectorAll('#filter-tabs span');
-            tabs.forEach(tab => {
-                tab.addEventListener('click', (e) => {
-                    tabs.forEach(t => t.className = "cursor-pointer hover:text-revText transition-colors pb-1");
-                    e.target.className = "cursor-pointer transition-colors pb-1 text-revOrange border-b border-revOrange";
-                    currentCategory = e.target.getAttribute('data-cat');
-                    currentLimit = INITIAL_LIMIT;
-                    renderRecords();
-                });
-            });
+        function bindT() {
+            document.querySelectorAll('#filter-tabs span').forEach(t => t.addEventListener('click', e => {
+                document.querySelectorAll('#filter-tabs span').forEach(x => x.className = "cursor-pointer hover:text-revText transition-colors");
+                e.target.className = "cursor-pointer transition-colors text-revOrange border-b border-revOrange";
+                curCat = e.target.getAttribute('data-cat'); curLim = 3; renderR();
+            }));
         }
 
-        initDynamicRecords();
+        initR();
     </script>
 </body>
 </html>
