@@ -4,3 +4,10 @@ date: 2026/3/1
 related persons: nah
 links: nah
 picture: https://raw.githubusercontent.com/Calyndrae/calyndrae.github.io/main/posts/postspictures/example1.png
+
+title: This is an example!1
+description: example description1
+date: 2026/3/1
+related persons: nah6
+links: nah6
+picture:
