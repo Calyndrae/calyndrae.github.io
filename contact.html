@@ -40,24 +40,9 @@
             -webkit-backdrop-filter: blur(20px);
             transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
         }
-        .glass-card:hover { transform: translateY(-4px); border-color: rgba(255,255,255,0.15); box-shadow: 0 30px 50px -15px rgba(0,0,0,0.7); }
+        .glass-card:hover { transform: translateY(-6px) scale(1.01); border-color: rgba(255,255,255,0.15); box-shadow: inset 0 1px 0 rgba(255,255,255,0.1), 0 30px 50px -15px rgba(0,0,0,0.7); }
 
         .text-gradient { background: linear-gradient(135deg, #ffffff 0%, #a855f7 50%, #3b82f6 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-
-        /* 输入框特定样式 */
-        .glass-input {
-            background: rgba(0,0,0,0.4);
-            border: 1px solid var(--borderLight);
-            transition: all 0.3s ease;
-            color: #fff;
-        }
-        .glass-input:focus {
-            outline: none;
-            border-color: var(--accentPurple);
-            background: rgba(168, 85, 247, 0.05);
-            box-shadow: 0 0 20px rgba(168, 85, 247, 0.2);
-        }
-        .glass-input::placeholder { color: #525560; }
 
         /* 隐藏元素，防止加载闪烁 */
         .gs-reveal { opacity: 0; visibility: hidden; }
@@ -94,103 +79,62 @@
         </div>
     </nav>
 
-    <main class="flex-grow max-w-[1200px] mx-auto w-full px-8 pt-40 pb-32">
+    <main class="flex-grow max-w-[1000px] mx-auto w-full px-8 pt-40 pb-32 flex flex-col items-center">
         
-        <header class="mb-16 gs-reveal text-center md:text-left">
-            <div class="px-3 py-1 rounded-full border border-accentBlue/30 bg-accentBlue/10 text-accentBlue text-[10px] font-bold uppercase tracking-widest w-max mb-6 mx-auto md:mx-0">Secure Link</div>
+        <header class="mb-20 gs-reveal text-center">
+            <div class="px-3 py-1 rounded-full border border-accentBlue/30 bg-accentBlue/10 text-accentBlue text-[10px] font-bold uppercase tracking-widest w-max mb-6 mx-auto">Secure Link</div>
             <h1 class="text-5xl md:text-7xl font-extrabold tracking-tight mb-6">
                 Initiate <span class="text-gradient">Connection.</span>
             </h1>
-            <p class="text-xl text-textMuted max-w-2xl leading-relaxed mx-auto md:mx-0">
-                有关于底层架构、网络安全演练或系统级开发的合作意向？通过安全终端建立会话。
+            <p class="text-xl text-textMuted max-w-2xl leading-relaxed mx-auto">
+                有关于底层架构、网络安全演练或系统级开发的合作意向？随时通过以下加密节点建立会话。
             </p>
         </header>
 
-        <div class="grid grid-cols-1 lg:grid-cols-12 gap-12">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 w-full">
             
-            <div class="lg:col-span-5 flex flex-col space-y-6">
-                
-                <a href="mailto:hello@example.com" class="glass-card rounded-[2rem] p-8 flex items-center group cursor-pointer gs-reveal">
-                    <div class="w-14 h-14 rounded-full bg-white/5 border border-borderLight flex items-center justify-center group-hover:bg-accentPurple/20 group-hover:border-accentPurple/50 transition-colors mr-6 shrink-0">
-                        <svg class="w-6 h-6 text-textMuted group-hover:text-accentPurple transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
-                    </div>
-                    <div>
-                        <p class="text-[10px] font-mono text-textMuted uppercase tracking-widest mb-1">Direct Mail</p>
-                        <h4 class="text-lg font-bold text-white group-hover:text-accentPurple transition-colors">hello@example.com</h4>
-                    </div>
-                </a>
-
-                <div class="glass-card rounded-[2rem] p-8 flex items-center group cursor-default gs-reveal">
-                    <div class="w-14 h-14 rounded-full bg-white/5 border border-borderLight flex items-center justify-center group-hover:bg-[#5865F2]/20 group-hover:border-[#5865F2]/50 transition-colors mr-6 shrink-0">
-                        <svg class="w-6 h-6 text-textMuted group-hover:text-[#5865F2] transition-colors" fill="currentColor" viewBox="0 0 24 24"><path d="M20.317 4.3698... (省略详细SVG, 这里使用统一标志)"/><path d="M20.317 4.3698a19.7913 19.7913 0 00-4.8851-1.5152.0741.0741 0 00-.0785.0371c-.211.3753-.4447.8648-.6083 1.2495-1.8447-.2762-3.68-.2762-5.4868 0-.1636-.3933-.4058-.8742-.6177-1.2495a.077.077 0 00-.0785-.037 19.7363 19.7363 0 00-4.8852 1.515.0699.0699 0 00-.0321.0277C.5334 9.0458-.319 13.5799.0992 18.0578a.0824.0824 0 00.0312.0561c2.0528 1.5076 4.0413 2.4228 5.9929 3.0294a.0777.0777 0 00.0842-.0276c.4616-.6304.8731-1.2952 1.226-1.9942a.076.076 0 00-.0416-.1057c-.6528-.2476-1.2743-.5495-1.8722-.8923a.077.077 0 01-.0076-.1277c.1258-.0943.2517-.1923.3718-.2914a.0743.0743 0 01.0776-.0105c3.9278 1.7933 8.18 1.7933 12.0614 0a.0739.0739 0 01.0785.0095c.1202.099.246.1981.3728.2924a.077.077 0 01-.0066.1276 12.2986 12.2986 0 01-1.873.8914.0766.0766 0 00-.0407.1067c.3604.698.7719 1.3628 1.225 1.9932a.076.076 0 00.0842.0286c1.961-.6067 3.9495-1.5219 6.0023-3.0294a.077.077 0 00.0313-.0552c.5004-5.177-.8382-9.6739-3.5485-13.6604a.061.061 0 00-.0312-.0286zM8.02 15.3312c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9555-2.4189 2.157-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.9555 2.4189-2.1569 2.4189zm7.9748 0c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9554-2.4189 2.1569-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.946 2.4189-2.1568 2.4189z"/></svg>
-                    </div>
-                    <div>
-                        <p class="text-[10px] font-mono text-textMuted uppercase tracking-widest mb-1">Encrypted Chat</p>
-                        <h4 class="text-lg font-bold text-white group-hover:text-[#5865F2] transition-colors">JD#0000</h4>
-                    </div>
+            <a href="mailto:hello@example.com" class="glass-card rounded-[2.5rem] p-10 flex flex-col items-center justify-center text-center group cursor-pointer gs-reveal">
+                <div class="w-16 h-16 rounded-full bg-white/5 border border-borderLight flex items-center justify-center group-hover:bg-accentPurple/20 group-hover:border-accentPurple/50 transition-colors mb-6 shadow-lg">
+                    <svg class="w-7 h-7 text-textMuted group-hover:text-accentPurple transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
                 </div>
+                <p class="text-[10px] font-mono text-textMuted uppercase tracking-widest mb-3">Direct Mail</p>
+                <h4 class="text-lg font-bold text-white group-hover:text-accentPurple transition-colors">hello@example.com</h4>
+            </a>
 
-                <div class="glass-card rounded-[2rem] p-8 gs-reveal h-full flex flex-col justify-between">
-                    <div>
-                        <p class="text-[10px] font-mono text-textMuted uppercase tracking-widest mb-4">System Status</p>
-                        <div class="flex items-center space-x-3 mb-3">
-                            <span class="relative flex h-3 w-3">
-                              <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#10B981] opacity-75"></span>
-                              <span class="relative inline-flex rounded-full h-3 w-3 bg-[#10B981]"></span>
-                            </span>
-                            <span class="text-sm font-bold text-white">Online & Accepting Requests</span>
-                        </div>
-                    </div>
-                    <div class="mt-8 border-t border-borderLight pt-4">
-                        <p class="text-xs font-mono text-textMuted">LAT: 0.0000</p>
-                        <p class="text-xs font-mono text-textMuted">LNG: 0.0000</p>
-                        <p class="text-xs font-bold text-accentBlue mt-1">NODE: Earth</p>
-                    </div>
+            <div class="glass-card rounded-[2.5rem] p-10 flex flex-col items-center justify-center text-center group cursor-default gs-reveal">
+                <div class="w-16 h-16 rounded-full bg-white/5 border border-borderLight flex items-center justify-center group-hover:bg-[#5865F2]/20 group-hover:border-[#5865F2]/50 transition-colors mb-6 shadow-lg">
+                    <svg class="w-7 h-7 text-textMuted group-hover:text-[#5865F2] transition-colors" fill="currentColor" viewBox="0 0 24 24"><path d="M20.317 4.3698a19.7913 19.7913 0 00-4.8851-1.5152.0741.0741 0 00-.0785.0371c-.211.3753-.4447.8648-.6083 1.2495-1.8447-.2762-3.68-.2762-5.4868 0-.1636-.3933-.4058-.8742-.6177-1.2495a.077.077 0 00-.0785-.037 19.7363 19.7363 0 00-4.8852 1.515.0699.0699 0 00-.0321.0277C.5334 9.0458-.319 13.5799.0992 18.0578a.0824.0824 0 00.0312.0561c2.0528 1.5076 4.0413 2.4228 5.9929 3.0294a.0777.0777 0 00.0842-.0276c.4616-.6304.8731-1.2952 1.226-1.9942a.076.076 0 00-.0416-.1057c-.6528-.2476-1.2743-.5495-1.8722-.8923a.077.077 0 01-.0076-.1277c.1258-.0943.2517-.1923.3718-.2914a.0743.0743 0 01.0776-.0105c3.9278 1.7933 8.18 1.7933 12.0614 0a.0739.0739 0 01.0785.0095c.1202.099.246.1981.3728.2924a.077.077 0 01-.0066.1276 12.2986 12.2986 0 01-1.873.8914.0766.0766 0 00-.0407.1067c.3604.698.7719 1.3628 1.225 1.9932a.076.076 0 00.0842.0286c1.961-.6067 3.9495-1.5219 6.0023-3.0294a.077.077 0 00.0313-.0552c.5004-5.177-.8382-9.6739-3.5485-13.6604a.061.061 0 00-.0312-.0286zM8.02 15.3312c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9555-2.4189 2.157-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.9555 2.4189-2.1569 2.4189zm7.9748 0c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9554-2.4189 2.1569-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.946 2.4189-2.1568 2.4189z"/></svg>
+                </div>
+                <p class="text-[10px] font-mono text-textMuted uppercase tracking-widest mb-3">Encrypted Chat</p>
+                <h4 class="text-lg font-bold text-white group-hover:text-[#5865F2] transition-colors">JD#0000</h4>
+            </div>
+
+            <div class="glass-card rounded-[2.5rem] p-10 flex flex-col items-center justify-center text-center gs-reveal relative overflow-hidden h-[260px]">
+                <div class="absolute inset-0 bg-gradient-to-t from-[#10B981]/5 to-transparent z-0"></div>
+                <div class="w-16 h-16 rounded-full bg-white/5 border border-borderLight flex items-center justify-center mb-6 shadow-lg z-10">
+                    <span class="relative flex h-5 w-5">
+                      <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#10B981] opacity-75"></span>
+                      <span class="relative inline-flex rounded-full h-5 w-5 bg-[#10B981]"></span>
+                    </span>
+                </div>
+                <p class="text-[10px] font-mono text-textMuted uppercase tracking-widest mb-3 z-10">System Status</p>
+                <h4 class="text-base font-bold text-white mb-4 z-10">Online & Active</h4>
+                <div class="w-full border-t border-borderLight/50 pt-4 mt-auto z-10">
+                    <p class="text-xs font-mono text-accentBlue">NODE: Earth</p>
                 </div>
             </div>
 
-            <div class="lg:col-span-7">
-                <form id="contact-form" class="glass-card rounded-[2.5rem] p-10 md:p-12 gs-reveal flex flex-col space-y-6">
-                    <div class="flex justify-between items-center mb-4">
-                        <h3 class="text-2xl font-bold text-white">Transmission Line</h3>
-                        <svg class="w-6 h-6 text-borderLight" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 11V7a4 4 0 118 0m-4 8v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2z"></path></svg>
-                    </div>
-
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <div class="flex flex-col space-y-2">
-                            <label class="text-[11px] font-mono text-textMuted uppercase tracking-widest">ID / Alias</label>
-                            <input type="text" placeholder="John Doe" class="glass-input rounded-xl px-4 py-3 text-sm" required>
-                        </div>
-                        <div class="flex flex-col space-y-2">
-                            <label class="text-[11px] font-mono text-textMuted uppercase tracking-widest">Return Address</label>
-                            <input type="email" placeholder="john@example.com" class="glass-input rounded-xl px-4 py-3 text-sm" required>
-                        </div>
-                    </div>
-
-                    <div class="flex flex-col space-y-2">
-                        <label class="text-[11px] font-mono text-textMuted uppercase tracking-widest">Payload</label>
-                        <textarea rows="5" placeholder="Enter your message sequence here..." class="glass-input rounded-xl px-4 py-3 text-sm resize-none" required></textarea>
-                    </div>
-
-                    <button id="submit-btn" type="submit" class="mt-4 w-full py-4 rounded-xl font-bold text-sm tracking-wide text-background bg-white hover:bg-transparent hover:text-white border border-white hover:border-accentPurple hover:shadow-[0_0_30px_rgba(168,85,247,0.4)] transition-all duration-300 relative overflow-hidden group">
-                        <span id="btn-text" class="relative z-10">Send Sequence</span>
-                    </button>
-                </form>
-            </div>
-            
         </div>
     </main>
 
-    <footer class="border-t border-borderLight bg-black/50 backdrop-blur-lg py-8 text-center text-xs text-textMuted mt-auto">
+    <footer class="border-t border-borderLight bg-black/50 backdrop-blur-lg py-8 text-center text-xs text-textMuted mt-auto w-full">
         <p>© 2026 JD. Engineered with precision. <a href="https://github.com" class="hover:text-white ml-2 underline decoration-white/20">GitHub</a></p>
     </footer>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
     <script>
-        // ==========================================
-        // 客户端级别环境锁定 (Client-like Lockdown)
-        // ==========================================
+        // 客户端级别环境锁定 (防复制/右键)
         document.addEventListener('contextmenu', event => event.preventDefault());
         document.addEventListener('dragstart', event => event.preventDefault());
         document.addEventListener('keydown', (e) => {
@@ -199,9 +143,7 @@
             if ((e.ctrlKey || e.metaKey) && e.key === 'c') { e.preventDefault(); }
         });
 
-        // ==========================================
         // 极速入场动画 (Snappy GSAP Engine)
-        // ==========================================
         gsap.registerPlugin(ScrollTrigger);
 
         document.addEventListener("DOMContentLoaded", () => {
@@ -215,38 +157,6 @@
                 },
                 start: "top 90%"
             });
-        });
-
-        // ==========================================
-        // 极客感“发送”反馈逻辑
-        // ==========================================
-        const form = document.getElementById('contact-form');
-        const btnText = document.getElementById('btn-text');
-        const btn = document.getElementById('submit-btn');
-
-        form.addEventListener('submit', (e) => {
-            e.preventDefault(); // 阻止页面刷新
-            
-            // 模拟发送过程的科幻 UI
-            btnText.textContent = "Transmitting...";
-            btn.classList.add('bg-transparent', 'border-accentBlue', 'text-accentBlue');
-            btn.classList.remove('bg-white', 'text-background', 'border-white');
-            
-            setTimeout(() => {
-                btnText.textContent = "Sequence Received.";
-                btn.classList.replace('border-accentBlue', 'border-accentPurple');
-                btn.classList.replace('text-accentBlue', 'text-accentPurple');
-                
-                // 清空表单
-                form.reset();
-                
-                // 3秒后恢复原状
-                setTimeout(() => {
-                    btnText.textContent = "Send Sequence";
-                    btn.classList.add('bg-white', 'text-background', 'border-white');
-                    btn.classList.remove('bg-transparent', 'border-accentPurple', 'text-accentPurple');
-                }, 3000);
-            }, 1500);
         });
 
         // 丝滑退出动画
