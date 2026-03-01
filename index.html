@@ -1,184 +1,65 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Portfolio</title>
-    
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <title>首页 | 我的主页</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
-    
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    fontFamily: { sans: ['Inter', 'sans-serif'] },
-                    colors: {
-                        dark: '#000000',
-                        light: '#f5f5f7',
-                        grayCustom: '#86868b'
-                    }
-                }
-            }
-        }
+        tailwind.config = { theme: { extend: { fontFamily: { sans: ['Inter', 'sans-serif'] }, colors: { dark: '#000000', light: '#f5f5f7', grayCustom: '#86868b' } } } }
     </script>
-
     <style>
         body { background-color: #000000; color: #f5f5f7; overflow-x: hidden; }
-        ::-webkit-scrollbar { display: none; }
-        html { scrollbar-width: none; }
-        .glass { background: rgba(0, 0, 0, 0.5); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); border-bottom: 1px solid rgba(255,255,255,0.1); }
-        .card-glass { background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.1); transition: transform 0.3s ease, background 0.3s ease; }
-        .card-glass:hover { transform: translateY(-5px) scale(1.02); background: rgba(255, 255, 255, 0.08); }
+        .glass-dock { background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.1); }
         .text-gradient { background: linear-gradient(90deg, #fff, #86868b); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
     </style>
 </head>
-<body class="antialiased selection:bg-white selection:text-black">
+<body class="antialiased selection:bg-white selection:text-black flex flex-col min-h-screen relative">
 
-    <nav class="fixed top-0 w-full z-50 glass px-6 py-4 flex justify-between items-center transition-all duration-300" id="navbar">
-        <div class="text-xl font-bold tracking-tight">JD.</div>
-        <div class="space-x-8 text-sm font-medium text-grayCustom hidden md:block">
-            <a href="#about" class="hover:text-white transition-colors">About</a>
-            <a href="#projects" class="hover:text-white transition-colors">Projects</a>
-            <a href="#posts" class="hover:text-white transition-colors">Posts</a>
-            <a href="#contact" class="hover:text-white transition-colors">Contact</a>
-        </div>
+    <main class="page-content flex-grow flex flex-col justify-center items-center text-center px-4 h-screen">
+        <h1 class="text-6xl md:text-8xl font-extrabold tracking-tighter mb-6 gs-reveal text-gradient">开发者。<br>系统架构师。<br>创作者。</h1>
+        <p class="text-xl md:text-2xl text-grayCustom max-w-2xl gs-reveal delay-100">专注于构建优雅的底层逻辑、极简的 UI 与极致的交互体验。</p>
+    </main>
+
+    <nav class="fixed bottom-8 left-1/2 transform -translate-x-1/2 z-50 glass-dock rounded-full px-6 py-4 flex items-center space-x-8 shadow-2xl transition-all">
+        <a href="index.html" class="dock-link group relative text-white scale-110 transition-all duration-300">
+            <span class="text-sm font-medium">Home</span>
+            <span class="absolute -bottom-2 left-1/2 transform -translate-x-1/2 w-1 h-1 bg-white rounded-full"></span>
+        </a>
+        <a href="about.html" class="dock-link group relative text-grayCustom hover:text-white transition-all duration-300 hover:scale-110 hover:-translate-y-1">
+            <span class="text-sm font-medium">About</span>
+            <span class="absolute -bottom-2 left-1/2 transform -translate-x-1/2 w-1 h-1 bg-white rounded-full opacity-0 group-hover:opacity-100 transition-opacity"></span>
+        </a>
+        <a href="projects.html" class="dock-link group relative text-grayCustom hover:text-white transition-all duration-300 hover:scale-110 hover:-translate-y-1">
+            <span class="text-sm font-medium">Projects</span>
+            <span class="absolute -bottom-2 left-1/2 transform -translate-x-1/2 w-1 h-1 bg-white rounded-full opacity-0 group-hover:opacity-100 transition-opacity"></span>
+        </a>
+        <a href="posts.html" class="dock-link group relative text-grayCustom hover:text-white transition-all duration-300 hover:scale-110 hover:-translate-y-1">
+            <span class="text-sm font-medium">Posts</span>
+            <span class="absolute -bottom-2 left-1/2 transform -translate-x-1/2 w-1 h-1 bg-white rounded-full opacity-0 group-hover:opacity-100 transition-opacity"></span>
+        </a>
+        <a href="contact.html" class="dock-link group relative text-grayCustom hover:text-white transition-all duration-300 hover:scale-110 hover:-translate-y-1">
+            <span class="text-sm font-medium">Contact</span>
+            <span class="absolute -bottom-2 left-1/2 transform -translate-x-1/2 w-1 h-1 bg-white rounded-full opacity-0 group-hover:opacity-100 transition-opacity"></span>
+        </a>
     </nav>
 
-    <section class="h-screen flex flex-col justify-center items-center text-center px-4">
-        <h1 class="text-6xl md:text-8xl font-extrabold tracking-tighter mb-6 gs-reveal text-gradient">Developer.<br>Designer. Creator.</h1>
-        <p class="text-xl md:text-2xl text-grayCustom max-w-2xl gs-reveal delay-100">Crafting digital experiences that feel smooth, look beautiful, and perform flawlessly.</p>
-    </section>
-
-    <section id="about" class="min-h-screen flex items-center px-6 md:px-24 py-20">
-        <div class="max-w-4xl mx-auto">
-            <h2 class="text-4xl md:text-6xl font-bold tracking-tight mb-8 gs-reveal">The Vision.</h2>
-            <p class="text-xl leading-relaxed text-grayCustom gs-reveal">
-                I believe that software should be an extension of the mind. My work focuses on bridging the gap between complex engineering and minimalist design. I build applications that don't just work—they feel right.
-            </p>
-        </div>
-    </section>
-
-    <section id="projects" class="min-h-screen px-6 md:px-24 py-20">
-        <h2 class="text-4xl md:text-6xl font-bold tracking-tight mb-16 text-center gs-reveal">Featured Work.</h2>
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-6xl mx-auto">
-            <div class="card-glass rounded-3xl p-8 h-96 flex flex-col justify-end gs-reveal gs-stagger">
-                <h3 class="text-3xl font-bold mb-2">Project Alpha</h3>
-                <p class="text-grayCustom">A seamless e-commerce experience.</p>
-            </div>
-            <div class="card-glass rounded-3xl p-8 h-96 flex flex-col justify-end gs-reveal gs-stagger">
-                <h3 class="text-3xl font-bold mb-2">Neural Net UI</h3>
-                <p class="text-grayCustom">Visualizing data intuitively.</p>
-            </div>
-            <div class="card-glass rounded-3xl p-8 h-96 flex flex-col justify-end gs-reveal gs-stagger md:col-span-2">
-                <h3 class="text-3xl font-bold mb-2">System Architecture</h3>
-                <p class="text-grayCustom">Scalable backend solutions for modern web apps.</p>
-            </div>
-        </div>
-    </section>
-
-    <section id="posts" class="min-h-screen px-6 md:px-24 py-20 flex flex-col justify-center">
-        <h2 class="text-4xl md:text-6xl font-bold tracking-tight mb-16 text-center gs-reveal">Thoughts.</h2>
-        <div class="max-w-4xl mx-auto w-full space-y-6">
-            <a href="#" class="block group gs-reveal">
-                <div class="border-b border-white/10 pb-6 transition-all hover:border-white/40 flex justify-between items-end">
-                    <div>
-                        <p class="text-sm text-grayCustom mb-2">Oct 24, 2026</p>
-                        <h3 class="text-2xl font-semibold group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-white group-hover:to-grayCustom transition-all">The Future of UI Design</h3>
-                    </div>
-                    <span class="text-grayCustom group-hover:text-white transition-colors transform group-hover:translate-x-2">→</span>
-                </div>
-            </a>
-            <a href="#" class="block group gs-reveal">
-                <div class="border-b border-white/10 pb-6 transition-all hover:border-white/40 flex justify-between items-end">
-                    <div>
-                        <p class="text-sm text-grayCustom mb-2">Sep 12, 2026</p>
-                        <h3 class="text-2xl font-semibold group-hover:text-transparent group-hover:bg-clip-text group-hover:bg-gradient-to-r group-hover:from-white group-hover:to-grayCustom transition-all">Optimizing Animation Performance</h3>
-                    </div>
-                    <span class="text-grayCustom group-hover:text-white transition-colors transform group-hover:translate-x-2">→</span>
-                </div>
-            </a>
-        </div>
-    </section>
-
-    <section id="contact" class="min-h-[70vh] flex flex-col items-center justify-center px-6 text-center">
-        <h2 class="text-5xl md:text-7xl font-bold tracking-tight mb-8 gs-reveal">Let's talk.</h2>
-        <p class="text-xl text-grayCustom mb-10 gs-reveal">Currently open for new opportunities.</p>
-        <a href="mailto:hello@example.com" class="px-8 py-4 bg-white text-black font-semibold rounded-full hover:scale-105 transition-transform duration-300 gs-reveal">hello@example.com</a>
-    </section>
-
-    <footer class="text-center py-8 text-sm text-grayCustom border-t border-white/10">
-        © 2026 JD. Built with intent.
-    </footer>
-
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/gh/studio-freight/lenis@1.0.27/bundled/lenis.min.js"></script>
-
     <script>
-        // 1. Initialize Smooth Scrolling (Lenis)
-        const lenis = new Lenis({
-            duration: 1.2,
-            easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), // Apple-like ease
-            smooth: true,
+        // 页面加载时的进入动画
+        document.addEventListener("DOMContentLoaded", () => {
+            gsap.fromTo(".gs-reveal", { y: 40, opacity: 0 }, { y: 0, opacity: 1, duration: 1.2, stagger: 0.2, ease: "power4.out" });
         });
 
-        function raf(time) {
-            lenis.raf(time);
-            requestAnimationFrame(raf);
-        }
-        requestAnimationFrame(raf);
-
-        // Connect GSAP to Lenis
-        gsap.registerPlugin(ScrollTrigger);
-        lenis.on('scroll', ScrollTrigger.update);
-        gsap.ticker.add((time)=>{ lenis.raf(time * 1000) });
-        gsap.ticker.lagSmoothing(0);
-
-        // 2. Complex Reveal Animations
-        const revealElements = document.querySelectorAll('.gs-reveal');
-        
-        revealElements.forEach((elem) => {
-            // Check if it's a staggered element (like project cards)
-            if(elem.classList.contains('gs-stagger')) {
-                // Grouping staggers handled individually via ScrollTrigger batch or manual setup
-                gsap.fromTo(elem, 
-                    { y: 80, opacity: 0, scale: 0.95 },
-                    { 
-                        y: 0, opacity: 1, scale: 1, duration: 1.2, ease: "power4.out",
-                        scrollTrigger: {
-                            trigger: elem,
-                            start: "top 85%", // Triggers when top of element hits 85% of viewport height
-                            toggleActions: "play none none reverse"
-                        }
-                    }
-                );
-            } else {
-                // Standard text/element reveal
-                gsap.fromTo(elem, 
-                    { y: 50, opacity: 0 },
-                    { 
-                        y: 0, opacity: 1, duration: 1.2, ease: "power3.out",
-                        scrollTrigger: {
-                            trigger: elem,
-                            start: "top 85%",
-                            toggleActions: "play none none reverse"
-                        }
-                    }
-                );
-            }
-        });
-
-        // 3. Navbar background change on scroll
-        const navbar = document.getElementById('navbar');
-        window.addEventListener('scroll', () => {
-            if (window.scrollY > 50) {
-                navbar.classList.add('bg-black/50');
-            } else {
-                navbar.classList.remove('bg-black/50');
-            }
+        // 点击 Dock 时的优雅淡出过渡逻辑
+        document.querySelectorAll('.dock-link').forEach(link => {
+            link.addEventListener('click', function(e) {
+                if(this.href === window.location.href) return; // 点击当前页不触发
+                e.preventDefault();
+                const targetUrl = this.href;
+                gsap.to(".page-content", { y: -20, opacity: 0, duration: 0.5, ease: "power2.inOut", onComplete: () => { window.location.href = targetUrl; } });
+            });
         });
     </script>
 </body>
