@@ -11,6 +11,7 @@
     </script>
     <style>
         body { background-color: #000000; color: #f5f5f7; overflow-x: hidden; }
+        ::-webkit-scrollbar { display: none; }
         .glass-dock { background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(20px); border: 1px solid rgba(255,255,255,0.1); }
     </style>
 </head>
@@ -20,7 +21,11 @@
         <h1 class="text-5xl md:text-7xl font-bold tracking-tight mb-16 text-center gs-reveal">极客思考。</h1>
         
         <div class="max-w-4xl mx-auto w-full space-y-8">
-            <a href="#" class="block group gs-reveal">
+            
+            <div class="block group gs-reveal cursor-pointer item-trigger"
+                 data-category="C++ / API"
+                 data-title="理解 Windows API 及其在系统监控中的应用"
+                 data-content="<p class='mb-6'>最近在深入学习 C++ 的过程中，我发现直接调用 Windows API 是理解操作系统底层运作方式的绝佳途径。尤其是当我们需要进行系统级的进程监控或快照捕获时。</p><h3 class='text-2xl font-bold text-white mt-8 mb-4'>系统快照的艺术</h3><p class='mb-4'>通过 CreateToolhelp32Snapshot 等函数，我们可以遍历当前系统中所有运行的进程和线程。这在开发自动化脚本或安全分析工具时非常有用。</p><p class='text-grayCustom border-l-2 border-white/20 pl-4 italic my-6'>'代码不只是让计算机执行命令，更是开发者与操作系统直接对话的方式。'</p>">
                 <div class="border-b border-white/10 pb-6 transition-all hover:border-white/40 flex justify-between items-end">
                     <div>
                         <p class="text-sm font-medium text-grayCustom mb-3 tracking-widest uppercase">C++ / API</p>
@@ -28,9 +33,12 @@
                     </div>
                     <span class="text-2xl text-grayCustom group-hover:text-white transition-all duration-300 transform group-hover:translate-x-3">→</span>
                 </div>
-            </a>
+            </div>
             
-            <a href="#" class="block group gs-reveal">
+            <div class="block group gs-reveal cursor-pointer item-trigger"
+                 data-category="Minecraft Tech"
+                 data-title="如何为大型地图解耦无条件重复执行的命令块逻辑"
+                 data-content="<p class='mb-6'>在之前开发数据包的尝试中，逻辑链条过于复杂常常导致各种意想不到的 Bug。因此，最近我在重构时决定采用更极简的 1.21 组件语法，并严格解耦奖励与清理逻辑。</p><h3 class='text-2xl font-bold text-white mt-8 mb-4'>EPVP 与 PVPP 的状态隔离</h3><p class='mb-4'>如果一个玩家选择进入 EPVP 或 PVPP 模式，这不应该影响到全局其他玩家的状态。所有的核心逻辑都被放在了<b>无条件重复执行 (Repeat Unconditional)</b> 的命令块中。</p><p class='mb-4'>为了实现精准判定，我使用了 <code class='bg-white/10 px-2 py-1 rounded text-sm'>zombie_dead</code> 和 <code class='bg-white/10 px-2 py-1 rounded text-sm'>game_timer</code> 两个独立的计分板分数，配合实体标签（例如 <code class='bg-white/10 px-2 py-1 rounded text-sm'>special_zombie</code>）来分离奖励触发和环境清理的判定流。这样即使服务器有延迟，逻辑也不会串联卡死。</p>">
                 <div class="border-b border-white/10 pb-6 transition-all hover:border-white/40 flex justify-between items-end">
                     <div>
                         <p class="text-sm font-medium text-grayCustom mb-3 tracking-widest uppercase">Minecraft Tech</p>
@@ -38,32 +46,34 @@
                     </div>
                     <span class="text-2xl text-grayCustom group-hover:text-white transition-all duration-300 transform group-hover:translate-x-3">→</span>
                 </div>
-            </a>
+            </div>
+
         </div>
     </main>
 
     <div id="detail-overlay" class="fixed inset-0 z-[60] hidden flex-col bg-black/60 backdrop-blur-3xl text-white overflow-y-auto">
-    <div class="max-w-4xl mx-auto w-full px-6 py-24 relative min-h-screen flex flex-col">
-        <button id="close-overlay" class="fixed top-8 right-8 w-12 h-12 bg-white/10 rounded-full flex items-center justify-center hover:bg-white/20 hover:scale-110 transition-all backdrop-blur-md z-50">
-            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
-        </button>
-        
-        <p id="overlay-category" class="text-sm font-medium text-grayCustom mb-4 tracking-widest uppercase"></p>
-        <h1 id="overlay-title" class="text-4xl md:text-6xl font-bold mb-10"></h1>
-        <div id="overlay-body" class="text-lg leading-relaxed text-grayCustom space-y-6">
-            </div>
+        <div class="max-w-4xl mx-auto w-full px-6 py-24 relative min-h-screen flex flex-col">
+            <button id="close-overlay" class="fixed top-8 right-8 w-12 h-12 bg-white/10 rounded-full flex items-center justify-center hover:bg-white/20 hover:scale-110 transition-all backdrop-blur-md z-50">
+                <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+            </button>
+            <p id="overlay-category" class="text-sm font-medium text-grayCustom mb-4 tracking-widest uppercase"></p>
+            <h1 id="overlay-title" class="text-4xl md:text-6xl font-bold mb-10"></h1>
+            <div id="overlay-body" class="text-lg leading-relaxed text-grayCustom space-y-6"></div>
+        </div>
     </div>
-</div>
-    
+
     <nav class="fixed bottom-8 left-1/2 transform -translate-x-1/2 z-50 glass-dock rounded-full px-6 py-4 flex items-center space-x-8 shadow-2xl transition-all">
         <a href="index.html" class="dock-link group relative text-grayCustom hover:text-white transition-all duration-300 hover:scale-110 hover:-translate-y-1">
             <span class="text-sm font-medium">Home</span>
+            <span class="absolute -bottom-2 left-1/2 transform -translate-x-1/2 w-1 h-1 bg-white rounded-full opacity-0 group-hover:opacity-100 transition-opacity"></span>
         </a>
         <a href="about.html" class="dock-link group relative text-grayCustom hover:text-white transition-all duration-300 hover:scale-110 hover:-translate-y-1">
             <span class="text-sm font-medium">About</span>
+            <span class="absolute -bottom-2 left-1/2 transform -translate-x-1/2 w-1 h-1 bg-white rounded-full opacity-0 group-hover:opacity-100 transition-opacity"></span>
         </a>
         <a href="projects.html" class="dock-link group relative text-grayCustom hover:text-white transition-all duration-300 hover:scale-110 hover:-translate-y-1">
             <span class="text-sm font-medium">Projects</span>
+            <span class="absolute -bottom-2 left-1/2 transform -translate-x-1/2 w-1 h-1 bg-white rounded-full opacity-0 group-hover:opacity-100 transition-opacity"></span>
         </a>
         <a href="posts.html" class="dock-link group relative text-white scale-110 transition-all duration-300">
             <span class="text-sm font-medium">Posts</span>
@@ -71,16 +81,56 @@
         </a>
         <a href="contact.html" class="dock-link group relative text-grayCustom hover:text-white transition-all duration-300 hover:scale-110 hover:-translate-y-1">
             <span class="text-sm font-medium">Contact</span>
+            <span class="absolute -bottom-2 left-1/2 transform -translate-x-1/2 w-1 h-1 bg-white rounded-full opacity-0 group-hover:opacity-100 transition-opacity"></span>
         </a>
     </nav>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script>
+        // 1. 页面加载动画和 Dock 切换动画
         document.addEventListener("DOMContentLoaded", () => { gsap.fromTo(".gs-reveal", { y: 20, opacity: 0 }, { y: 0, opacity: 1, duration: 0.8, stagger: 0.1, ease: "power2.out" }); });
         document.querySelectorAll('.dock-link').forEach(link => {
             link.addEventListener('click', function(e) {
                 if(this.href === window.location.href) return; e.preventDefault();
                 gsap.to(".page-content", { opacity: 0, duration: 0.3, onComplete: () => { window.location.href = this.href; } });
+            });
+        });
+
+        // 2. 点击展开文章覆盖层 (Overlay) 的逻辑
+        const overlay = document.getElementById('detail-overlay');
+        const closeBtn = document.getElementById('close-overlay');
+        const overlayCat = document.getElementById('overlay-category');
+        const overlayTitle = document.getElementById('overlay-title');
+        const overlayBody = document.getElementById('overlay-body');
+
+        document.querySelectorAll('.item-trigger').forEach(item => {
+            item.addEventListener('click', () => {
+                overlayCat.textContent = item.getAttribute('data-category');
+                overlayTitle.textContent = item.getAttribute('data-title');
+                overlayBody.innerHTML = item.getAttribute('data-content');
+                
+                overlay.classList.remove('hidden');
+                overlay.classList.add('flex');
+                document.body.style.overflow = 'hidden'; 
+                
+                gsap.fromTo(overlay, 
+                    { y: "100%", opacity: 0 }, 
+                    { y: "0%", opacity: 1, duration: 0.6, ease: "power4.out" }
+                );
+            });
+        });
+
+        // 3. 关闭覆盖层逻辑
+        closeBtn.addEventListener('click', () => {
+            gsap.to(overlay, { 
+                y: "100%", opacity: 0, duration: 0.4, ease: "power3.in", 
+                onComplete: () => {
+                    overlay.classList.add('hidden');
+                    overlay.classList.remove('flex');
+                    document.body.style.overflow = ''; 
+                    overlayTitle.textContent = '';
+                    overlayBody.innerHTML = '';
+                } 
             });
         });
     </script>
