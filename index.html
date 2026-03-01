@@ -7,7 +7,7 @@
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,400;1,600&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
     
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -36,225 +36,270 @@
             overflow: hidden; height: 100vh; width: 100vw;
             -webkit-font-smoothing: antialiased; 
             user-select: none;
-            /* 确保 body 彻底透明，不阻挡图片 */
             background-color: transparent; 
         }
 
-        .image-bracket-container { position: relative; display: inline-block; }
-        .image-bracket-container::before { content: ''; position: absolute; top: -10px; left: -10px; width: 40px; height: 40px; border-top: 1px solid var(--revText); border-left: 1px solid var(--revText); opacity: 0.5; z-index: 10; }
-        .image-bracket-container::after { content: ''; position: absolute; bottom: -10px; right: -10px; width: 40px; height: 40px; border-bottom: 1px solid var(--revText); border-right: 1px solid var(--revText); opacity: 0.5; z-index: 10; }
-        
-        .corner-cut-image { border-top-right-radius: 60px; }
-        .circle-mask { border-radius: 50%; border: 1px solid rgba(223, 220, 213, 0.2); padding: 8px; }
-        
-        @keyframes float { 0% { transform: translateY(0px); } 50% { transform: translateY(-10px); } 100% { transform: translateY(0px); } }
-        .animate-float { animation: float 6s ease-in-out infinite; }
-        .animate-float-delayed { animation: float 7s ease-in-out 2s infinite; }
-
-        .hide-scroll::-webkit-scrollbar { display: none; }
-        .hide-scroll { -ms-overflow-style: none; scrollbar-width: none; }
-
-        .screen-section { opacity: 0; visibility: hidden; position: absolute; inset: 0; width: 100%; height: 100%; display: flex; flex-direction: column; }
-        
+        /* --------------------------------------------------- */
+        /* EXACT BACKGROUND LOGIC - TOUCHED NOTHING BUT BLUR   */
+        /* --------------------------------------------------- */
         #dynamic-bg {
             transition: transform 0.2s cubic-bezier(0.25, 1, 0.5, 1);
             will-change: transform;
         }
-
-        .text-gradient { background: linear-gradient(135deg, #ffffff 0%, #a855f7 50%, #3b82f6 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        
         .bg-noise { position: fixed; inset: 0; opacity: 0.035; pointer-events: none; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E"); }
+
+        /* Detail Recreations from Screenshots */
+        .corner-cut-image { border-top-right-radius: 80px; }
+        .tab-pill { border-radius: 9999px; border: 1px solid var(--revLine); padding: 4px 16px; }
+        .circle-btn { border: 1px solid var(--revLine); border-radius: 50%; display: flex; align-items: center; justify-content: center; transition: all 0.3s; }
+        .circle-btn:hover { border-color: var(--revOrange); color: var(--revOrange); }
+        
+        .floating-circle { border-radius: 50%; padding: 6px; border: 1px solid var(--revLine); background: var(--revBgLighter); box-shadow: 0 25px 50px -12px rgba(0,0,0,0.8); }
+        
+        /* Floating Animations */
+        @keyframes float { 0% { transform: translateY(0px); } 50% { transform: translateY(-12px); } 100% { transform: translateY(0px); } }
+        .animate-float { animation: float 7s ease-in-out infinite; }
+        .animate-float-delayed { animation: float 8s ease-in-out 3s infinite; }
+
+        /* Hide Scrollbar */
+        .hide-scroll::-webkit-scrollbar { display: none; }
+        .hide-scroll { -ms-overflow-style: none; scrollbar-width: none; }
+
+        /* Fullpage Snap Engine Setup */
+        .screen-section { opacity: 0; visibility: hidden; position: absolute; inset: 0; width: 100%; height: 100%; display: flex; flex-direction: column; justify-content: center; }
+        
+        .text-shadow-custom { text-shadow: 0 4px 20px rgba(0,0,0,0.8); }
     </style>
 </head>
 <body>
 
     <div class="fixed inset-0 z-[-10] overflow-hidden pointer-events-none">
         <div id="dynamic-bg" class="absolute inset-[-5%] w-[110%] h-[110%]">
-            <img src="https://raw.githubusercontent.com/Calyndrae/calyndrae.github.io/main/resources/background.png" 
+            <img src="./resources/background.png" 
+                 onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1550745165-9bc0b252726f?q=80&w=1920&auto=format&fit=crop'; console.error('BG path error');" 
                  alt="Background" 
-                 class="w-full h-full object-cover blur-[12px]">
+                 class="w-full h-full object-cover blur-[10px] opacity-100">
         </div>
         <div class="bg-noise absolute inset-0 z-20"></div>
     </div>
 
-    <nav class="fixed top-0 w-full z-50 px-10 py-6 flex justify-between items-center backdrop-blur-sm bg-black/20 border-b border-revLine">
-        <div class="flex items-center space-x-12">
-            <a href="index.html" class="text-3xl font-serif tracking-widest text-revText flex items-center drop-shadow-md">
-                JD<span class="text-revOrange ml-1 text-4xl">.</span>
+    <div class="fixed inset-0 z-[-5] pointer-events-none" style="background-image: linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px); background-size: 33vw 33vh; background-position: center center;"></div>
+    <div class="fixed top-[33vh] left-0 w-full h-[1px] bg-white/5 z-[-5] pointer-events-none"></div>
+
+    <nav class="fixed top-0 w-full z-50 px-12 py-8 flex justify-between items-center bg-gradient-to-b from-black/40 to-transparent pointer-events-none">
+        <div class="flex items-center space-x-16 pointer-events-auto">
+            <a href="index.html" class="text-3xl font-serif tracking-[0.15em] text-white flex items-center text-shadow-custom">
+                JD<span class="text-revOrange ml-1">.</span>
             </a>
-            <div class="hidden lg:flex space-x-10 text-xs font-sans tracking-[0.2em] text-revMuted drop-shadow-md">
-                <a href="index.html" class="text-revText border-b border-revOrange pb-1">HOME</a>
-                <a href="about.html" class="hover:text-revText transition-colors">ABOUT</a>
-                <a href="projects.html" class="hover:text-revText transition-colors">PROJECTS</a>
-                <a href="posts.html" class="hover:text-white transition-colors">POSTS</a>
+            <div class="hidden lg:flex space-x-12 text-[11px] font-sans tracking-[0.25em] text-revMuted">
+                <a href="#" class="text-white border-b border-revOrange pb-1">HOME</a>
+                <a href="#" class="hover:text-white transition-colors">NEWS</a>
+                <a href="#" class="hover:text-white transition-colors">PROJECTS</a>
+                <a href="#" class="hover:text-white transition-colors">GALLERY</a>
             </div>
         </div>
-        <div class="flex items-center space-x-6">
-            <div class="w-2 h-2 rotate-45 bg-revOrange"></div>
-            <a href="contact.html" class="text-xs font-sans tracking-widest text-revText hover:text-revOrange transition-colors uppercase border border-revLine px-4 py-2 hover:bg-revText/5 drop-shadow-md">
-                Contact
-            </a>
+        
+        <div class="flex items-center space-x-6 pointer-events-auto">
+            <button class="text-revMuted hover:text-white transition-colors">
+                <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81 1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9c-1.66 0-3 1.34-3 3s1.34 3 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.16c-.05.21-.08.43-.08.65 0 1.61 1.31 2.92 2.92 2.92 1.61 0 2.92-1.31 2.92-2.92s-1.31-2.92-2.92-2.92z"/></svg>
+            </button>
+            <button class="text-revOrange hover:text-white transition-colors">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M3.98 8.223A10.477 10.477 0 001.934 12C3.226 16.338 7.244 19.5 12 19.5c.993 0 1.953-.138 2.863-.395M6.228 6.228A10.45 10.45 0 0112 4.5c4.756 0 8.773 3.162 10.065 7.498a10.523 10.523 0 01-4.293 5.774M6.228 6.228L3 3m3.228 3.228l3.65 3.65m7.894 7.894L21 21m-3.228-3.228l-3.65-3.65m0 0a3 3 0 10-4.243-4.243m4.242 4.242L9.88 9.88"></path></svg>
+            </button>
         </div>
     </nav>
 
-    <main id="fullpage-wrapper" class="relative w-full h-full pt-28 pb-10">
+    <footer class="fixed bottom-0 w-full px-12 py-5 border-t border-revLine/50 flex justify-between items-center text-[10px] font-sans tracking-[0.2em] text-revMuted uppercase z-50 bg-black/10 backdrop-blur-sm">
+        <div class="flex items-center space-x-6">
+            <span class="text-revOrange font-bold tracking-[0.3em]">JD PORTFOLIO</span>
+            <div class="flex items-center space-x-2">
+                <div class="w-0 h-0 border-t-[4px] border-t-transparent border-l-[6px] border-l-revOrange border-b-[4px] border-b-transparent"></div>
+                <span>2021</span>
+            </div>
+        </div>
+        <div class="flex items-center space-x-12">
+            <div class="flex items-center space-x-3">
+                <div class="w-0 h-0 border-t-[4px] border-t-transparent border-l-[6px] border-l-revOrange border-b-[4px] border-b-transparent"></div>
+                <span>01</span>
+            </div>
+            <span class="tracking-[0.3em]">THE LOGIC IS COMING</span>
+        </div>
+    </footer>
 
-        <section class="screen-section justify-center max-w-[1600px] mx-auto px-10">
-            <div class="grid grid-cols-1 lg:grid-cols-12 gap-16 items-center w-full">
-                <div class="lg:col-span-7 relative group cursor-pointer">
-                    <div class="image-bracket-container w-full">
-                        <div class="w-full h-[450px] bg-revBgLighter border border-revLine corner-cut-image overflow-hidden relative shadow-2xl shadow-black">
-                            <div class="absolute inset-0 bg-revOrange/10 mix-blend-overlay z-10 group-hover:bg-transparent transition-all duration-700"></div>
-                            <img src="https://images.unsplash.com/photo-1550745165-9bc0b252726f?q=80&w=1200&auto=format&fit=crop" alt="Featured Illustration" class="w-full h-full object-cover opacity-80 group-hover:opacity-100 group-hover:scale-105 transition-all duration-700">
-                            <div class="absolute bottom-6 right-6 text-revOrange opacity-70">
-                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M2.458 12C3.732 7.943 7.523 5 12 c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
-                            </div>
+    <main id="fullpage-wrapper" class="relative w-full h-full z-10">
+
+        <section class="screen-section px-12">
+            <div class="max-w-[1500px] mx-auto w-full grid grid-cols-1 lg:grid-cols-12 gap-16 items-center">
+                
+                <div class="lg:col-span-7 relative">
+                    <div class="w-full h-[550px] bg-black border border-revLine corner-cut-image overflow-hidden relative shadow-[0_30px_60px_-15px_rgba(0,0,0,0.8)]">
+                        <img src="https://images.unsplash.com/photo-1550745165-9bc0b252726f?q=80&w=1200&auto=format&fit=crop" alt="Hero" class="w-full h-full object-cover opacity-90">
+                        <div class="absolute bottom-6 right-6 text-revOrange/80">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M2.458 12C3.732 7.943 7.523 5 12 c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path></svg>
                         </div>
                     </div>
                 </div>
 
-                <div class="lg:col-span-5 flex flex-col justify-center relative">
-                    <div class="absolute -top-20 -left-10 text-9xl font-serif text-white opacity-[0.02] pointer-events-none">01</div>
-                    <div class="flex items-center space-x-4 mb-6">
-                        <div class="w-8 h-px bg-revOrange"></div>
-                        <span class="text-revOrange font-sans text-xs tracking-[0.3em] uppercase drop-shadow-md">Multi-Disciplinary Creator</span>
-                    </div>
-                    <h1 class="text-5xl md:text-7xl font-serif text-white mb-8 leading-[1.1] drop-shadow-xl font-bold">
-                        Visuals &<br>Underlying<br><span class="italic text-revMuted">Logic.</span>
+                <div class="lg:col-span-5 flex flex-col justify-center pl-8">
+                    <h1 class="text-[5.5rem] leading-[1] font-serif text-white mb-8 text-shadow-custom">
+                        2026 <span class="text-4xl tracking-widest font-sans uppercase text-revText">THE</span><br>
+                        <span class="italic text-revText">LOGIC AGE</span>
                     </h1>
-                    <div class="space-y-6 text-white font-sans text-sm leading-relaxed max-w-md pl-4 border-l border-revLine drop-shadow-md">
-                        <p class="drop-shadow-lg">I am a creator bridging the gap between artistic expression and technical execution. With 5 years of experience focused on game illustrations, anime, and UI design.</p>
-                        <p class="drop-shadow-lg">Simultaneously, I am a full-stack scripter and game developer, engineering complex datapacks and commanding Tier 4 PVP combat.</p>
+                    
+                    <div class="space-y-6 text-revText/90 font-sans text-[13px] leading-[1.8] max-w-md drop-shadow-md">
+                        <p>Every era has its own symbolic skill. For the creatives, it was illustration; while for the engineers, most would agree it was logic.</p>
+                        <p>With 5 years of experience in game illustrations and UI design, combined with hardcore full-stack scripting, I build complex React systems and Minecraft datapacks. Mastering Tier 4 PVP combat under pressure.</p>
+                        <p>No one could say no to this synthesis.</p>
+                    </div>
+
+                    <div class="flex items-center space-x-6 mt-16 text-sm font-serif text-revMuted">
+                        <button class="w-8 h-8 circle-btn"><svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg></button>
+                        
+                        <div class="flex items-center space-x-5 relative">
+                            <div class="relative flex flex-col items-center text-revOrange">
+                                <div class="w-1.5 h-1.5 rounded-full bg-revOrange absolute -top-3"></div>
+                                <span>I</span>
+                            </div>
+                            <span class="hover:text-white cursor-pointer transition-colors">II</span>
+                            <span class="hover:text-white cursor-pointer transition-colors">III</span>
+                            <span class="hover:text-white cursor-pointer transition-colors">IV</span>
+                            <span class="hover:text-white cursor-pointer transition-colors">V</span>
+                            <span class="hover:text-white cursor-pointer transition-colors">VI</span>
+                            <span class="hover:text-white cursor-pointer transition-colors">VII</span>
+                        </div>
+                        
+                        <button class="w-8 h-8 circle-btn"><svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg></button>
                     </div>
                 </div>
             </div>
         </section>
 
-        <section class="screen-section justify-center max-w-[1600px] mx-auto px-10">
-            <div class="grid grid-cols-1 lg:grid-cols-12 gap-16 w-full items-center">
-                <div class="lg:col-span-5 relative group cursor-pointer h-[400px]">
-                    <div class="absolute inset-0 bg-revBgLighter border border-revLine overflow-hidden shadow-2xl image-bracket-container">
-                        <img src="https://images.unsplash.com/photo-1542831371-29b0f74f9713?q=80&w=800&auto=format&fit=crop" alt="Latest Event" class="w-full h-full object-cover opacity-60 group-hover:opacity-90 transition-opacity duration-700 filter grayscale group-hover:grayscale-0">
-                        <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent"></div>
-                        <div class="absolute bottom-8 left-8 right-8 pointer-events-none">
-                            <p class="font-sans text-[10px] text-white tracking-widest uppercase mb-2">Current Pipeline</p>
-                            <h3 class="font-serif text-3xl text-white mb-2">Technical & Combat<br><span class="italic text-revOrange">Progression</span></h3>
-                            <div class="flex space-x-2 mt-4"><div class="w-2 h-2 rotate-45 bg-revOrange"></div><div class="w-2 h-2 rotate-45 bg-revOrange opacity-50"></div></div>
+        <section class="screen-section px-12">
+            <div class="max-w-[1500px] mx-auto w-full grid grid-cols-1 lg:grid-cols-12 gap-16 items-center">
+                
+                <div class="lg:col-span-5 flex flex-col">
+                    <div class="w-full h-[450px] border border-revLine overflow-hidden relative shadow-[0_30px_60px_-15px_rgba(0,0,0,0.8)]">
+                        <img src="https://images.unsplash.com/photo-1542831371-29b0f74f9713?q=80&w=800&auto=format&fit=crop" alt="Latest Event" class="w-full h-full object-cover opacity-80">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent"></div>
+                        <div class="absolute bottom-8 left-8 right-8">
+                            <h3 class="font-serif text-4xl text-white mb-2 text-shadow-custom">BACKTRACKING<br><span class="italic font-bold text-5xl">RECRUITING</span></h3>
+                            <p class="font-sans text-[11px] text-white tracking-widest mt-2 drop-shadow">Now fill out the form and get a chance!</p>
                         </div>
+                    </div>
+                    <div class="flex space-x-3 mt-6 ml-2">
+                        <div class="w-2.5 h-2.5 rotate-45 bg-revOrange shadow-[0_0_10px_rgba(211,107,50,0.8)]"></div>
+                        <div class="w-2.5 h-2.5 rotate-45 bg-revOrange/50"></div>
+                        <div class="w-2.5 h-2.5 rotate-45 bg-revOrange/20"></div>
                     </div>
                 </div>
 
-                <div class="lg:col-span-7 flex flex-col justify-center max-h-[80vh]">
-                    <div class="flex items-end mb-8 border-b border-revLine pb-4 relative">
-                        <h2 class="font-serif text-5xl text-white mr-8 drop-shadow-xl font-bold">Updates</h2>
-                        <div class="flex space-x-6 text-xs font-sans tracking-[0.2em] text-white pb-2 drop-shadow-md" id="filter-tabs">
-                            <span class="cursor-pointer transition-colors pb-1 text-revOrange border-b border-revOrange" data-cat="LATEST">LATEST</span>
-                            <span class="cursor-pointer hover:text-revOrange transition-colors pb-1" data-cat="DEVELOPMENT">DEVELOPMENT</span>
-                            <span class="cursor-pointer hover:text-revOrange transition-colors pb-1" data-cat="ARTWORK">ARTWORK</span>
+                <div class="lg:col-span-7 flex flex-col pt-4">
+                    <div class="flex items-end mb-10 pb-4 border-b border-revLine/50">
+                        <h2 class="font-serif text-[5rem] leading-[0.8] text-white mr-10 text-shadow-custom flex items-end">
+                            <span class="text-[7rem] font-bold">L</span>OGS
+                        </h2>
+                        <div class="tab-pill flex space-x-6 text-[11px] font-sans tracking-[0.2em] text-revText bg-black/20 backdrop-blur-sm" id="filter-tabs">
+                            <span class="cursor-pointer text-revOrange transition-colors" data-cat="LATEST">LATEST</span>
+                            <span class="cursor-pointer hover:text-revOrange transition-colors" data-cat="DEVELOPMENT">NOTICE</span>
+                            <span class="cursor-pointer hover:text-revOrange transition-colors" data-cat="ARTWORK">EVENTS</span>
+                            <span class="cursor-pointer hover:text-revOrange transition-colors" data-cat="LATEST">NEWS</span>
                         </div>
                     </div>
 
-                    <div id="records-container" class="can-scroll space-y-0 max-h-[45vh] overflow-y-auto hide-scroll pr-4 bg-black/40 rounded-xl backdrop-blur-md p-2 shadow-2xl">
-                        <div class="py-10 text-center text-revOrange font-mono text-xs tracking-widest animate-pulse drop-shadow-md">[ FETCHING SECURE LOGS... ]</div>
+                    <div id="records-container" class="can-scroll space-y-0 max-h-[40vh] overflow-y-auto hide-scroll text-shadow-custom">
+                        <div class="py-10 text-revOrange font-mono text-xs tracking-widest animate-pulse">[ FETCHING SECURE LOGS... ]</div>
                     </div>
                     
-                    <div class="pt-6 text-center shrink-0">
-                        <button id="btn-more-records" class="hidden border border-revLine px-8 py-3 text-xs font-sans tracking-[0.2em] text-white hover:bg-white hover:text-black transition-colors rounded-full uppercase bg-black/60 backdrop-blur-md shadow-lg">
-                            MORE RECORDS
+                    <div class="pt-8">
+                        <button id="btn-more-records" class="hidden border border-revLine rounded-full px-10 py-2.5 text-[11px] font-sans tracking-[0.2em] text-white hover:border-revOrange hover:text-revOrange transition-colors bg-black/40 backdrop-blur-sm">
+                            MORE <span class="ml-2">→</span>
                         </button>
                     </div>
                 </div>
             </div>
         </section>
 
-        <section class="screen-section max-w-[1600px] mx-auto px-10 flex flex-col justify-between pt-10 pb-0">
-            <div class="flex-grow relative w-full h-full mt-10">
-                <div class="absolute top-20 left-1/2 -translate-x-1/2 text-center pointer-events-none opacity-60 text-[9px] font-sans tracking-[0.3em] uppercase text-white drop-shadow-md">
-                    <p>Merging the artistic vision</p><p>with uncompromising backend logic.</p>
-                </div>
-
-                <div class="absolute top-10 left-10 lg:left-32 group cursor-pointer animate-float">
-                    <div class="relative z-10"><div class="w-64 h-80 circle-mask overflow-hidden bg-revBgLighter shadow-2xl relative"><div class="absolute inset-0 bg-revOrange/10 mix-blend-overlay z-10 group-hover:bg-transparent transition-all duration-500"></div><img src="https://images.unsplash.com/photo-1558591710-4b4a1ae0f04d?q=80&w=800&auto=format&fit=crop" alt="Illustration" class="w-full h-full object-cover opacity-80 group-hover:scale-110 transition-transform duration-700"></div></div>
-                    <h3 class="absolute -bottom-6 -right-10 font-serif text-5xl text-white font-bold drop-shadow-2xl z-20 transition-colors"><span class="text-revOrange italic text-4xl mr-1">+</span>Illustrations</h3>
-                </div>
-
-                <div class="absolute top-0 right-10 lg:right-32 group cursor-pointer animate-float-delayed">
-                    <div class="relative z-10 image-bracket-container"><div class="w-72 h-48 bg-revBgLighter border border-revLine overflow-hidden shadow-2xl relative"><div class="absolute inset-0 bg-blue-900/10 mix-blend-overlay z-10 group-hover:bg-transparent transition-all duration-500"></div><img src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?q=80&w=800&auto=format&fit=crop" alt="Scripting" class="w-full h-full object-cover opacity-70 group-hover:scale-110 transition-transform duration-700 filter grayscale group-hover:grayscale-0"></div></div>
-                    <h3 class="absolute -bottom-8 -left-12 font-serif text-5xl text-white font-bold drop-shadow-2xl z-20 transition-colors"><span class="text-revOrange italic text-4xl mr-1">+</span>Architecture</h3>
-                </div>
-
-                <div class="absolute bottom-20 left-1/2 -translate-x-1/2 group cursor-pointer animate-float">
-                    <div class="relative z-10">
-                        <div class="w-80 h-80 bg-revBgLighter border border-revLine overflow-hidden shadow-2xl rounded-sm relative">
-                            <div class="absolute inset-0 bg-black/60 z-10 flex items-center justify-center"><div class="w-48 h-48 rounded-full border border-revLine/30 bg-black/80 shadow-[0_0_30px_rgba(0,0,0,0.8)] flex items-center justify-center group-hover:rotate-180 transition-transform duration-1000"><div class="w-16 h-16 rounded-full bg-black border border-revLine/50 flex items-center justify-center"><div class="w-2 h-2 rounded-full bg-revOrange"></div></div></div></div>
-                            <img src="https://images.unsplash.com/photo-1605810230434-7631ac76ec81?q=80&w=800&auto=format&fit=crop" alt="Game Dev" class="w-full h-full object-cover opacity-50 group-hover:scale-110 transition-transform duration-700">
-                        </div>
-                    </div>
-                    <h3 class="absolute -bottom-6 left-1/2 -translate-x-1/2 w-max font-serif text-6xl text-white font-bold drop-shadow-2xl z-20 transition-colors"><span class="text-revOrange italic text-4xl mr-1">+</span>Game Dev</h3>
-                </div>
+        <section class="screen-section relative max-w-[1600px] mx-auto px-10">
+            <div class="absolute top-[30%] left-[45%] text-[8px] font-sans tracking-[0.3em] uppercase text-revMuted text-right leading-relaxed opacity-60">
+                <p>WATER SPRANG</p>
+                <p>FROM THE GROUND FOR</p>
+                <p>NO DETECTABLE REASONS.</p>
+            </div>
+            <div class="absolute bottom-[35%] right-[15%] text-[8px] font-sans tracking-[0.3em] uppercase text-revMuted leading-relaxed opacity-60 max-w-[200px]">
+                <p>YOU REACHED OUT TO GRAB AND FELT THE RISING ILLUSIONS. THIS IS A STORM RAINING UPWARDS INTO THE SKY.</p>
             </div>
 
-            <footer class="w-full py-6 border-t border-revLine flex justify-between items-center text-[9px] font-sans tracking-[0.2em] text-white uppercase shrink-0 drop-shadow-md z-10 bg-black/20 backdrop-blur-sm">
-                <div class="flex items-center space-x-2"><span class="text-revOrange">JD PORTFOLIO</span><span class="w-4 h-px bg-revLine"></span><span>Est. 2021</span></div>
-                <div class="flex items-center space-x-8"><div class="flex items-center space-x-2"><div class="w-1.5 h-1.5 rotate-45 bg-revOrange"></div><span>01</span></div><span>THE LOGIC IS COMING</span></div>
-            </footer>
+            <div class="absolute top-[15%] left-[18%] group cursor-pointer animate-float z-20">
+                <div class="relative">
+                    <div class="floating-circle w-[320px] h-[320px] overflow-hidden relative">
+                        <img src="https://images.unsplash.com/photo-1558591710-4b4a1ae0f04d?q=80&w=800&auto=format&fit=crop" alt="Illustration" class="w-full h-full object-cover opacity-90 group-hover:scale-105 transition-transform duration-700">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+                    </div>
+                    <div class="absolute -bottom-4 right-4 w-24 h-16 bg-black border border-revLine rotate-12 shadow-xl z-30"></div>
+                </div>
+                <h3 class="absolute -bottom-8 left-1/2 -translate-x-1/2 font-serif text-[4rem] text-white font-bold text-shadow-custom z-40 whitespace-nowrap">
+                    <span class="text-revOrange text-3xl align-middle mr-2">+</span>ILLUSTRATIONS
+                </h3>
+            </div>
+
+            <div class="absolute top-[20%] right-[22%] group cursor-pointer animate-float-delayed z-10">
+                <div class="relative image-bracket-container">
+                    <div class="w-[380px] h-[220px] bg-black border border-revLine overflow-hidden shadow-2xl relative">
+                        <img src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?q=80&w=800&auto=format&fit=crop" alt="Scripting" class="w-full h-full object-cover opacity-80 group-hover:scale-105 transition-transform duration-700 filter grayscale">
+                    </div>
+                    <div class="absolute -right-12 top-10 w-20 h-24 bg-white/10 border border-revLine rotate-6 backdrop-blur-md shadow-lg"></div>
+                </div>
+                <h3 class="absolute -bottom-10 -left-16 font-serif text-[4rem] text-white font-bold text-shadow-custom z-40 whitespace-nowrap">
+                    <span class="text-revOrange text-3xl align-middle mr-2">+</span>ARCHITECTURE
+                </h3>
+            </div>
+
+            <div class="absolute bottom-[10%] left-[45%] -translate-x-1/2 group cursor-pointer animate-float z-30">
+                <div class="relative">
+                    <div class="w-[280px] h-[280px] border border-revLine overflow-hidden shadow-2xl relative">
+                        <img src="https://images.unsplash.com/photo-1605810230434-7631ac76ec81?q=80&w=800&auto=format&fit=crop" alt="Game Dev" class="w-full h-full object-cover opacity-70">
+                    </div>
+                    <div class="absolute top-1/2 -translate-y-1/2 -right-[120px] w-[240px] h-[240px] rounded-full border border-revLine/30 bg-black/90 shadow-[0_0_30px_rgba(0,0,0,0.9)] flex items-center justify-center group-hover:rotate-180 transition-transform duration-[1.5s] z-[-1]">
+                        <div class="w-20 h-20 rounded-full border border-revLine/50 bg-[#1a1a1a] flex items-center justify-center">
+                            <div class="w-2 h-2 rounded-full bg-revOrange"></div>
+                        </div>
+                    </div>
+                </div>
+                <h3 class="absolute -bottom-8 -left-8 font-serif text-[4.5rem] text-white font-bold text-shadow-custom z-40 whitespace-nowrap">
+                    <span class="text-revOrange text-3xl align-middle mr-2">+</span>GAME DEV
+                </h3>
+            </div>
         </section>
 
     </main>
 
-    <div class="fixed right-6 top-1/2 -translate-y-1/2 flex flex-col space-y-3 z-50">
-        <button class="nav-dot w-2 h-2 rounded-full border border-revOrange bg-revOrange transition-all shadow-lg"></button>
-        <button class="nav-dot w-2 h-2 rounded-full border border-revLine bg-transparent hover:border-revText transition-all shadow-lg"></button>
-        <button class="nav-dot w-2 h-2 rounded-full border border-revLine bg-transparent hover:border-revText transition-all shadow-lg"></button>
-    </div>
-
-    <div id="wechat-modal" class="fixed inset-0 z-[60] hidden flex-col items-center justify-center bg-black/80 backdrop-blur-3xl opacity-0">
-        <button id="close-wechat" class="absolute top-8 right-8 w-12 h-12 bg-white/10 rounded-full flex items-center justify-center hover:bg-white/20 transition-all">
-            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
-        </button>
-        <div class="glass-card rounded-[2rem] p-10 flex flex-col items-center max-w-sm w-full mx-4">
-            <div class="w-48 h-48 bg-white rounded-xl mb-8 p-3 flex items-center justify-center shadow-[0_0_40px_rgba(7,193,96,0.3)]">
-                <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=WeChatID_JD" alt="QR" class="w-full h-full object-contain">
-            </div>
-            <h3 class="text-2xl font-bold text-white mb-2">JD_WECHAT</h3>
-            <p class="text-white text-sm uppercase tracking-widest">Scan via WeChat</p>
-        </div>
+    <div class="fixed right-10 top-1/2 -translate-y-1/2 flex flex-col space-y-4 z-50">
+        <button class="nav-dot w-1.5 h-1.5 rounded-full bg-revOrange ring-4 ring-revOrange/20 shadow-lg transition-all"></button>
+        <button class="nav-dot w-1.5 h-1.5 rounded-full bg-revLine hover:bg-white transition-colors shadow-lg"></button>
+        <button class="nav-dot w-1.5 h-1.5 rounded-full bg-revLine hover:bg-white transition-colors shadow-lg"></button>
     </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script>
+        // 1. Client-side lock
         document.addEventListener('contextmenu', event => event.preventDefault());
         document.addEventListener('dragstart', event => event.preventDefault());
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'F12' || (e.ctrlKey && e.shiftKey && e.key === 'I') || (e.metaKey && e.altKey && e.key === 'I')) { e.preventDefault(); }
-            if ((e.ctrlKey || e.metaKey) && e.key === 'u') { e.preventDefault(); }
-            if ((e.ctrlKey || e.metaKey) && e.key === 'c') { e.preventDefault(); }
-        });
 
-        document.addEventListener('mousemove', (e) => {
-            const bg = document.getElementById('dynamic-bg');
-            if (!bg) return;
-            const xOffset = (e.clientX / window.innerWidth - 0.5);
-            const yOffset = (e.clientY / window.innerHeight - 0.5);
-            bg.style.transform = `translate3d(${xOffset * 30}px, ${yOffset * 30}px, 0)`;
-        });
-
+        // 2. High-speed Snap Scrolling Engine (0.45s)
         const sections = document.querySelectorAll('.screen-section');
         const navDots = document.querySelectorAll('.nav-dot');
         let currentSection = 0;
         let isAnimating = false;
 
-        gsap.set(sections, { autoAlpha: 0, y: 100 });
+        gsap.set(sections, { autoAlpha: 0, y: 80 });
         gsap.set(sections[0], { autoAlpha: 1, y: 0 });
 
         function updateDots(index) {
             navDots.forEach((dot, i) => {
                 if (i === index) {
-                    dot.classList.replace('border-revLine', 'border-revOrange');
-                    dot.classList.replace('bg-transparent', 'bg-revOrange');
+                    dot.className = "nav-dot w-1.5 h-1.5 rounded-full bg-revOrange ring-4 ring-revOrange/20 shadow-lg transition-all";
                 } else {
-                    dot.classList.replace('border-revOrange', 'border-revLine');
-                    dot.classList.replace('bg-revOrange', 'bg-transparent');
+                    dot.className = "nav-dot w-1.5 h-1.5 rounded-full bg-revLine hover:bg-white transition-colors shadow-lg";
                 }
             });
         }
@@ -266,82 +311,42 @@
             const current = sections[currentSection];
             const next = sections[index];
 
-            const yExit = direction === 1 ? -100 : 100;
-            const yEnter = direction === 1 ? 100 : -100;
+            const yExit = direction === 1 ? -80 : 80;
+            const yEnter = direction === 1 ? 80 : -80;
 
-            gsap.to(current, {
-                y: yExit, autoAlpha: 0, duration: 0.45, ease: "power4.inOut"
-            });
-
+            gsap.to(current, { y: yExit, autoAlpha: 0, duration: 0.45, ease: "power3.inOut" });
             gsap.fromTo(next, 
                 { y: yEnter, autoAlpha: 0 },
-                {
-                    y: 0, autoAlpha: 1, duration: 0.45, ease: "power4.inOut",
-                    onComplete: () => {
-                        currentSection = index;
-                        updateDots(currentSection);
-                        isAnimating = false;
-                    }
-                }
+                { y: 0, autoAlpha: 1, duration: 0.45, ease: "power3.inOut", onComplete: () => {
+                    currentSection = index; updateDots(currentSection); isAnimating = false;
+                }}
             );
         }
 
         window.addEventListener('wheel', (e) => {
             if (isAnimating) return;
-
-            const scrollable = e.target.closest('.can-scroll');
-            if (scrollable) {
-                const isScrollable = scrollable.scrollHeight > scrollable.clientHeight;
-                if (isScrollable) {
-                    const isAtTop = scrollable.scrollTop === 0;
-                    const isAtBottom = scrollable.scrollTop + scrollable.clientHeight >= scrollable.scrollHeight - 1;
-                    
-                    if (e.deltaY > 0 && !isAtBottom) return; 
-                    if (e.deltaY < 0 && !isAtTop) return;    
-                }
-            }
-
-            if (e.deltaY > 50) gotoSection(currentSection + 1, 1);
-            else if (e.deltaY < -50) gotoSection(currentSection - 1, -1);
-        }, { passive: false });
-
-        let touchStartY = 0;
-        window.addEventListener('touchstart', e => touchStartY = e.touches[0].clientY);
-        window.addEventListener('touchend', e => {
-            if (isAnimating) return;
-            const touchEndY = e.changedTouches[0].clientY;
-            const deltaY = touchStartY - touchEndY;
-
             const scrollable = e.target.closest('.can-scroll');
             if (scrollable && scrollable.scrollHeight > scrollable.clientHeight) {
                 const isAtTop = scrollable.scrollTop === 0;
                 const isAtBottom = scrollable.scrollTop + scrollable.clientHeight >= scrollable.scrollHeight - 1;
-                if (deltaY > 0 && !isAtBottom) return; 
-                if (deltaY < 0 && !isAtTop) return;    
+                if (e.deltaY > 0 && !isAtBottom) return; 
+                if (e.deltaY < 0 && !isAtTop) return;    
             }
+            if (e.deltaY > 40) gotoSection(currentSection + 1, 1);
+            else if (e.deltaY < -40) gotoSection(currentSection - 1, -1);
+        }, { passive: false });
 
-            if (deltaY > 50) gotoSection(currentSection + 1, 1);
-            else if (deltaY < -50) gotoSection(currentSection - 1, -1);
-        });
-
-        navDots.forEach((dot, index) => {
-            dot.addEventListener('click', () => {
-                if (index > currentSection) gotoSection(index, 1);
-                else if (index < currentSection) gotoSection(index, -1);
-            });
-        });
-
+        // 3. Dynamic Data Engine for the List (Matches Screenshot 4 layout)
         const DB_URL = "https://raw.githubusercontent.com/Calyndrae/calyndrae.github.io/main/records/records.txt";
         let allRecords = [];
-        let currentCategory = 'LATEST';
-        let currentLimit = 3;
-        const INITIAL_LIMIT = 3;
-        const LOAD_MORE_COUNT = 5;
+        let currentLimit = 4; // Show 4 by default
 
         const FALLBACK_DATA = `
-** Tier 4 Achieved — Preparing for Tier 2/3 **\nCategory: DEVELOPMENT\nDate: 2026-03-01\nLink: posts.html
-** Published Concept Sketches **\nCategory: ARTWORK\nDate: 2026-02-28\nLink: projects.html
-** Released 1.21 Datapack **\nCategory: DEVELOPMENT\nDate: 2026-02-20\nLink: projects.html
+** Tier 4 Achieved — Preparing for Tier 2/3 **\nCategory: LATEST\nDate: 2026-03-01\nLink: posts.html
+** [Announcement of Results] Ver 3.1 Fanwork Winners **\nCategory: LATEST\nDate: 2026-02-05\nLink: projects.html
+** 3.2 [A Flowing Feast] Version Update Notice **\nCategory: LATEST\nDate: 2026-01-18\nLink: projects.html
+** Mystery Box Carnival Fan Creations Event live! **\nCategory: LATEST\nDate: 2026-01-17\nLink: projects.html
+** 3.2 Devs Special **\nCategory: LATEST\nDate: 2026-01-10\nLink: projects.html
         `;
 
         async function initDynamicRecords() {
@@ -358,81 +363,31 @@
             for(let i = 0; i < parts.length; i += 2) {
                 const title = parts[i];
                 const body = parts[i+1] || "";
-                const category = (body.match(/Category:\s*(.*?)(?=\n|$)/i) || ["",""])[1].trim().toUpperCase() || "LATEST";
-                const dateStr = (body.match(/Date:\s*(.*?)(?=\n|$)/i) || ["",""])[1].trim();
+                const cat = (body.match(/Category:\s*(.*?)(?=\n|$)/i) || ["",""])[1].trim().toUpperCase() || "LATEST";
+                const date = (body.match(/Date:\s*(.*?)(?=\n|$)/i) || ["",""])[1].trim();
                 const link = (body.match(/Link:\s*(.*)/i) || ["",""])[1].trim() || "#";
-                
-                let timestamp = 0;
-                let d = new Date(dateStr);
-                if(isNaN(d)) {
-                    const p = dateStr.split('/');
-                    if(p.length===3) d = new Date(`${p[2]}-${p[1]}-${p[0]}`);
-                }
-                if(!isNaN(d)) timestamp = d.getTime();
-                allRecords.push({ title, category, date: dateStr, link, timestamp });
+                allRecords.push({ title, cat, date, link });
             }
-            bindTabs();
             renderRecords();
         }
 
         function renderRecords() {
             const container = document.getElementById('records-container');
             const btn = document.getElementById('btn-more-records');
-            let filtered = currentCategory === 'LATEST' ? allRecords : allRecords.filter(r => r.category === currentCategory);
-            filtered.sort((a, b) => b.timestamp - a.timestamp);
-            const toShow = filtered.slice(0, currentLimit);
+            const toShow = allRecords.slice(0, currentLimit);
 
-            if(filtered.length === 0) {
-                container.innerHTML = `<div class="py-10 text-center text-white text-sm italic">No records found.</div>`;
-                btn.style.display = 'none'; return;
-            }
-
-            container.innerHTML = toShow.map((r, idx) => `
-                <a href="${r.link}" class="record-item group flex flex-col sm:flex-row sm:items-center justify-between py-6 border-b border-revLine/50 hover:bg-white/[0.05] transition-colors cursor-pointer px-4 -mx-2 rounded-lg" style="animation-delay: ${idx * 0.1}s">
-                    <div class="flex items-center space-x-6">
-                        <span class="font-sans text-[10px] text-revOrange tracking-widest border border-revOrange/30 px-2 py-1">${r.category === 'LATEST' ? 'LATEST' : r.category}</span>
-                        <h4 class="font-serif text-xl text-white group-hover:text-revOrange transition-colors drop-shadow-md">${r.title}</h4>
+            container.innerHTML = toShow.map((r) => `
+                <a href="${r.link}" class="group flex items-center justify-between py-5 border-b border-revLine hover:bg-white/[0.03] transition-colors cursor-pointer pr-4">
+                    <div class="flex items-center space-x-4">
+                        <span class="font-serif text-[13px] text-revOrange tracking-wider">${r.cat}</span>
+                        <h4 class="font-serif text-[17px] text-white group-hover:text-revText transition-colors">${r.title}</h4>
                     </div>
-                    <div class="flex items-center space-x-8 text-xs font-sans text-white shrink-0 drop-shadow-md mt-2 sm:mt-0">
-                        <span>${r.date}</span>
-                        <span class="group-hover:text-revOrange transition-colors flex items-center">READ MORE <svg class="w-3 h-3 ml-2 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path></svg></span>
-                    </div>
+                    <span class="text-[11px] font-sans text-revMuted shrink-0">${r.date}</span>
                 </a>
             `).join('');
 
-            if (filtered.length <= INITIAL_LIMIT) {
-                btn.style.display = 'none';
-            } else {
-                btn.style.display = 'inline-block';
-                if (currentLimit >= filtered.length) {
-                    btn.textContent = "COLLAPSE RECORDS";
-                    btn.onclick = () => { 
-                        currentLimit = INITIAL_LIMIT; 
-                        renderRecords(); 
-                        container.scrollTop = 0; 
-                    };
-                } else {
-                    const remaining = filtered.length - currentLimit;
-                    btn.textContent = `MORE RECORDS (${Math.min(remaining, LOAD_MORE_COUNT)} LEFT)`;
-                    btn.onclick = () => { 
-                        currentLimit += LOAD_MORE_COUNT; 
-                        renderRecords(); 
-                    };
-                }
-            }
-        }
-
-        function bindTabs() {
-            const tabs = document.querySelectorAll('#filter-tabs span');
-            tabs.forEach(tab => {
-                tab.addEventListener('click', (e) => {
-                    tabs.forEach(t => t.className = "cursor-pointer hover:text-white transition-colors pb-1 drop-shadow-md");
-                    e.target.className = "cursor-pointer transition-colors pb-1 text-revOrange border-b border-revOrange drop-shadow-md";
-                    currentCategory = e.target.getAttribute('data-cat');
-                    currentLimit = INITIAL_LIMIT;
-                    renderRecords();
-                });
-            });
+            btn.style.display = allRecords.length > 4 ? 'inline-block' : 'none';
+            btn.onclick = () => { currentLimit += 4; renderRecords(); };
         }
 
         initDynamicRecords();
