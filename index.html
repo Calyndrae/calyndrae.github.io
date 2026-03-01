@@ -31,12 +31,13 @@
         }
     </script>
     <style>
-        /* 锁定页面，禁止默认滚动和选中 */
         body, html { 
-            background-color: #0e0d0b; color: #dfdcd5; 
+            color: #dfdcd5; 
             overflow: hidden; height: 100vh; width: 100vw;
             -webkit-font-smoothing: antialiased; 
             user-select: none;
+            /* 确保 body 彻底透明，不阻挡图片 */
+            background-color: transparent; 
         }
 
         .image-bracket-container { position: relative; display: inline-block; }
@@ -55,24 +56,28 @@
 
         .screen-section { opacity: 0; visibility: hidden; position: absolute; inset: 0; width: 100%; height: 100%; display: flex; flex-direction: column; }
         
-        /* 视差层平滑过渡 */
         #dynamic-bg {
             transition: transform 0.2s cubic-bezier(0.25, 1, 0.5, 1);
             will-change: transform;
         }
 
         .text-gradient { background: linear-gradient(135deg, #ffffff 0%, #a855f7 50%, #3b82f6 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        
+        .bg-noise { position: fixed; inset: 0; opacity: 0.035; pointer-events: none; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E"); }
     </style>
 </head>
 <body>
 
-    <div class="fixed inset-0 z-[-1] overflow-hidden pointer-events-none bg-revBg">
-        <div id="dynamic-bg" class="absolute inset-[-5%] bg-cover bg-center bg-no-repeat opacity-100" 
-             style="background-image: url('https://raw.githubusercontent.com/Calyndrae/calyndrae.github.io/main/resources/background.png');">
+    <div class="fixed inset-0 z-[-10] overflow-hidden pointer-events-none">
+        <div id="dynamic-bg" class="absolute inset-[-5%] w-[110%] h-[110%]">
+            <img src="https://raw.githubusercontent.com/Calyndrae/calyndrae.github.io/main/resources/background.png" 
+                 alt="Background" 
+                 class="w-full h-full object-cover blur-[12px]">
         </div>
+        <div class="bg-noise absolute inset-0 z-20"></div>
     </div>
 
-    <nav class="fixed top-0 w-full z-50 px-10 py-6 flex justify-between items-center backdrop-blur-sm bg-revBg/40 border-b border-revLine">
+    <nav class="fixed top-0 w-full z-50 px-10 py-6 flex justify-between items-center backdrop-blur-sm bg-black/20 border-b border-revLine">
         <div class="flex items-center space-x-12">
             <a href="index.html" class="text-3xl font-serif tracking-widest text-revText flex items-center drop-shadow-md">
                 JD<span class="text-revOrange ml-1 text-4xl">.</span>
@@ -114,12 +119,12 @@
                         <div class="w-8 h-px bg-revOrange"></div>
                         <span class="text-revOrange font-sans text-xs tracking-[0.3em] uppercase drop-shadow-md">Multi-Disciplinary Creator</span>
                     </div>
-                    <h1 class="text-5xl md:text-7xl font-serif text-revText mb-8 leading-[1.1] drop-shadow-xl">
+                    <h1 class="text-5xl md:text-7xl font-serif text-white mb-8 leading-[1.1] drop-shadow-xl font-bold">
                         Visuals &<br>Underlying<br><span class="italic text-revMuted">Logic.</span>
                     </h1>
-                    <div class="space-y-6 text-revMuted font-sans text-sm leading-relaxed max-w-md pl-4 border-l border-revLine drop-shadow-md">
-                        <p class="text-white drop-shadow-md">I am a creator bridging the gap between artistic expression and technical execution. With 5 years of experience focused on game illustrations, anime, and UI design.</p>
-                        <p class="text-white drop-shadow-md">Simultaneously, I am a full-stack scripter and game developer, engineering complex datapacks and commanding Tier 4 PVP combat.</p>
+                    <div class="space-y-6 text-white font-sans text-sm leading-relaxed max-w-md pl-4 border-l border-revLine drop-shadow-md">
+                        <p class="drop-shadow-lg">I am a creator bridging the gap between artistic expression and technical execution. With 5 years of experience focused on game illustrations, anime, and UI design.</p>
+                        <p class="drop-shadow-lg">Simultaneously, I am a full-stack scripter and game developer, engineering complex datapacks and commanding Tier 4 PVP combat.</p>
                     </div>
                 </div>
             </div>
@@ -130,9 +135,9 @@
                 <div class="lg:col-span-5 relative group cursor-pointer h-[400px]">
                     <div class="absolute inset-0 bg-revBgLighter border border-revLine overflow-hidden shadow-2xl image-bracket-container">
                         <img src="https://images.unsplash.com/photo-1542831371-29b0f74f9713?q=80&w=800&auto=format&fit=crop" alt="Latest Event" class="w-full h-full object-cover opacity-60 group-hover:opacity-90 transition-opacity duration-700 filter grayscale group-hover:grayscale-0">
-                        <div class="absolute inset-0 bg-gradient-to-t from-revBg via-transparent to-transparent"></div>
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent"></div>
                         <div class="absolute bottom-8 left-8 right-8 pointer-events-none">
-                            <p class="font-sans text-[10px] text-revText tracking-widest uppercase mb-2">Current Pipeline</p>
+                            <p class="font-sans text-[10px] text-white tracking-widest uppercase mb-2">Current Pipeline</p>
                             <h3 class="font-serif text-3xl text-white mb-2">Technical & Combat<br><span class="italic text-revOrange">Progression</span></h3>
                             <div class="flex space-x-2 mt-4"><div class="w-2 h-2 rotate-45 bg-revOrange"></div><div class="w-2 h-2 rotate-45 bg-revOrange opacity-50"></div></div>
                         </div>
@@ -141,20 +146,20 @@
 
                 <div class="lg:col-span-7 flex flex-col justify-center max-h-[80vh]">
                     <div class="flex items-end mb-8 border-b border-revLine pb-4 relative">
-                        <h2 class="font-serif text-5xl text-revText mr-8 drop-shadow-xl">Updates</h2>
-                        <div class="flex space-x-6 text-xs font-sans tracking-[0.2em] text-revMuted pb-2 drop-shadow-md" id="filter-tabs">
+                        <h2 class="font-serif text-5xl text-white mr-8 drop-shadow-xl font-bold">Updates</h2>
+                        <div class="flex space-x-6 text-xs font-sans tracking-[0.2em] text-white pb-2 drop-shadow-md" id="filter-tabs">
                             <span class="cursor-pointer transition-colors pb-1 text-revOrange border-b border-revOrange" data-cat="LATEST">LATEST</span>
-                            <span class="cursor-pointer hover:text-white transition-colors pb-1" data-cat="DEVELOPMENT">DEVELOPMENT</span>
-                            <span class="cursor-pointer hover:text-white transition-colors pb-1" data-cat="ARTWORK">ARTWORK</span>
+                            <span class="cursor-pointer hover:text-revOrange transition-colors pb-1" data-cat="DEVELOPMENT">DEVELOPMENT</span>
+                            <span class="cursor-pointer hover:text-revOrange transition-colors pb-1" data-cat="ARTWORK">ARTWORK</span>
                         </div>
                     </div>
 
-                    <div id="records-container" class="can-scroll space-y-0 max-h-[45vh] overflow-y-auto hide-scroll pr-4 bg-black/30 rounded-xl backdrop-blur-md p-2">
+                    <div id="records-container" class="can-scroll space-y-0 max-h-[45vh] overflow-y-auto hide-scroll pr-4 bg-black/40 rounded-xl backdrop-blur-md p-2 shadow-2xl">
                         <div class="py-10 text-center text-revOrange font-mono text-xs tracking-widest animate-pulse drop-shadow-md">[ FETCHING SECURE LOGS... ]</div>
                     </div>
                     
                     <div class="pt-6 text-center shrink-0">
-                        <button id="btn-more-records" class="hidden border border-revLine px-8 py-3 text-xs font-sans tracking-[0.2em] text-revText hover:bg-revText hover:text-revBg transition-colors rounded-full uppercase bg-black/40 backdrop-blur-sm">
+                        <button id="btn-more-records" class="hidden border border-revLine px-8 py-3 text-xs font-sans tracking-[0.2em] text-white hover:bg-white hover:text-black transition-colors rounded-full uppercase bg-black/60 backdrop-blur-md shadow-lg">
                             MORE RECORDS
                         </button>
                     </div>
@@ -164,32 +169,32 @@
 
         <section class="screen-section max-w-[1600px] mx-auto px-10 flex flex-col justify-between pt-10 pb-0">
             <div class="flex-grow relative w-full h-full mt-10">
-                <div class="absolute top-20 left-1/2 -translate-x-1/2 text-center pointer-events-none opacity-40 text-[9px] font-sans tracking-[0.3em] uppercase text-white drop-shadow-md">
+                <div class="absolute top-20 left-1/2 -translate-x-1/2 text-center pointer-events-none opacity-60 text-[9px] font-sans tracking-[0.3em] uppercase text-white drop-shadow-md">
                     <p>Merging the artistic vision</p><p>with uncompromising backend logic.</p>
                 </div>
 
                 <div class="absolute top-10 left-10 lg:left-32 group cursor-pointer animate-float">
                     <div class="relative z-10"><div class="w-64 h-80 circle-mask overflow-hidden bg-revBgLighter shadow-2xl relative"><div class="absolute inset-0 bg-revOrange/10 mix-blend-overlay z-10 group-hover:bg-transparent transition-all duration-500"></div><img src="https://images.unsplash.com/photo-1558591710-4b4a1ae0f04d?q=80&w=800&auto=format&fit=crop" alt="Illustration" class="w-full h-full object-cover opacity-80 group-hover:scale-110 transition-transform duration-700"></div></div>
-                    <h3 class="absolute -bottom-6 -right-10 font-serif text-5xl text-revText drop-shadow-xl z-20 group-hover:text-white transition-colors"><span class="text-revOrange italic text-4xl mr-1">+</span>Illustrations</h3>
+                    <h3 class="absolute -bottom-6 -right-10 font-serif text-5xl text-white font-bold drop-shadow-2xl z-20 transition-colors"><span class="text-revOrange italic text-4xl mr-1">+</span>Illustrations</h3>
                 </div>
 
                 <div class="absolute top-0 right-10 lg:right-32 group cursor-pointer animate-float-delayed">
                     <div class="relative z-10 image-bracket-container"><div class="w-72 h-48 bg-revBgLighter border border-revLine overflow-hidden shadow-2xl relative"><div class="absolute inset-0 bg-blue-900/10 mix-blend-overlay z-10 group-hover:bg-transparent transition-all duration-500"></div><img src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?q=80&w=800&auto=format&fit=crop" alt="Scripting" class="w-full h-full object-cover opacity-70 group-hover:scale-110 transition-transform duration-700 filter grayscale group-hover:grayscale-0"></div></div>
-                    <h3 class="absolute -bottom-8 -left-12 font-serif text-5xl text-revText drop-shadow-xl z-20 group-hover:text-white transition-colors"><span class="text-revOrange italic text-4xl mr-1">+</span>Architecture</h3>
+                    <h3 class="absolute -bottom-8 -left-12 font-serif text-5xl text-white font-bold drop-shadow-2xl z-20 transition-colors"><span class="text-revOrange italic text-4xl mr-1">+</span>Architecture</h3>
                 </div>
 
                 <div class="absolute bottom-20 left-1/2 -translate-x-1/2 group cursor-pointer animate-float">
                     <div class="relative z-10">
                         <div class="w-80 h-80 bg-revBgLighter border border-revLine overflow-hidden shadow-2xl rounded-sm relative">
-                            <div class="absolute inset-0 bg-revBg/40 z-10 flex items-center justify-center"><div class="w-48 h-48 rounded-full border border-revLine/30 bg-black/60 shadow-[0_0_30px_rgba(0,0,0,0.8)] flex items-center justify-center group-hover:rotate-180 transition-transform duration-1000"><div class="w-16 h-16 rounded-full bg-revBg border border-revLine/50 flex items-center justify-center"><div class="w-2 h-2 rounded-full bg-revOrange"></div></div></div></div>
+                            <div class="absolute inset-0 bg-black/60 z-10 flex items-center justify-center"><div class="w-48 h-48 rounded-full border border-revLine/30 bg-black/80 shadow-[0_0_30px_rgba(0,0,0,0.8)] flex items-center justify-center group-hover:rotate-180 transition-transform duration-1000"><div class="w-16 h-16 rounded-full bg-black border border-revLine/50 flex items-center justify-center"><div class="w-2 h-2 rounded-full bg-revOrange"></div></div></div></div>
                             <img src="https://images.unsplash.com/photo-1605810230434-7631ac76ec81?q=80&w=800&auto=format&fit=crop" alt="Game Dev" class="w-full h-full object-cover opacity-50 group-hover:scale-110 transition-transform duration-700">
                         </div>
                     </div>
-                    <h3 class="absolute -bottom-6 left-1/2 -translate-x-1/2 w-max font-serif text-6xl text-revText drop-shadow-xl z-20 group-hover:text-white transition-colors"><span class="text-revOrange italic text-4xl mr-1">+</span>Game Dev</h3>
+                    <h3 class="absolute -bottom-6 left-1/2 -translate-x-1/2 w-max font-serif text-6xl text-white font-bold drop-shadow-2xl z-20 transition-colors"><span class="text-revOrange italic text-4xl mr-1">+</span>Game Dev</h3>
                 </div>
             </div>
 
-            <footer class="w-full py-6 border-t border-revLine flex justify-between items-center text-[9px] font-sans tracking-[0.2em] text-revMuted uppercase shrink-0 drop-shadow-md">
+            <footer class="w-full py-6 border-t border-revLine flex justify-between items-center text-[9px] font-sans tracking-[0.2em] text-white uppercase shrink-0 drop-shadow-md z-10 bg-black/20 backdrop-blur-sm">
                 <div class="flex items-center space-x-2"><span class="text-revOrange">JD PORTFOLIO</span><span class="w-4 h-px bg-revLine"></span><span>Est. 2021</span></div>
                 <div class="flex items-center space-x-8"><div class="flex items-center space-x-2"><div class="w-1.5 h-1.5 rotate-45 bg-revOrange"></div><span>01</span></div><span>THE LOGIC IS COMING</span></div>
             </footer>
@@ -198,12 +203,12 @@
     </main>
 
     <div class="fixed right-6 top-1/2 -translate-y-1/2 flex flex-col space-y-3 z-50">
-        <button class="nav-dot w-2 h-2 rounded-full border border-revOrange bg-revOrange transition-all"></button>
-        <button class="nav-dot w-2 h-2 rounded-full border border-revLine bg-transparent hover:border-revText transition-all"></button>
-        <button class="nav-dot w-2 h-2 rounded-full border border-revLine bg-transparent hover:border-revText transition-all"></button>
+        <button class="nav-dot w-2 h-2 rounded-full border border-revOrange bg-revOrange transition-all shadow-lg"></button>
+        <button class="nav-dot w-2 h-2 rounded-full border border-revLine bg-transparent hover:border-revText transition-all shadow-lg"></button>
+        <button class="nav-dot w-2 h-2 rounded-full border border-revLine bg-transparent hover:border-revText transition-all shadow-lg"></button>
     </div>
 
-    <div id="wechat-modal" class="fixed inset-0 z-[60] hidden flex-col items-center justify-center bg-revBg/90 backdrop-blur-3xl opacity-0">
+    <div id="wechat-modal" class="fixed inset-0 z-[60] hidden flex-col items-center justify-center bg-black/80 backdrop-blur-3xl opacity-0">
         <button id="close-wechat" class="absolute top-8 right-8 w-12 h-12 bg-white/10 rounded-full flex items-center justify-center hover:bg-white/20 transition-all">
             <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
         </button>
@@ -212,15 +217,12 @@
                 <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=WeChatID_JD" alt="QR" class="w-full h-full object-contain">
             </div>
             <h3 class="text-2xl font-bold text-white mb-2">JD_WECHAT</h3>
-            <p class="text-revMuted text-sm uppercase tracking-widest">Scan via WeChat</p>
+            <p class="text-white text-sm uppercase tracking-widest">Scan via WeChat</p>
         </div>
     </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <script>
-        // ==========================================
-        // 1. 安全锁定 & 图片背景视差
-        // ==========================================
         document.addEventListener('contextmenu', event => event.preventDefault());
         document.addEventListener('dragstart', event => event.preventDefault());
         document.addEventListener('keydown', (e) => {
@@ -237,9 +239,6 @@
             bg.style.transform = `translate3d(${xOffset * 30}px, ${yOffset * 30}px, 0)`;
         });
 
-        // ==========================================
-        // 2. 更快更干脆的全屏滑动引擎 (0.45s)
-        // ==========================================
         const sections = document.querySelectorAll('.screen-section');
         const navDots = document.querySelectorAll('.nav-dot');
         let currentSection = 0;
@@ -332,20 +331,6 @@
             });
         });
 
-        const wTrigger = document.getElementById('wechat-trigger');
-        const wModal = document.getElementById('wechat-modal');
-        const wClose = document.getElementById('close-wechat');
-        if(wTrigger && wModal && wClose) {
-            wTrigger.addEventListener('click', () => {
-                wModal.classList.replace('hidden', 'flex');
-                gsap.to(wModal, { opacity: 1, duration: 0.3 });
-                gsap.fromTo(wModal.querySelector('.glass-card'), { scale: 0.9, y: 20 }, { scale: 1, y: 0, duration: 0.4, ease: "expo.out" });
-            });
-            wClose.addEventListener('click', () => {
-                gsap.to(wModal, { opacity: 0, duration: 0.2, onComplete: () => wModal.classList.replace('flex', 'hidden') });
-            });
-        }
-
         const DB_URL = "https://raw.githubusercontent.com/Calyndrae/calyndrae.github.io/main/records/records.txt";
         let allRecords = [];
         let currentCategory = 'LATEST';
@@ -398,7 +383,7 @@
             const toShow = filtered.slice(0, currentLimit);
 
             if(filtered.length === 0) {
-                container.innerHTML = `<div class="py-10 text-center text-revMuted text-sm italic">No records found.</div>`;
+                container.innerHTML = `<div class="py-10 text-center text-white text-sm italic">No records found.</div>`;
                 btn.style.display = 'none'; return;
             }
 
