@@ -1,1 +1,5 @@
-
+title: example title
+description: example description
+date: example date
+related persons: example related persons
+links: example.com
