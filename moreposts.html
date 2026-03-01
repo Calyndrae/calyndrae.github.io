@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>JD | Posts Archive</title>
+    <title>JD | Posts</title>
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -38,15 +38,15 @@
             width: 100vw;
             -webkit-font-smoothing: antialiased; 
             user-select: none;
-            background-color: #0e0d0b; 
+            background-color: transparent; 
         }
 
-        /* --- EXACT ORIGINAL LIST STYLING FROM INDEX.HTML --- */
+        /* --- EXACT ORIGINAL LIST STYLING FROM INDEX.HTML WITH SLIDE EFFECT --- */
         .news-right-con-list {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 16px 0; 
+            padding: 1.2rem 0; /* Exact spacing */
             border-bottom: 1px solid rgba(255, 255, 255, 0.1);
             cursor: pointer;
         }
@@ -103,7 +103,7 @@
             transition: color 0.3s ease;
             white-space: nowrap;
             overflow: hidden;
-            text-overflow: ellipsis; /* Native truncation */
+            text-overflow: ellipsis; 
         }
 
         .news-right-con-list-left-time {
@@ -144,10 +144,10 @@
                 JD<span class="text-revOrange ml-1">.</span>
             </a>
             <div class="hidden lg:flex space-x-12 text-[15px] font-serif tracking-[0.2em] text-revMuted uppercase">
-                <a href="https://calyndrae.github.io/index.html" class="hover:text-revOffWhite transition-colors text-shadow-custom">MAIN PAGE</a>
-                <a href="https://calyndrae.github.io/projects.html" class="hover:text-revOffWhite transition-colors text-shadow-custom">PROJECTS</a>
+                <a href="https://calyndrae.github.io/index.html" class="hover:text-revOffWhite transition-colors text-shadow-custom border-b border-transparent pb-1">MAIN PAGE</a>
+                <a href="https://calyndrae.github.io/projects.html" class="hover:text-revOffWhite transition-colors text-shadow-custom border-b border-transparent pb-1">PROJECTS</a>
                 <a href="https://calyndrae.github.io/moreposts.html" class="text-revOffWhite border-b border-revOrange pb-1 text-shadow-custom">POSTS</a>
-                <a href="https://calyndrae.github.io/gallery.html" class="hover:text-revOffWhite transition-colors text-shadow-custom">GALLERY</a>
+                <a href="https://calyndrae.github.io/gallery.html" class="hover:text-revOffWhite transition-colors text-shadow-custom border-b border-transparent pb-1">GALLERY</a>
             </div>
         </div>
         
@@ -176,38 +176,34 @@
         </div>
     </footer>
 
-    <main class="relative w-full h-full z-10 flex justify-center items-center px-12 pt-[100px] pb-[80px]">
+    <main class="relative w-full h-full z-10 flex justify-center px-12 pt-[140px] pb-[100px]">
         
-        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[900px] h-[900px] geo-ring border-revLine/10 animate-spin-slow z-[-1]"></div>
-        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] geo-ring border-revOrange/5 animate-spin-reverse z-[-1]"></div>
-
-        <div class="w-full max-w-[1100px] h-full flex flex-col bg-black/20 backdrop-blur-[2px] border border-revLine/20 rounded-2xl p-10 shadow-[0_20px_50px_rgba(0,0,0,0.5)] relative overflow-hidden">
+        <div class="w-full max-w-[1000px] h-full flex flex-col relative">
             
-            <div class="absolute top-0 right-0 w-32 h-32 bg-gradient-to-bl from-revOrange/10 to-transparent z-0 pointer-events-none"></div>
-
-            <div class="flex items-end justify-between mb-8 w-full relative z-10 shrink-0 border-b border-revLine/50 pb-4">
-                <div class="absolute -top-10 -left-8 z-[-1] opacity-40 pointer-events-none">
-                    <svg class="w-40 h-40 animate-spin-slow text-revLine/40" viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="0.5">
+            <div class="flex items-end justify-between mb-6 w-full relative shrink-0">
+                <div class="absolute -top-16 -left-12 z-[-1] opacity-40 pointer-events-none">
+                    <svg class="w-48 h-48 animate-spin-slow text-revLine/40" viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="0.5">
                         <circle cx="50" cy="50" r="45" stroke-dasharray="2 6" />
                         <ellipse cx="50" cy="50" rx="40" ry="10" transform="rotate(30 50 50)" />
+                        <ellipse cx="50" cy="50" rx="40" ry="10" transform="rotate(-30 50 50)" />
                     </svg>
                 </div>
 
                 <h2 class="font-serif text-revOffWhite text-shadow-custom flex items-baseline leading-none m-0">
-                    <span class="text-[6.5rem] leading-[0.75] font-normal drop-shadow-md">A</span>
-                    <span class="text-[2.5rem] leading-none tracking-widest ml-1">RCHIVE</span>
+                    <span class="text-[6.5rem] leading-[0.75] font-normal drop-shadow-md">P</span>
+                    <span class="text-[2.5rem] leading-none">OSTS</span>
                 </h2>
                 
-                <div class="flex items-center space-x-6 text-[14px] font-serif tracking-[0.1em] text-revMuted border rounded-full z-10 px-8 py-2" id="filter-tabs" style="border-color: rgb(65, 59, 47); background: rgba(0, 0, 0, 0.6);">
-                    <span class="cursor-pointer text-revOrange border-b-2 border-revOrange pb-1 text-[18px] font-serif transition-colors" data-cat="LATEST">LATEST</span>
-                    <span class="cursor-pointer hover:text-revOffWhite border-b-2 border-transparent pb-1 text-[18px] font-serif transition-colors" data-cat="SCRIPTS">SCRIPTS</span>
-                    <span class="cursor-pointer hover:text-revOffWhite border-b-2 border-transparent pb-1 text-[18px] font-serif transition-colors" data-cat="ARTS">ARTS</span>
-                    <span class="cursor-pointer hover:text-revOffWhite border-b-2 border-transparent pb-1 text-[18px] font-serif transition-colors" data-cat="OTHERS">OTHERS</span>
+                <div class="flex items-center space-x-6 text-[14px] font-serif tracking-[0.1em] text-revMuted border rounded-full z-10 px-8 py-2" id="filter-tabs" style="border-color: rgb(65, 59, 47); background: rgba(0, 0, 0, 0.4);">
+                    <span class="cursor-pointer text-revOrange transition-colors border-b-2 border-revOrange pb-1" data-cat="LATEST">LATEST</span>
+                    <span class="cursor-pointer hover:text-revOffWhite transition-colors border-b-2 border-transparent pb-1" data-cat="SCRIPTS">SCRIPTS</span>
+                    <span class="cursor-pointer hover:text-revOffWhite transition-colors border-b-2 border-transparent pb-1" data-cat="ARTS">ARTS</span>
+                    <span class="cursor-pointer hover:text-revOffWhite transition-colors border-b-2 border-transparent pb-1" data-cat="OTHERS">OTHERS</span>
                 </div>
             </div>
 
-            <div id="records-container" class="space-y-0 w-full text-shadow-custom flex-grow overflow-y-auto hide-scroll z-10 pr-2">
-                <div class="py-20 text-revOrange font-serif italic text-lg tracking-widest text-center animate-pulse">[ INITIATING ARCHIVE DECRYPTION... ]</div>
+            <div id="records-container" class="space-y-0 w-full text-shadow-custom flex-grow overflow-y-auto hide-scroll pb-10">
+                <div class="py-20 text-revOrange font-serif italic text-lg tracking-widest text-center animate-pulse">[ INITIATING FETCH PROTOCOL... ]</div>
             </div>
 
         </div>
@@ -216,15 +212,6 @@
     <script>
         document.addEventListener('contextmenu', event => event.preventDefault());
         document.addEventListener('dragstart', event => event.preventDefault());
-
-        document.addEventListener('mousemove', (e) => {
-            const bg = document.getElementById('dynamic-bg');
-            if (!bg) return;
-            const xOffset = (e.clientX / window.innerWidth - 0.5);
-            const yOffset = (e.clientY / window.innerHeight - 0.5);
-            // Slight movement for immersion
-            bg.style.transform = `translate3d(${xOffset * 15}px, ${yOffset * 15}px, 0)`;
-        });
 
         // ===============================================
         // DATA FETCH ENGINE (Displays 8 Items)
@@ -282,7 +269,7 @@
 
                 if(allRecords.length === 0) {
                     allRecords = [
-                        { title: "No historical records found.", cat: "SYSTEM", date: "N/A", link: "#", pic: "", ts: 1 }
+                        { title: "No database records found.", cat: "SYSTEM", date: "N/A", link: "#", pic: "", ts: 1 }
                     ];
                 }
                 
@@ -298,11 +285,11 @@
                 let filtered = currentCategory === 'LATEST' ? allRecords : allRecords.filter(r => r.cat === currentCategory);
                 filtered.sort((a, b) => b.ts - a.ts);
                 
-                // *** CHANGED TO 8 ITEMS FOR ARCHIVE PAGE ***
+                // *** EXACTLY 8 ITEMS SHOWN AT ONCE ***
                 const toShow = filtered.slice(0, 8);
 
                 if(toShow.length === 0) {
-                    container.innerHTML = `<div class="py-20 text-revOffWhite text-[18px] font-serif italic text-center drop-shadow-md">No records found in this sector.</div>`;
+                    container.innerHTML = `<div class="py-20 text-revOffWhite text-[18px] font-serif italic text-center drop-shadow-md">No records found.</div>`;
                     return;
                 }
                 
