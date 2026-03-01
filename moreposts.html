@@ -364,10 +364,12 @@
             tabs.forEach(tab => {
                 tab.addEventListener('click', (e) => {
                     tabs.forEach(t => {
-                        t.className = "cursor-pointer hover:text-revOffWhite transition-colors border-b-2 border-transparent pb-1 text-[18px] font-serif";
+                        // Removed text-[18px] font-serif
+                        t.className = "cursor-pointer hover:text-revOffWhite transition-colors border-b-2 border-transparent pb-1";
                     });
                     
-                    e.target.className = "cursor-pointer text-revOrange transition-colors text-shadow-glow border-b-2 border-revOrange pb-1 text-[18px] font-serif";
+                    // Removed text-[18px] font-serif
+                    e.target.className = "cursor-pointer text-revOrange transition-colors text-shadow-glow border-b-2 border-revOrange pb-1";
                     
                     currentCategory = e.target.getAttribute('data-cat');
                     renderRecords();
