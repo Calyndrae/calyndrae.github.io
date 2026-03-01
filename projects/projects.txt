@@ -1,1 +1,14 @@
+** Example project 1 TITLE **
+Description: (text)
+Release Date: (Date, as 00/00/0000)
+Links: (example.com)
 
+** Example project 2 TITLE **
+Description: (text)
+Release Date: (Date, as 00/00/0000)
+Links: (example.com)
+
+** Example project 3 TITLE **
+Description: (text)
+Release Date: (Date, as 00/00/0000)
+Links: (example.com)
