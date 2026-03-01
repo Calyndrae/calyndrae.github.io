@@ -50,6 +50,19 @@
         </div>
     </main>
 
+    <div id="detail-overlay" class="fixed inset-0 z-[60] hidden flex-col bg-black/60 backdrop-blur-3xl text-white overflow-y-auto">
+    <div class="max-w-4xl mx-auto w-full px-6 py-24 relative min-h-screen flex flex-col">
+        <button id="close-overlay" class="fixed top-8 right-8 w-12 h-12 bg-white/10 rounded-full flex items-center justify-center hover:bg-white/20 hover:scale-110 transition-all backdrop-blur-md z-50">
+            <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+        </button>
+        
+        <p id="overlay-category" class="text-sm font-medium text-grayCustom mb-4 tracking-widest uppercase"></p>
+        <h1 id="overlay-title" class="text-4xl md:text-6xl font-bold mb-10"></h1>
+        <div id="overlay-body" class="text-lg leading-relaxed text-grayCustom space-y-6">
+            </div>
+    </div>
+</div>
+    
     <nav class="fixed bottom-8 left-1/2 transform -translate-x-1/2 z-50 glass-dock rounded-full px-6 py-4 flex items-center space-x-8 shadow-2xl transition-all">
         <a href="index.html" class="dock-link group relative text-grayCustom hover:text-white transition-all duration-300 hover:scale-110 hover:-translate-y-1">
             <span class="text-sm font-medium">Home</span>
