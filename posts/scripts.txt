@@ -3,3 +3,4 @@ description: example description
 date: example date
 related persons: example related persons
 links: example.com
+picture: none
