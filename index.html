@@ -472,14 +472,16 @@
         }
 
         function bindTabs() {
-            const tabs = document.querySelectorAll('#filter-tabs div');
+            const tabs = document.querySelectorAll('#filter-tabs span');
             tabs.forEach(tab => {
                 tab.addEventListener('click', (e) => {
                     tabs.forEach(t => {
-                        t.className = "news-right-head-bg-list cursor-pointer text-[#fdfbf2] hover:text-[#d36b32] border-b border-transparent pb-0.5 text-[14px] font-serif tracking-widest";
+                        // Removed the unwanted text-[18px] font-serif injection
+                        t.className = "cursor-pointer hover:text-revOffWhite transition-colors border-b-2 border-transparent pb-1";
                     });
                     
-                    e.target.className = "news-right-head-bg-list cursor-pointer text-[#d36b32] border-b border-[#d36b32] pb-0.5 text-[14px] font-serif tracking-widest";
+                    // Removed the unwanted text-[18px] font-serif injection
+                    e.target.className = "cursor-pointer text-revOrange transition-colors text-shadow-glow border-b-2 border-revOrange pb-1";
                     
                     currentCategory = e.target.getAttribute('data-cat');
                     renderRecords();
@@ -492,3 +494,4 @@
     </script>
 </body>
 </html>
+
