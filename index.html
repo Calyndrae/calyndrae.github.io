@@ -195,14 +195,14 @@
 </head>
 <body>
 
-    <div class="fixed inset-0 z-[-10] overflow-hidden pointer-events-none bg-[#0e0d0b] flex items-center justify-center">
-        <div id="dynamic-bg" class="relative">
-            <div class="absolute inset-0 shadow-[inset_0_0_150px_20px_#0e0d0b] z-10 pointer-events-none"></div>
+<div class="fixed inset-0 z-[-10] overflow-hidden pointer-events-none bg-[#0e0d0b]">
+        <div id="dynamic-bg" class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
+            <div class="bg-edge-fade"></div>
             
             <img src="https://raw.githubusercontent.com/Calyndrae/calyndrae.github.io/main/resources/background.png" 
                  onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1550745165-9bc0b252726f?q=80&w=1920&auto=format&fit=crop';" 
                  alt="Background" 
-                 class="block max-w-none opacity-100">
+                 class="block max-w-none opacity-100 object-none">
         </div>
     </div>
 
@@ -575,6 +575,7 @@
     </script>
 </body>
 </html>
+
 
 
 
