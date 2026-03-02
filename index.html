@@ -44,13 +44,14 @@
         body, html {
     color: #dfdcd5;
     overflow: hidden;
-    height: 100vh;
-    width: 100vw;
+    height: 100%;       /* <- 改这里 */
+    width: 100%;        /* <- 改这里 */
     -webkit-font-smoothing: antialiased;
     user-select: none;
-    background-color: transparent;
+    background-color: #0e0d0b; /* <- 给背景一个底色 */
     margin: 0;
     padding: 0;
+}
 }
 
         /* --- UPGRADED CREATIVE LIST STYLING --- */
@@ -107,6 +108,11 @@
 <body>
 
     <div class="fixed inset-0 z-[-10] overflow-hidden pointer-events-none">
+    <img src="https://raw.githubusercontent.com/Calyndrae/calyndrae.github.io/main/resources/background.png"
+         alt="Background"
+         class="w-full h-full object-cover">
+    <div class="bg-edge-fade"></div> <!-- 保留边缘渐隐 -->
+</div>
     <div id="dynamic-bg" class="absolute inset-0 w-full h-full">
         <img src="https://raw.githubusercontent.com/Calyndrae/calyndrae.github.io/main/resources/background.png"
              onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1550745165-9bc0b252726f?q=80&w=1920&auto=format&fit=crop';"
@@ -464,4 +470,5 @@
     </script>
 </body>
 </html>
+
 
