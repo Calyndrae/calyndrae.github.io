@@ -31,65 +31,6 @@
         }
     </script>
     <style>
-
-        /* EXACT ORIGINAL LIST STYLING */
-        .news-right-con-list {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 16px 0; /* Exact original spacing */
-            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-            cursor: pointer;
-        }
-
-        .news-right-con-list-left {
-            display: flex;
-            align-items: center;
-            overflow: hidden;
-            flex-grow: 1;
-        }
-
-        .news-right-con-list-left-icon {
-            margin-right: 12px;
-            flex-shrink: 0;
-            display: flex;
-            align-items: center;
-        }
-
-        /* Original Type: 14px, #d36b32 */
-        .news-right-con-list-left-type {
-            font-family: "Cormorant Garamond", serif;
-            font-size: 14px;
-            color: #d36b32;
-            width: 80px; 
-            flex-shrink: 0;
-            letter-spacing: 1px;
-        }
-
-        /* Original Title: 16px, rgb(187, 168, 147) */
-        .news-right-con-list-left-title {
-            font-family: "Cormorant Garamond", serif;
-            font-size: 16px;
-            color: rgb(187, 168, 147);
-            transition: color 0.3s ease;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis; /* Native CSS truncation */
-        }
-
-        .news-right-con-list:hover .news-right-con-list-left-title {
-            color: #d36b32;
-        }
-
-        /* Original Date: 14px, Muted */
-        .news-right-con-list-left-time {
-            font-family: 'Inter', sans-serif;
-            font-size: 14px;
-            color: rgba(255, 255, 255, 0.4);
-            margin-left: 1rem;
-            flex-shrink: 0;
-        }
-
         body, html { 
             color: #dfdcd5; 
             overflow: hidden; height: 100vh; width: 100vw;
@@ -98,34 +39,136 @@
             background-color: transparent; 
         }
 
-        #dynamic-bg {
-            transition: transform 0.2s cubic-bezier(0.25, 1, 0.5, 1);
-            will-change: transform;
+        /* --- UPGRADED CREATIVE LIST STYLING (Slide to reveal + Glow) --- */
+        .news-right-con-list {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.2rem 1rem; /* Added slight side padding for the hover background */
+            margin: 0 -1rem; /* Negative margin to keep it perfectly aligned with the header */
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            cursor: pointer;
+            transition: background 0.4s ease;
+            border-radius: 8px;
         }
 
-        .one-corner-rounded { 
-            border-top-right-radius: 80px; 
-            border-bottom-right-radius: 8px;
-            border-bottom-left-radius: 8px;
-            border-top-left-radius: 8px;
+        /* The elegant fade-in background on hover */
+        .news-right-con-list:hover {
+            background: linear-gradient(90deg, rgba(211,107,50,0.08) 0%, rgba(211,107,50,0.01) 50%, transparent 100%);
+            border-bottom: 1px solid rgba(211, 107, 50, 0.3);
+        }
+
+        .news-right-con-list-left {
+            display: flex;
+            align-items: center;
+            overflow: hidden;
+            flex-grow: 1;
+            position: relative;
+        }
+
+        .news-right-con-list-left-icon {
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            opacity: 0;
+            transition: opacity 0.4s ease, transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .news-right-con-list-text-wrapper {
+            display: flex;
+            align-items: baseline;
+            flex-grow: 1;
+            overflow: hidden;
+            padding-left: 0;
+            transition: padding-left 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* Enhanced Hover Animations */
+        .news-right-con-list:hover .news-right-con-list-left-icon { 
+            opacity: 1; 
+            transform: translateY(-50%) scale(1.1); /* Slight pop effect */
+        }
+        .news-right-con-list:hover .news-right-con-list-text-wrapper { 
+            padding-left: 32px; 
+        }
+
+        .news-right-con-list-left-type {
+            font-family: "Cormorant Garamond", serif;
+            font-size: 18px; 
+            color: #d36b32; 
+            letter-spacing: 0.1em;
+            width: 110px; 
+            flex-shrink: 0;
+            transition: letter-spacing 0.3s ease;
+        }
+
+        .news-right-con-list-left-title {
+            font-family: "Cormorant Garamond", serif;
+            font-size: 20px; 
+            color: rgb(187, 168, 147); 
+            transition: all 0.4s ease; /* Transition for glow and spacing */
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis; 
+        }
+
+        /* The Title Glow-Up Effect */
+        .news-right-con-list:hover .news-right-con-list-left-title { 
+            color: #d36b32; 
+            text-shadow: 0 0 15px rgba(211, 107, 50, 0.5); /* Magical Glow */
+            letter-spacing: 0.5px; /* Unlocking expansion effect */
+        }
+
+        .news-right-con-list-left-time {
+            font-family: 'Inter', sans-serif;
+            font-size: 14px; 
+            color: rgba(255, 255, 255, 0.4); 
+            margin-left: 1rem;
+            flex-shrink: 0;
+            transition: color 0.3s ease;
         }
         
+        .news-right-con-list:hover .news-right-con-list-left-time {
+            color: rgba(255, 255, 255, 0.7); /* Date brightens slightly */
+        }
+
+        /* "More" Button Arrow logic */
+        .more-btn-container {
+            position: relative;
+            display: flex;
+            align-items: center;
+            width: max-content;
+            margin-top: 2rem;
+            cursor: pointer;
+        }
+
+        .more-btn-circle {
+            border: 1px solid #d36b32;
+            border-radius: 40px;
+            padding: 0.5rem 3rem;
+            color: #d36b32;
+            font-family: "Cormorant Garamond", serif;
+            font-size: 18px;
+            background: transparent;
+            z-index: 2;
+            transition: background-color 0.3s;
+        }
+        
+        .more-btn-container:hover .more-btn-circle { background-color: rgba(211, 107, 50, 0.1); }
+        .more-arrow-line { position: absolute; right: -40px; width: 120px; height: 1px; background: #d36b32; z-index: 1; }
+
+        /* Backgrounds & Geometry */
+        #dynamic-bg { transition: transform 0.2s cubic-bezier(0.25, 1, 0.5, 1); will-change: transform; }
+        .one-corner-rounded { border-top-right-radius: 80px; border-bottom-right-radius: 8px; border-bottom-left-radius: 8px; border-top-left-radius: 8px; }
+        
         .text-partial-blur { 
-            filter: blur(0.5px); 
+            filter: blur(0.8px); 
             opacity: 0.95; 
             display: inline-block; 
             pointer-events: none; 
-            text-shadow: 0 0 1px rgba(253, 251, 242, 0.3);
         }
         
-        .title-fade {
-            display: inline-block;
-            white-space: nowrap;
-            overflow: hidden;
-            mask-image: linear-gradient(to right, black 85%, transparent 100%);
-            -webkit-mask-image: linear-gradient(to right, black 85%, transparent 100%);
-        }
-
         .geo-ring { border: 1px solid var(--revLine); border-radius: 50%; position: absolute; pointer-events: none; }
         @keyframes spin-slow { 100% { transform: rotate(360deg); } }
         @keyframes spin-slow-reverse { 100% { transform: rotate(-360deg); } }
@@ -159,9 +202,9 @@
             </a>
             <div class="hidden lg:flex space-x-12 text-[15px] font-serif tracking-[0.2em] text-revMuted uppercase">
                 <a href="https://calyndrae.github.io/index.html" class="text-revOffWhite border-b border-revOrange pb-1">MAIN PAGE</a>
-                <a href="https://calyndrae.github.io/projects.html" class="hover:text-revOffWhite transition-colors text-shadow-custom">PROJECTS</a>
-                <a href="https://calyndrae.github.io/moreposts.html" class="hover:text-revOffWhite transition-colors text-shadow-custom">POSTS</a>
-                <a href="https://calyndrae.github.io/gallery.html" class="hover:text-revOffWhite transition-colors text-shadow-custom">GALLERY</a>
+                <a href="https://calyndrae.github.io/projects.html" class="hover:text-revOffWhite transition-colors text-shadow-custom border-b border-transparent pb-1">PROJECTS</a>
+                <a href="https://calyndrae.github.io/moreposts.html" class="hover:text-revOffWhite transition-colors text-shadow-custom border-b border-transparent pb-1">POSTS</a>
+                <a href="https://calyndrae.github.io/gallery.html" class="hover:text-revOffWhite transition-colors text-shadow-custom border-b border-transparent pb-1">GALLERY</a>
             </div>
         </div>
         
@@ -229,8 +272,7 @@
                         </div>
                     </div>
                     
-                    <div id="slider-stars" class="flex justify-start items-center space-x-3 mt-5 ml-4">
-                    </div>
+                    <div id="slider-stars" class="flex justify-start items-center space-x-3 mt-5 ml-4"></div>
                 </div>
 
                 <div class="w-full lg:w-[40%] flex flex-col relative pt-2">
@@ -244,18 +286,28 @@
                             </svg>
                         </div>
 
-                        <div class="news-right-head-img">
-                            <h2 class="font-serif text-revOffWhite text-shadow-custom flex items-baseline leading-none m-0">
-                                <span class="text-[6.5rem] leading-[0.75] font-normal drop-shadow-md">P</span>
+                        <div class="news-right-head-img relative flex flex-col justify-end group cursor-default">
+                            <div class="font-mono text-[10px] tracking-[0.4em] text-revOrange/70 mb-1 flex items-center absolute -top-4 left-2">
+                                <span class="w-6 h-px bg-revOrange/70 mr-3"></span>
+                                SYS.ARCHIVE // DECRYPTED
+                            </div>
+                            
+                            <h2 class="absolute top-1 left-2 font-serif text-revOrange blur-[10px] opacity-30 flex items-baseline leading-none m-0 pointer-events-none animate-pulse">
+                                <span class="text-[6.5rem] leading-[0.75] font-normal">P</span>
                                 <span class="text-[2.5rem] leading-none">OSTS</span>
+                            </h2>
+
+                            <h2 class="font-serif text-revOffWhite text-shadow-custom flex items-baseline leading-none m-0 relative z-10">
+                                <span class="text-[6.5rem] leading-[0.75] font-normal drop-shadow-md transition-all duration-500 group-hover:text-revOrange group-hover:blur-[2px]">P</span>
+                                <span class="text-[2.5rem] leading-none transition-all duration-500">O<span class="text-partial-blur group-hover:text-revOrange group-hover:text-shadow-glow transition-all duration-500">ST</span>S</span>
                             </h2>
                         </div>
                         
-                        <div class="news-right-head-bg flex items-center space-x-6 border rounded-[30px] px-6 py-1.5" id="filter-tabs" style="border-color: rgba(255,255,255,0.2); background: transparent;">
-                            <div class="news-right-head-bg-list cursor-pointer text-[#d36b32] border-b border-[#d36b32] pb-0.5 text-[14px] font-serif tracking-widest" data-cat="LATEST">LATEST</div>
-                            <div class="news-right-head-bg-list cursor-pointer text-[#fdfbf2] hover:text-[#d36b32] border-b border-transparent pb-0.5 text-[14px] font-serif tracking-widest" data-cat="SCRIPTS">SCRIPTS</div>
-                            <div class="news-right-head-bg-list cursor-pointer text-[#fdfbf2] hover:text-[#d36b32] border-b border-transparent pb-0.5 text-[14px] font-serif tracking-widest" data-cat="ARTS">ARTS</div>
-                            <div class="news-right-head-bg-list cursor-pointer text-[#fdfbf2] hover:text-[#d36b32] border-b border-transparent pb-0.5 text-[14px] font-serif tracking-widest" data-cat="OTHERS">OTHERS</div>
+                        <div class="flex items-center space-x-6 text-[14px] font-serif tracking-[0.1em] text-revMuted border rounded-full z-10 px-8 py-2" id="filter-tabs" style="border-color: rgba(255,255,255,0.2); background: transparent;">
+                            <span class="cursor-pointer text-revOrange border-b border-revOrange pb-0.5 text-shadow-glow transition-colors" data-cat="LATEST">LATEST</span>
+                            <span class="cursor-pointer hover:text-revOffWhite border-b border-transparent pb-0.5 transition-colors" data-cat="SCRIPTS">SCRIPTS</span>
+                            <span class="cursor-pointer hover:text-revOffWhite border-b border-transparent pb-0.5 transition-colors" data-cat="ARTS">ARTS</span>
+                            <span class="cursor-pointer hover:text-revOffWhite border-b border-transparent pb-0.5 transition-colors" data-cat="OTHERS">OTHERS</span>
                         </div>
                     </div>
 
@@ -263,14 +315,10 @@
                         <div class="py-10 text-revOrange font-serif italic text-lg tracking-widest animate-pulse">[ INITIATING FETCH PROTOCOL... ]</div>
                     </div>
                     
-                    <div class="news-right-foot mt-8" style="display: block;">
-                        <div class="news-right-foot-button relative flex items-center justify-center border border-[#d36b32] rounded-[20px] w-[140px] h-[38px] text-[#d36b32] font-serif text-[18px] cursor-pointer hover:bg-[#d36b32]/10 transition-colors" onclick="window.location.href='https://calyndrae.github.io/moreposts.html'">
-                            More
-                            <div class="absolute -right-[35px] flex items-center">
-                                <div class="w-[45px] h-[1px] bg-[#d36b32]"></div>
-                                <svg class="w-3 h-3 text-[#d36b32] -ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
-                            </div>
-                        </div>
+                    <div class="more-btn-container group" onclick="window.location.href='https://calyndrae.github.io/moreposts.html'">
+                        <div class="more-btn-circle group-hover:bg-revOrange/10 transition-colors">More</div>
+                        <div class="more-arrow-line"></div>
+                        <svg class="absolute -right-[42px] w-4 h-4 text-revOrange" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
                     </div>
 
                 </div>
@@ -339,7 +387,10 @@
             });
         });
 
-        const BASE_URL = "https://raw.githubusercontent.com/Calyndrae/calyndrae.github.io/main/posts/";
+        // ===============================================
+        // DYNAMIC MULTI-FILE FETCH & 10s SLIDER ENGINE
+        // ===============================================
+        const BASE_URL = "https://raw.githubusercontent.com/Calyndrae/calyndrae.github.io/refs/heads/main/posts/";
         const FETCH_TARGETS = [
             { file: "scripts.txt", cat: "SCRIPTS" },
             { file: "arts.txt", cat: "ARTS" },
@@ -373,26 +424,33 @@
         }
 
         async function initDynamicRecords() {
-            let fetchPromises = FETCH_TARGETS.map(target => 
-                fetch(`${BASE_URL}${target.file}?t=${new Date().getTime()}`)
-                .then(res => {
-                    if (res.ok) return res.text();
-                    throw new Error("File not found");
-                })
-                .then(text => parseTextData(text, target.cat))
-                .catch(err => console.log(`No data for ${target.cat} yet.`))
-            );
+            try {
+                const timeoutPromise = new Promise(resolve => setTimeout(resolve, 3000));
+                const fetchPromises = FETCH_TARGETS.map(target => 
+                    fetch(`${BASE_URL}${target.file}?t=${new Date().getTime()}`)
+                    .then(res => {
+                        if (res.ok) return res.text();
+                        return null;
+                    })
+                    .then(text => {
+                        if (text) parseTextData(text, target.cat);
+                    })
+                    .catch(err => console.log(`No data for ${target.cat} yet.`))
+                );
 
-            await Promise.all(fetchPromises);
+                await Promise.race([Promise.all(fetchPromises), timeoutPromise]);
 
-            if(allRecords.length === 0) {
-                allRecords = [
-                    { title: "Database initialization in progress...", cat: "OTHERS", date: "2026-03-01", link: "#", pic: "", ts: 1 }
-                ];
+                if(allRecords.length === 0) {
+                    allRecords = [
+                        { title: "Database initialization in progress...", cat: "OTHERS", date: "2026-03-01", link: "#", pic: "", ts: 1 }
+                    ];
+                }
+                
+                renderSlider();
+                renderRecords();
+            } catch(e) {
+                document.getElementById('records-container').innerHTML = `<div class="py-10 text-revOrange font-serif italic text-lg text-center drop-shadow-md">System Offline.</div>`;
             }
-            
-            renderSlider();
-            renderRecords();
         }
 
         function renderSlider() {
@@ -444,6 +502,9 @@
             }
         }
 
+        // ===============================================
+        // EXACT LIST STYLING + SLIDE REVEAL
+        // ===============================================
         function renderRecords() {
             const container = document.getElementById('records-container');
             let filtered = currentCategory === 'LATEST' ? allRecords : allRecords.filter(r => r.cat === currentCategory);
@@ -459,11 +520,16 @@
                 return `
                 <div class="news-right-con-list group" onclick="window.location.href='${r.link}'">
                     <div class="news-right-con-list-left">
+                        
                         <div class="news-right-con-list-left-icon">
-                            <svg class="w-[18px] h-[18px] text-[#8b8782] group-hover:text-[#d36b32] transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-.174.552-.377 1.09-.604 1.605m-14.862 0A10.05 10.05 0 0012 19c4.478 0 8.268-2.943 9.542-7"></path></svg>
+                            <svg class="w-[18px] h-[18px] text-[#d36b32]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-.174.552-.377 1.09-.604 1.605m-14.862 0A10.05 10.05 0 0012 19c4.478 0 8.268-2.943 9.542-7"></path></svg>
                         </div>
-                        <div class="news-right-con-list-left-type">${r.cat}</div>
-                        <div class="news-right-con-list-left-title" title="${r.title}">${r.title}</div>
+                        
+                        <div class="news-right-con-list-text-wrapper">
+                            <div class="news-right-con-list-left-type">${r.cat}</div>
+                            <div class="news-right-con-list-left-title" title="${r.title}">${r.title}</div>
+                        </div>
+
                     </div>
                     <div class="news-right-con-list-left-time flex-end">${r.date}</div>
                 </div>
@@ -471,17 +537,21 @@
             }).join('');
         }
 
+        // ===============================================
+        // FIXED TABS BINDING (NO HARDCODED FONT INJECTIONS)
+        // ===============================================
         function bindTabs() {
+            // Target the spans correctly
             const tabs = document.querySelectorAll('#filter-tabs span');
             tabs.forEach(tab => {
                 tab.addEventListener('click', (e) => {
                     tabs.forEach(t => {
-                        // Removed the unwanted text-[18px] font-serif injection
-                        t.className = "cursor-pointer hover:text-revOffWhite transition-colors border-b-2 border-transparent pb-1";
+                        // Apply unselected state (inherits size 14px)
+                        t.className = "cursor-pointer hover:text-revOffWhite border-b border-transparent pb-0.5 transition-colors";
                     });
                     
-                    // Removed the unwanted text-[18px] font-serif injection
-                    e.target.className = "cursor-pointer text-revOrange transition-colors text-shadow-glow border-b-2 border-revOrange pb-1";
+                    // Apply selected state (inherits size 14px)
+                    e.target.className = "cursor-pointer text-revOrange border-b border-revOrange pb-0.5 text-shadow-glow transition-colors";
                     
                     currentCategory = e.target.getAttribute('data-cat');
                     renderRecords();
@@ -494,4 +564,3 @@
     </script>
 </body>
 </html>
-
