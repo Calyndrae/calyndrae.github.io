@@ -31,153 +31,80 @@
         }
     </script>
     <style>
-        /* 100% Foolproof Edge Fade */
+        /* 100% Foolproof Edge Fade for the Background */
         .bg-edge-fade {
             position: absolute;
             inset: 0;
             pointer-events: none;
-            /* This casts a massive 250px soft black shadow INWARD from the edges */
             box-shadow: inset 0 0 250px 100px #0e0d0b;
             z-index: 10;
         }
+
         body, html { 
             color: #dfdcd5; 
             overflow: hidden; height: 100vh; width: 100vw;
             -webkit-font-smoothing: antialiased; 
             user-select: none;
-            background-color: transparent; 
+            background-color: #0e0d0b; /* Base dark color */
+            margin: 0; padding: 0;
         }
 
-        /* --- UPGRADED CREATIVE LIST STYLING (Slide to reveal + Glow) --- */
+        /* The scaling wrapper */
+        #ui-wrapper {
+            position: absolute;
+            top: 0;
+            left: 0;
+            transform-origin: top left;
+            overflow: hidden;
+            will-change: transform; /* Hardware acceleration for smooth zoom */
+        }
+
+        /* --- UPGRADED CREATIVE LIST STYLING --- */
         .news-right-con-list {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 1.2rem 1rem; /* Added slight side padding for the hover background */
-            margin: 0 -1rem; /* Negative margin to keep it perfectly aligned with the header */
+            padding: 1.2rem 1rem; 
+            margin: 0 -1rem; 
             border-bottom: 1px solid rgba(255, 255, 255, 0.1);
             cursor: pointer;
             transition: background 0.4s ease;
             border-radius: 8px;
         }
 
-        /* The elegant fade-in background on hover */
         .news-right-con-list:hover {
             background: linear-gradient(90deg, rgba(211,107,50,0.08) 0%, rgba(211,107,50,0.01) 50%, transparent 100%);
             border-bottom: 1px solid rgba(211, 107, 50, 0.3);
         }
 
-        .news-right-con-list-left {
-            display: flex;
-            align-items: center;
-            overflow: hidden;
-            flex-grow: 1;
-            position: relative;
-        }
-
+        .news-right-con-list-left { display: flex; align-items: center; overflow: hidden; flex-grow: 1; position: relative; }
+        
         .news-right-con-list-left-icon {
-            position: absolute;
-            left: 0;
-            top: 50%;
-            transform: translateY(-50%);
-            opacity: 0;
-            transition: opacity 0.4s ease, transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: absolute; left: 0; top: 50%; transform: translateY(-50%);
+            opacity: 0; transition: opacity 0.4s ease, transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         .news-right-con-list-text-wrapper {
-            display: flex;
-            align-items: baseline;
-            flex-grow: 1;
-            overflow: hidden;
-            padding-left: 0;
-            transition: padding-left 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex; align-items: baseline; flex-grow: 1; overflow: hidden;
+            padding-left: 0; transition: padding-left 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        /* Enhanced Hover Animations */
-        .news-right-con-list:hover .news-right-con-list-left-icon { 
-            opacity: 1; 
-            transform: translateY(-50%) scale(1.1); /* Slight pop effect */
-        }
-        .news-right-con-list:hover .news-right-con-list-text-wrapper { 
-            padding-left: 32px; 
-        }
+        .news-right-con-list:hover .news-right-con-list-left-icon { opacity: 1; transform: translateY(-50%) scale(1.1); }
+        .news-right-con-list:hover .news-right-con-list-text-wrapper { padding-left: 32px; }
 
-        .news-right-con-list-left-type {
-            font-family: "Cormorant Garamond", serif;
-            font-size: 18px; 
-            color: #d36b32; 
-            letter-spacing: 0.1em;
-            width: 110px; 
-            flex-shrink: 0;
-            transition: letter-spacing 0.3s ease;
-        }
+        .news-right-con-list-left-type { font-family: "Cormorant Garamond", serif; font-size: 18px; color: #d36b32; letter-spacing: 0.1em; width: 110px; flex-shrink: 0; transition: letter-spacing 0.3s ease; }
+        .news-right-con-list-left-title { font-family: "Cormorant Garamond", serif; font-size: 20px; color: rgb(187, 168, 147); transition: all 0.4s ease; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .news-right-con-list:hover .news-right-con-list-left-title { color: #d36b32; text-shadow: 0 0 15px rgba(211, 107, 50, 0.5); letter-spacing: 0.5px; }
+        .news-right-con-list-left-time { font-family: 'Inter', sans-serif; font-size: 14px; color: rgba(255, 255, 255, 0.4); margin-left: 1rem; flex-shrink: 0; transition: color 0.3s ease; }
+        .news-right-con-list:hover .news-right-con-list-left-time { color: rgba(255, 255, 255, 0.7); }
 
-        .news-right-con-list-left-title {
-            font-family: "Cormorant Garamond", serif;
-            font-size: 20px; 
-            color: rgb(187, 168, 147); 
-            transition: all 0.4s ease; /* Transition for glow and spacing */
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis; 
-        }
-
-        /* The Title Glow-Up Effect */
-        .news-right-con-list:hover .news-right-con-list-left-title { 
-            color: #d36b32; 
-            text-shadow: 0 0 15px rgba(211, 107, 50, 0.5); /* Magical Glow */
-            letter-spacing: 0.5px; /* Unlocking expansion effect */
-        }
-
-        .news-right-con-list-left-time {
-            font-family: 'Inter', sans-serif;
-            font-size: 14px; 
-            color: rgba(255, 255, 255, 0.4); 
-            margin-left: 1rem;
-            flex-shrink: 0;
-            transition: color 0.3s ease;
-        }
-        
-        .news-right-con-list:hover .news-right-con-list-left-time {
-            color: rgba(255, 255, 255, 0.7); /* Date brightens slightly */
-        }
-
-        /* "More" Button Arrow logic */
-        .more-btn-container {
-            position: relative;
-            display: flex;
-            align-items: center;
-            width: max-content;
-            margin-top: 2rem;
-            cursor: pointer;
-        }
-
-        .more-btn-circle {
-            border: 1px solid #d36b32;
-            border-radius: 40px;
-            padding: 0.5rem 3rem;
-            color: #d36b32;
-            font-family: "Cormorant Garamond", serif;
-            font-size: 18px;
-            background: transparent;
-            z-index: 2;
-            transition: background-color 0.3s;
-        }
-        
+        .more-btn-container { position: relative; display: flex; align-items: center; width: max-content; margin-top: 2rem; cursor: pointer; }
+        .more-btn-circle { border: 1px solid #d36b32; border-radius: 40px; padding: 0.5rem 3rem; color: #d36b32; font-family: "Cormorant Garamond", serif; font-size: 18px; background: transparent; z-index: 2; transition: background-color 0.3s; }
         .more-btn-container:hover .more-btn-circle { background-color: rgba(211, 107, 50, 0.1); }
         .more-arrow-line { position: absolute; right: -40px; width: 120px; height: 1px; background: #d36b32; z-index: 1; }
 
-        /* Backgrounds & Geometry */
-        #dynamic-bg { transition: transform 0.2s cubic-bezier(0.25, 1, 0.5, 1); will-change: transform; }
         .one-corner-rounded { border-top-right-radius: 80px; border-bottom-right-radius: 8px; border-bottom-left-radius: 8px; border-top-left-radius: 8px; }
-        
-        .text-partial-blur { 
-            filter: blur(0.8px); 
-            opacity: 0.95; 
-            display: inline-block; 
-            pointer-events: none; 
-        }
-        
+        .text-partial-blur { filter: blur(0.8px); opacity: 0.95; display: inline-block; pointer-events: none; }
         .geo-ring { border: 1px solid var(--revLine); border-radius: 50%; position: absolute; pointer-events: none; }
         @keyframes spin-slow { 100% { transform: rotate(360deg); } }
         @keyframes spin-slow-reverse { 100% { transform: rotate(-360deg); } }
@@ -186,7 +113,6 @@
 
         .hide-scroll::-webkit-scrollbar { display: none; }
         .hide-scroll { -ms-overflow-style: none; scrollbar-width: none; }
-
         .screen-section { opacity: 0; visibility: hidden; position: absolute; inset: 0; width: 100%; height: 100%; display: flex; flex-direction: column; justify-content: center; }
         
         .text-shadow-custom { text-shadow: 0 4px 15px rgba(0,0,0,0.9); }
@@ -195,10 +121,9 @@
 </head>
 <body>
 
-<div class="fixed inset-0 z-[-10] overflow-hidden pointer-events-none bg-[#0e0d0b]">
+    <div class="fixed inset-0 z-[-10] overflow-hidden pointer-events-none bg-[#0e0d0b]">
         <div id="dynamic-bg" class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
             <div class="bg-edge-fade"></div>
-            
             <img src="https://raw.githubusercontent.com/Calyndrae/calyndrae.github.io/main/resources/background.png" 
                  onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1550745165-9bc0b252726f?q=80&w=1920&auto=format&fit=crop';" 
                  alt="Background" 
@@ -206,155 +131,197 @@
         </div>
     </div>
 
-    <nav class="fixed top-0 w-full z-50 px-12 py-8 flex justify-between items-center pointer-events-none">
-        <div class="flex items-center space-x-16 pointer-events-auto">
-            <a href="https://calyndrae.github.io/index.html" class="text-4xl font-serif tracking-[0.15em] text-revOffWhite flex items-center text-shadow-custom hover:text-revOrange transition-colors">
-                JD<span class="text-revOrange ml-1">.</span>
-            </a>
-            <div class="hidden lg:flex space-x-12 text-[15px] font-serif tracking-[0.2em] text-revMuted uppercase">
-                <a href="https://calyndrae.github.io/index.html" class="text-revOffWhite border-b border-revOrange pb-1">MAIN PAGE</a>
-                <a href="https://calyndrae.github.io/projects.html" class="hover:text-revOffWhite transition-colors text-shadow-custom border-b border-transparent pb-1">PROJECTS</a>
-                <a href="https://calyndrae.github.io/moreposts.html" class="hover:text-revOffWhite transition-colors text-shadow-custom border-b border-transparent pb-1">POSTS</a>
-                <a href="https://calyndrae.github.io/gallery.html" class="hover:text-revOffWhite transition-colors text-shadow-custom border-b border-transparent pb-1">GALLERY</a>
-            </div>
-        </div>
+    <div id="ui-wrapper">
         
-        <div class="flex items-center space-x-6 pointer-events-auto">
-            <a href="https://calyndrae.github.io/contact.html" class="text-revOrange hover:text-revOffWhite transition-colors flex items-center space-x-2 text-[14px] font-sans tracking-[0.2em] uppercase text-shadow-custom">
-                <span>GET IN TOUCH</span>
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"></path></svg>
-            </a>
-        </div>
-    </nav>
-
-    <footer class="fixed bottom-0 w-full px-12 py-6 flex justify-between items-center text-[12px] font-serif tracking-[0.2em] text-revMuted uppercase z-50 pointer-events-none">
-        <div class="flex items-center space-x-6">
-            <span class="text-revOrange font-bold tracking-[0.3em] text-shadow-custom">JD PORTFOLIO</span>
-            <div class="flex items-center space-x-2">
-                <div class="w-1.5 h-1.5 rotate-45 border border-revOrange"></div>
-                <span class="text-shadow-custom">EST. 2021</span>
-            </div>
-        </div>
-        <div class="flex items-center space-x-12">
-            <div class="flex items-center space-x-3">
-                <div class="w-1.5 h-1.5 rotate-45 border border-revOrange bg-revOrange shadow-[0_0_10px_#d36b32]"></div>
-                <span class="text-shadow-custom text-revOffWhite">NODE 01</span>
-            </div>
-            <span class="tracking-[0.3em] text-shadow-custom">THE SYNTHESIS IS COMING</span>
-        </div>
-    </footer>
-
-    <main id="fullpage-wrapper" class="relative w-full h-full z-10">
-
-        <section class="screen-section">
-            <div class="relative w-full h-full flex flex-col items-center justify-center text-center px-10">
-                <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] geo-ring border-revLine/30 animate-spin-slow z-[-1]"></div>
-                <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] geo-ring border-revOrange/10 animate-spin-reverse z-[-1]"></div>
-                <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-px bg-revLine/20 z-[-1]"></div>
-                <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-[800px] w-px bg-revLine/20 z-[-1]"></div>
-
-                <div class="relative z-10 flex flex-col items-center">
-                    <h1 class="text-[6rem] md:text-[8rem] font-serif text-revOffWhite mb-4 leading-none tracking-widest text-shadow-glow flex items-center justify-center relative">
-                        JD
-                    </h1>
-                    
-                    <div class="flex items-center space-x-6 mb-12">
-                        <div class="w-16 h-px bg-revOrange"></div>
-                        <span class="text-revOrange font-serif italic text-2xl tracking-[0.4em] uppercase text-shadow-custom">Architect & Artist</span>
-                        <div class="w-16 h-px bg-revOrange"></div>
-                    </div>
-                    
-                    <div class="space-y-8 text-revOffWhite font-serif text-[22px] leading-[2] max-w-3xl text-shadow-custom tracking-wide relative">
-                        <p>I am an illustrator with 5 years of experience, fo<span class="text-partial-blur">cus</span>ed on Game illustrations, Anime, sketches, and UI design.</p>
-                        <p>I am also a scrip<span class="text-partial-blur">ter</span> and game developer. Proficient in JavaScript, React, and full-stack architectures. I engineer in<span class="text-partial-blur">tri</span>cate Minecraft datapacks and command Tier 4 PVP combat, preparing for Tier 2/3.</p>
-                        <p class="text-revOrange italic text-[18px] tracking-widest mt-8">Lo<span class="text-partial-blur">gic</span> dictates the foundation. Art breathes the soul.</p>
-                    </div>
+        <nav class="absolute top-0 w-full z-50 px-12 py-8 flex justify-between items-center pointer-events-none">
+            <div class="flex items-center space-x-16 pointer-events-auto">
+                <a href="https://calyndrae.github.io/index.html" class="text-4xl font-serif tracking-[0.15em] text-revOffWhite flex items-center text-shadow-custom hover:text-revOrange transition-colors">
+                    JD<span class="text-revOrange ml-1">.</span>
+                </a>
+                <div class="hidden lg:flex space-x-12 text-[15px] font-serif tracking-[0.2em] text-revMuted uppercase">
+                    <a href="https://calyndrae.github.io/index.html" class="text-revOffWhite border-b border-revOrange pb-1 text-shadow-custom transition-colors">MAIN PAGE</a>
+                    <a href="https://calyndrae.github.io/projects.html" class="hover:text-revOffWhite transition-colors text-shadow-custom border-b border-transparent pb-1">PROJECTS</a>
+                    <a href="https://calyndrae.github.io/moreposts.html" class="hover:text-revOffWhite transition-colors text-shadow-custom border-b border-transparent pb-1">POSTS</a>
+                    <a href="https://calyndrae.github.io/gallery.html" class="hover:text-revOffWhite transition-colors text-shadow-custom border-b border-transparent pb-1">GALLERY</a>
                 </div>
             </div>
-        </section>
+            
+            <div class="flex items-center space-x-6 pointer-events-auto">
+                <a href="https://calyndrae.github.io/contact.html" class="text-revOrange hover:text-revOffWhite transition-colors flex items-center space-x-2 text-[14px] font-sans tracking-[0.2em] uppercase text-shadow-custom">
+                    <span>GET IN TOUCH</span>
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3"></path></svg>
+                </a>
+            </div>
+        </nav>
 
-        <section class="screen-section px-12">
-            <div class="max-w-[1400px] mx-auto w-full flex flex-col lg:flex-row justify-center items-center gap-[4%] -translate-y-12">
-                
-                <div class="w-full lg:w-[52%] flex flex-col relative group">
-                    <div id="slider-container" class="w-full aspect-[16/10] relative border border-revLine/40 one-corner-rounded overflow-hidden shadow-[0_20px_50px_-10px_rgba(0,0,0,0.8)]">
-                        <div class="absolute inset-0 flex items-center justify-center bg-black/40 backdrop-blur-sm">
-                            <span class="text-revOrange font-mono text-xs tracking-widest animate-pulse">READING VISUAL DATA...</span>
-                        </div>
-                    </div>
-                    
-                    <div id="slider-stars" class="flex justify-start items-center space-x-3 mt-5 ml-4"></div>
+        <footer class="absolute bottom-0 w-full px-12 py-6 flex justify-between items-center text-[12px] font-serif tracking-[0.2em] text-revMuted uppercase z-50 pointer-events-none">
+            <div class="flex items-center space-x-6">
+                <span class="text-revOrange font-bold tracking-[0.3em] text-shadow-custom">JD PORTFOLIO</span>
+                <div class="flex items-center space-x-2">
+                    <div class="w-1.5 h-1.5 rotate-45 border border-revOrange"></div>
+                    <span class="text-shadow-custom">EST. 2021</span>
                 </div>
+            </div>
+            <div class="flex items-center space-x-12">
+                <div class="flex items-center space-x-3">
+                    <div class="w-1.5 h-1.5 rotate-45 border border-revOrange bg-revOrange shadow-[0_0_10px_#d36b32]"></div>
+                    <span class="text-shadow-custom text-revOffWhite">NODE 01</span>
+                </div>
+                <span class="tracking-[0.3em] text-shadow-custom">THE SYNTHESIS IS COMING</span>
+            </div>
+        </footer>
 
-                <div class="w-full lg:w-[40%] flex flex-col relative pt-2">
+        <main id="fullpage-wrapper" class="relative w-full h-full z-10">
 
-                    <div class="news-right-head flex justify-between items-end mb-[20px] relative w-full">
-                        <div class="absolute -top-16 -left-12 z-[-1] opacity-40 pointer-events-none">
-                            <svg class="w-48 h-48 animate-spin-slow text-revLine/40" viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="0.5">
-                                <circle cx="50" cy="50" r="45" stroke-dasharray="2 6" />
-                                <ellipse cx="50" cy="50" rx="40" ry="10" transform="rotate(30 50 50)" />
-                                <ellipse cx="50" cy="50" rx="40" ry="10" transform="rotate(-30 50 50)" />
-                            </svg>
-                        </div>
+            <section class="screen-section">
+                <div class="relative w-full h-full flex flex-col items-center justify-center text-center px-10">
+                    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] geo-ring border-revLine/30 animate-spin-slow z-[-1]"></div>
+                    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] geo-ring border-revOrange/10 animate-spin-reverse z-[-1]"></div>
+                    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-px bg-revLine/20 z-[-1]"></div>
+                    <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 h-[800px] w-px bg-revLine/20 z-[-1]"></div>
 
-                        <div class="news-right-head-img relative flex flex-col justify-end group cursor-default">
-                            <div class="font-mono text-[10px] tracking-[0.4em] text-revOrange/70 mb-1 flex items-center absolute -top-4 left-2">
-                                <span class="w-6 h-px bg-revOrange/70 mr-3"></span>
-                                SYS.ARCHIVE // DECRYPTED
-                            </div>
-                            
-                            <h2 class="absolute top-1 left-2 font-serif text-revOrange blur-[10px] opacity-30 flex items-baseline leading-none m-0 pointer-events-none animate-pulse">
-                                <span class="text-[6.5rem] leading-[0.75] font-normal">P</span>
-                                <span class="text-[2.5rem] leading-none">OSTS</span>
-                            </h2>
-
-                            <h2 class="font-serif text-revOffWhite text-shadow-custom flex items-baseline leading-none m-0 relative z-10">
-                                <span class="text-[6.5rem] leading-[0.75] font-normal drop-shadow-md transition-all duration-500 group-hover:text-revOrange group-hover:blur-[2px]">P</span>
-                                <span class="text-[2.5rem] leading-none transition-all duration-500">O<span class="text-partial-blur group-hover:text-revOrange group-hover:text-shadow-glow transition-all duration-500">ST</span>S</span>
-                            </h2>
+                    <div class="relative z-10 flex flex-col items-center">
+                        <h1 class="text-[6rem] md:text-[8rem] font-serif text-revOffWhite mb-4 leading-none tracking-widest text-shadow-glow flex items-center justify-center relative">
+                            JD
+                        </h1>
+                        
+                        <div class="flex items-center space-x-6 mb-12">
+                            <div class="w-16 h-px bg-revOrange"></div>
+                            <span class="text-revOrange font-serif italic text-2xl tracking-[0.4em] uppercase text-shadow-custom">Architect & Artist</span>
+                            <div class="w-16 h-px bg-revOrange"></div>
                         </div>
                         
-                        <div class="flex items-center space-x-6 text-[14px] font-serif tracking-[0.1em] text-revMuted border rounded-full z-10 px-8 py-2" id="filter-tabs" style="border-color: rgba(255,255,255,0.2); background: transparent;">
-                            <span class="cursor-pointer text-revOrange border-b border-revOrange pb-0.5 text-shadow-glow transition-colors" data-cat="LATEST">LATEST</span>
-                            <span class="cursor-pointer hover:text-revOffWhite border-b border-transparent pb-0.5 transition-colors" data-cat="SCRIPTS">SCRIPTS</span>
-                            <span class="cursor-pointer hover:text-revOffWhite border-b border-transparent pb-0.5 transition-colors" data-cat="ARTS">ARTS</span>
-                            <span class="cursor-pointer hover:text-revOffWhite border-b border-transparent pb-0.5 transition-colors" data-cat="OTHERS">OTHERS</span>
+                        <div class="space-y-8 text-revOffWhite font-serif text-[22px] leading-[2] max-w-3xl text-shadow-custom tracking-wide relative">
+                            <p>I am an illustrator with 5 years of experience, fo<span class="text-partial-blur">cus</span>ed on Game illustrations, Anime, sketches, and UI design.</p>
+                            <p>I am also a scrip<span class="text-partial-blur">ter</span> and game developer. Proficient in JavaScript, React, and full-stack architectures. I engineer in<span class="text-partial-blur">tri</span>cate Minecraft datapacks and command Tier 4 PVP combat, preparing for Tier 2/3.</p>
+                            <p class="text-revOrange italic text-[18px] tracking-widest mt-8">Lo<span class="text-partial-blur">gic</span> dictates the foundation. Art breathes the soul.</p>
                         </div>
                     </div>
-
-                    <div id="records-container" class="news-right-con w-full text-shadow-custom">
-                        <div class="py-10 text-revOrange font-serif italic text-lg tracking-widest animate-pulse">[ INITIATING FETCH PROTOCOL... ]</div>
-                    </div>
-                    
-                    <div class="more-btn-container group" onclick="window.location.href='https://calyndrae.github.io/moreposts.html'">
-                        <div class="more-btn-circle group-hover:bg-revOrange/10 transition-colors">More</div>
-                        <div class="more-arrow-line"></div>
-                        <svg class="absolute -right-[42px] w-4 h-4 text-revOrange" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                    </div>
-
                 </div>
-            </div>
-        </section>
+            </section>
 
-    </main>
+            <section class="screen-section px-12">
+                <div class="max-w-[1400px] mx-auto w-full flex flex-col lg:flex-row justify-center items-center gap-[4%] -translate-y-12">
+                    
+                    <div class="w-full lg:w-[52%] flex flex-col relative group">
+                        <div id="slider-container" class="w-full aspect-[16/10] relative border border-revLine/40 one-corner-rounded overflow-hidden shadow-[0_20px_50px_-10px_rgba(0,0,0,0.8)]">
+                            <div class="absolute inset-0 flex items-center justify-center bg-black/40 backdrop-blur-sm">
+                                <span class="text-revOrange font-mono text-xs tracking-widest animate-pulse">READING VISUAL DATA...</span>
+                            </div>
+                        </div>
+                        
+                        <div id="slider-stars" class="flex justify-start items-center space-x-3 mt-5 ml-4"></div>
+                    </div>
 
-    <div class="fixed right-10 top-1/2 -translate-y-1/2 flex flex-col space-y-4 z-50">
-        <button class="nav-dot w-2 h-2 rotate-45 bg-revOrange ring-4 ring-revOrange/20 shadow-[0_0_15px_rgba(211,107,50,0.8)] transition-all"></button>
-        <button class="nav-dot w-2 h-2 rotate-45 bg-revLine hover:bg-revOffWhite transition-colors shadow-lg"></button>
-    </div>
+                    <div class="w-full lg:w-[40%] flex flex-col relative pt-2">
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-    <script>
+                        <div class="news-right-head flex justify-between items-end mb-[20px] relative w-full">
+                            <div class="absolute -top-16 -left-12 z-[-1] opacity-40 pointer-events-none">
+                                <svg class="w-48 h-48 animate-spin-slow text-revLine/40" viewBox="0 0 100 100" fill="none" stroke="currentColor" stroke-width="0.5">
+                                    <circle cx="50" cy="50" r="45" stroke-dasharray="2 6" />
+                                    <ellipse cx="50" cy="50" rx="40" ry="10" transform="rotate(30 50 50)" />
+                                    <ellipse cx="50" cy="50" rx="40" ry="10" transform="rotate(-30 50 50)" />
+                                </svg>
+                            </div>
+
+                            <div class="news-right-head-img relative flex flex-col justify-end group cursor-default">
+                                <div class="font-mono text-[10px] tracking-[0.4em] text-revOrange/70 mb-1 flex items-center absolute -top-4 left-2">
+                                    <span class="w-6 h-px bg-revOrange/70 mr-3"></span>
+                                    SYS.ARCHIVE // DECRYPTED
+                                </div>
+                                
+                                <h2 class="absolute top-1 left-2 font-serif text-revOrange blur-[10px] opacity-30 flex items-baseline leading-none m-0 pointer-events-none animate-pulse">
+                                    <span class="text-[6.5rem] leading-[0.75] font-normal">P</span>
+                                    <span class="text-[2.5rem] leading-none">OSTS</span>
+                                </h2>
+
+                                <h2 class="font-serif text-revOffWhite text-shadow-custom flex items-baseline leading-none m-0 relative z-10">
+                                    <span class="text-[6.5rem] leading-[0.75] font-normal drop-shadow-md transition-all duration-500 group-hover:text-revOrange group-hover:blur-[2px]">P</span>
+                                    <span class="text-[2.5rem] leading-none transition-all duration-500">O<span class="text-partial-blur group-hover:text-revOrange group-hover:text-shadow-glow transition-all duration-500">ST</span>S</span>
+                                </h2>
+                            </div>
+                            
+                            <div class="flex items-center space-x-6 text-[14px] font-serif tracking-[0.1em] text-revMuted border rounded-full z-10 px-8 py-2" id="filter-tabs" style="border-color: rgba(255,255,255,0.2); background: transparent;">
+                                <span class="cursor-pointer text-revOrange border-b border-revOrange pb-0.5 text-shadow-glow transition-colors" data-cat="LATEST">LATEST</span>
+                                <span class="cursor-pointer hover:text-revOffWhite border-b border-transparent pb-0.5 transition-colors" data-cat="SCRIPTS">SCRIPTS</span>
+                                <span class="cursor-pointer hover:text-revOffWhite border-b border-transparent pb-0.5 transition-colors" data-cat="ARTS">ARTS</span>
+                                <span class="cursor-pointer hover:text-revOffWhite border-b border-transparent pb-0.5 transition-colors" data-cat="OTHERS">OTHERS</span>
+                            </div>
+                        </div>
+
+                        <div id="records-container" class="news-right-con w-full text-shadow-custom">
+                            <div class="py-10 text-revOrange font-serif italic text-lg tracking-widest animate-pulse">[ INITIATING FETCH PROTOCOL... ]</div>
+                        </div>
+                        
+                        <div class="more-btn-container group" onclick="window.location.href='https://calyndrae.github.io/moreposts.html'">
+                            <div class="more-btn-circle group-hover:bg-revOrange/10 transition-colors">More</div>
+                            <div class="more-arrow-line"></div>
+                            <svg class="absolute -right-[42px] w-4 h-4 text-revOrange" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path d="M9 5l7 7-7 7" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                        </div>
+
+                    </div>
+                </div>
+            </section>
+
+        </main>
+
+        <div class="absolute right-10 top-1/2 -translate-y-1/2 flex flex-col space-y-4 z-50">
+            <button class="nav-dot w-2 h-2 rotate-45 bg-revOrange ring-4 ring-revOrange/20 shadow-[0_0_15px_rgba(211,107,50,0.8)] transition-all"></button>
+            <button class="nav-dot w-2 h-2 rotate-45 bg-revLine hover:bg-revOffWhite transition-colors shadow-lg"></button>
+        </div>
+
+    </div> <script>
+        // ===============================================
+        // GLOBAL SCALING ENGINE (THE HOLY GRAIL)
+        // ===============================================
+        function resizeUI() {
+            const wrapper = document.getElementById('ui-wrapper');
+            const bg = document.getElementById('dynamic-bg');
+            
+            const baseWidth = 1920; 
+            let scale = window.innerWidth / baseWidth;
+            
+            // Mathematically forces the wrapper to act as a 1920px rigid canvas
+            // that shrinks/grows while adjusting its height to fill the screen
+            wrapper.style.transform = `scale(${scale})`;
+            wrapper.style.width = `${baseWidth}px`;
+            wrapper.style.height = `${window.innerHeight / scale}px`;
+        }
+        
+        window.addEventListener('resize', resizeUI);
+        resizeUI(); // Run immediately on load
+
+        // ===============================================
+        // PREVENT RIGHT CLICK / DRAG
+        // ===============================================
         document.addEventListener('contextmenu', event => event.preventDefault());
         document.addEventListener('dragstart', event => event.preventDefault());
 
+        // ===============================================
+        // PARALLAX BACKGROUND LOGIC
+        // ===============================================
+        document.addEventListener('mousemove', (e) => {
+            const bg = document.getElementById('dynamic-bg');
+            if (!bg) return;
+            // The scaling math automatically protects these cursor ratios!
+            const xOffset = (e.clientX / window.innerWidth - 0.5);
+            const yOffset = (e.clientY / window.innerHeight - 0.5);
+            
+            bg.style.transform = `translate(-50%, -50%) translate3d(${xOffset * 20}px, ${yOffset * 20}px, 0)`;
+        });
+
+        // ===============================================
+        // GSAP SECTION SCROLLING
+        // ===============================================
         const sections = document.querySelectorAll('.screen-section');
         const navDots = document.querySelectorAll('.nav-dot');
         let currentSection = 0;
         let isAnimating = false;
 
-        gsap.set(sections, { autoAlpha: 0, y: 50 });
-        gsap.set(sections[0], { autoAlpha: 1, y: 0 });
+        if(typeof gsap !== 'undefined') {
+            gsap.set(sections, { autoAlpha: 0, y: 50 });
+            gsap.set(sections[0], { autoAlpha: 1, y: 0 });
+        }
 
         function updateDots(index) {
             navDots.forEach((dot, i) => {
@@ -367,7 +334,7 @@
         }
 
         function gotoSection(index, direction) {
-            if (index < 0 || index >= sections.length || isAnimating) return;
+            if (index < 0 || index >= sections.length || isAnimating || typeof gsap === 'undefined') return;
             isAnimating = true;
 
             const current = sections[currentSection];
@@ -513,9 +480,6 @@
             }
         }
 
-        // ===============================================
-        // EXACT LIST STYLING + SLIDE REVEAL
-        // ===============================================
         function renderRecords() {
             const container = document.getElementById('records-container');
             let filtered = currentCategory === 'LATEST' ? allRecords : allRecords.filter(r => r.cat === currentCategory);
@@ -548,20 +512,14 @@
             }).join('');
         }
 
-        // ===============================================
-        // FIXED TABS BINDING (NO HARDCODED FONT INJECTIONS)
-        // ===============================================
         function bindTabs() {
-            // Target the spans correctly
             const tabs = document.querySelectorAll('#filter-tabs span');
             tabs.forEach(tab => {
                 tab.addEventListener('click', (e) => {
                     tabs.forEach(t => {
-                        // Apply unselected state (inherits size 14px)
                         t.className = "cursor-pointer hover:text-revOffWhite border-b border-transparent pb-0.5 transition-colors";
                     });
                     
-                    // Apply selected state (inherits size 14px)
                     e.target.className = "cursor-pointer text-revOrange border-b border-revOrange pb-0.5 text-shadow-glow transition-colors";
                     
                     currentCategory = e.target.getAttribute('data-cat');
@@ -575,8 +533,3 @@
     </script>
 </body>
 </html>
-
-
-
-
-
