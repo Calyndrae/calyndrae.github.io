@@ -271,15 +271,6 @@
         document.addEventListener('contextmenu', event => event.preventDefault());
         document.addEventListener('dragstart', event => event.preventDefault());
 
-        // Parallax logic
-        document.addEventListener('mousemove', (e) => {
-            const bg = document.getElementById('dynamic-bg');
-            if (!bg) return;
-            const xOffset = (e.clientX / window.innerWidth - 0.5);
-            const yOffset = (e.clientY / window.innerHeight - 0.5);
-            bg.style.transform = `translate(-50%, -50%) translate3d(${xOffset * 20}px, ${yOffset * 20}px, 0)`;
-        });
-
         // GSAP Scroll Engine
         const sections = document.querySelectorAll('.screen-section');
         const navDots = document.querySelectorAll('.nav-dot');
@@ -470,5 +461,6 @@
     </script>
 </body>
 </html>
+
 
 
