@@ -41,18 +41,14 @@
             z-index: 10;
         }
 
-        body, html {
-    color: #dfdcd5;
-    overflow: hidden;
-    height: 100%;       /* <- 改这里 */
-    width: 100%;        /* <- 改这里 */
-    -webkit-font-smoothing: antialiased;
-    user-select: none;
-    background-color: #0e0d0b; /* <- 给背景一个底色 */
-    margin: 0;
-    padding: 0;
-}
-}
+        body, html { 
+            color: #dfdcd5; 
+            overflow: hidden; height: 100vh; width: 100vw;
+            -webkit-font-smoothing: antialiased; 
+            user-select: none;
+            background-color: #0e0d0b; /* Prevents white flashes */
+            margin: 0; padding: 0;
+        }
 
         /* --- UPGRADED CREATIVE LIST STYLING --- */
         .news-right-con-list {
@@ -107,19 +103,15 @@
 </head>
 <body>
 
-    <div class="fixed inset-0 z-[-10] overflow-hidden pointer-events-none">
-    <img src="https://raw.githubusercontent.com/Calyndrae/calyndrae.github.io/main/resources/background.png"
-         alt="Background"
-         class="w-full h-full object-cover">
-    <div class="bg-edge-fade"></div> <!-- 保留边缘渐隐 -->
-</div>
-    <div id="dynamic-bg" class="absolute inset-0 w-full h-full">
-        <img src="https://raw.githubusercontent.com/Calyndrae/calyndrae.github.io/main/resources/background.png"
-             onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1550745165-9bc0b252726f?q=80&w=1920&auto=format&fit=crop';"
-             alt="Background"
-             class="w-full h-full object-cover opacity-100">
+    <div class="fixed inset-0 z-[-10] overflow-hidden pointer-events-none bg-[#0e0d0b]">
+        <div id="dynamic-bg" class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
+            <img src="https://raw.githubusercontent.com/Calyndrae/calyndrae.github.io/main/resources/background.png" 
+                 onerror="this.onerror=null; this.src='https://images.unsplash.com/photo-1550745165-9bc0b252726f?q=80&w=1920&auto=format&fit=crop';" 
+                 alt="Background" 
+                 class="block max-w-none opacity-100 object-none">
+            <div class="bg-edge-fade"></div>
+        </div>
     </div>
-</div>
 
     <div id="ui-container" class="absolute inset-0 w-full h-full pointer-events-none">
         
@@ -461,6 +453,3 @@
     </script>
 </body>
 </html>
-
-
-
