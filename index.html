@@ -31,6 +31,15 @@
         }
     </script>
     <style>
+        /* 100% Foolproof Edge Fade */
+        .bg-edge-fade {
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            /* This casts a massive 250px soft black shadow INWARD from the edges */
+            box-shadow: inset 0 0 250px 100px #0e0d0b;
+            z-index: 10;
+        }
         body, html { 
             color: #dfdcd5; 
             overflow: hidden; height: 100vh; width: 100vw;
@@ -566,6 +575,7 @@
     </script>
 </body>
 </html>
+
 
 
 
